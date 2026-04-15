@@ -4,6 +4,7 @@ const downloadHref = "#access";
 const supportHref = "mailto:clarkiioutdoors@gmail.com";
 const supportLabel = "clarkiioutdoors@gmail.com";
 const supportPageHref = "/support.html";
+const primaryCtaStyle = { color: "#ffffff", WebkitTextFillColor: "#ffffff" };
 const libraryTotals = {
   activeFlies: 334,
   dryFlies: 54,
@@ -483,7 +484,8 @@ function AccessRequestForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold text-white visited:text-white transition hover:-translate-y-0.5 hover:bg-stone-800 hover:text-white"
+          className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-stone-800"
+          style={primaryCtaStyle}
         >
           {isSubmitting ? "Sending Request..." : "Request App Access"}
         </button>
@@ -853,7 +855,8 @@ export default function App() {
 
             <a
               href={downloadHref}
-              className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-white visited:text-white shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:text-white"
+              className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800"
+              style={primaryCtaStyle}
             >
               Request Access
             </a>
@@ -882,7 +885,8 @@ export default function App() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={downloadHref}
-                  className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold text-white visited:text-white shadow-[0_16px_36px_rgba(16,20,15,0.2)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:text-white"
+                  className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold shadow-[0_16px_36px_rgba(16,20,15,0.2)] transition hover:-translate-y-0.5 hover:bg-stone-800"
+                  style={primaryCtaStyle}
                 >
                   Request App Access
                 </a>
