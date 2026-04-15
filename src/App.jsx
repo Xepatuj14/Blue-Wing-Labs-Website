@@ -1289,11 +1289,12 @@ export default function App() {
               Support page
             </a>
             <p className="mt-3 leading-6">Built for anglers who want clearer instruction and a more organized bench workflow.</p>
+            <p className="mt-2 leading-6">Blue Wing Labs is a product operated by Clarkii Outdoors LLC.</p>
           </div>
         </div>
 
         <div className="mx-auto mt-8 max-w-6xl border-t border-stone-900/8 pt-4 text-sm text-stone-500">
-          Copyright 2026 Clarkii Outdoors
+          Copyright 2026 Clarkii Outdoors LLC
         </div>
       </footer>
     </div>
