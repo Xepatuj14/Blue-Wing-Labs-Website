@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 const downloadHref = "#access";
-const supportHref = "mailto:support@bluewinglabs.app";
-const supportLabel = "support@bluewinglabs.app";
+const supportHref = "mailto:clarkiioutdoors@gmail.com";
+const supportLabel = "clarkiioutdoors@gmail.com";
 const libraryTotals = {
   activeFlies: 334,
   dryFlies: 54,
