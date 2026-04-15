@@ -3,6 +3,7 @@ import { useState } from "react";
 const downloadHref = "#access";
 const supportHref = "mailto:clarkiioutdoors@gmail.com";
 const supportLabel = "clarkiioutdoors@gmail.com";
+const supportPageHref = "/support.html";
 const libraryTotals = {
   activeFlies: 334,
   dryFlies: 54,
@@ -173,7 +174,7 @@ const faqItems = [
   {
     question: "How do I get access?",
     answer:
-      "App access and release updates are currently handled directly through Blue Wing Labs. Use the access section below or email support@bluewinglabs.app to ask about availability, request early access, or stay in the loop on launch updates.",
+      "App access and release updates are currently handled directly through Blue Wing Labs. Use the access section below, visit the support page, or email clarkiioutdoors@gmail.com to ask about availability, request early access, or stay in the loop on launch updates.",
   },
   {
     question: "What platforms are planned first?",
@@ -204,6 +205,7 @@ const footerGroups = [
   {
     title: "Legal",
     links: [
+      { label: "Support", href: "/support.html" },
       { label: "Privacy", href: "/privacy.html" },
       { label: "Terms", href: "/terms.html" },
     ],
@@ -1282,6 +1284,9 @@ export default function App() {
               className="mt-3 inline-block font-medium text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700"
             >
               {supportLabel}
+            </a>
+            <a href={supportPageHref} className="mt-2 block transition hover:text-stone-950">
+              Support page
             </a>
             <p className="mt-3 leading-6">Built for anglers who want clearer instruction and a more organized bench workflow.</p>
           </div>
