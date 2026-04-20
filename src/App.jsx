@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 const downloadHref = "#access";
 const supportHref = "mailto:clarkiioutdoors@gmail.com";
@@ -1301,6 +1302,7 @@ export default function App() {
           Copyright 2026 Clarkii Outdoors LLC
         </div>
       </footer>
+      <Analytics />
     </div>
   );
 }
