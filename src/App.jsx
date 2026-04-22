@@ -897,14 +897,15 @@ export default function App() {
           <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
             <div className="max-w-[35rem]">
               <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">
-                STOP REBUILDING FLIES FROM VIDEOS AND SCRAPS OF NOTES
+                A CALMER WAY TO LEARN, TIE, AND TRUST YOUR FLIES
               </p>
               <h1 className="mt-5 max-w-[10ch] font-serif text-[3.3rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4.35rem] lg:text-[4.9rem]">
-                Tie with more confidence when everything you need lives in one place.
+                Master fly tying. Build better flies. Fish with confidence.
               </h1>
               <p className="mt-6 max-w-[28rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">
-                Blue Wing Labs helps you spend less time pausing videos, checking screenshots, and reconstructing recipes,
-                and more time actually tying the fly in front of you with a calmer, more dependable bench workflow.
+                Blue Wing Labs helps you move from scattered videos, screenshots, and half-saved notes to a cleaner tying
+                process you can trust, so each session feels easier to follow, easier to repeat, and more likely to
+                produce flies you are proud to fish.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
