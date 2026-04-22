@@ -402,6 +402,7 @@ export function getFlyPageData(flySlug) {
     category,
     relatedGuides: getRelatedGuidesForFly(flySlug, 6),
     relatedFlies: getRelatedFlies(fly, 6),
+    faq: buildFlyFaq(fly, category),
     title: `${fly.name} Fly Pattern`,
     intro: fly.summary,
     description: `Learn when to use the ${fly.name} fly pattern, see its category, and explore related Blue Wing Labs guides and fly pages.`,
@@ -498,6 +499,30 @@ function buildArticleSchema(headline, description, path, about = []) {
   };
 }
 
+function buildFlyFaq(fly, category) {
+  return [
+    {
+      question: `What category of fly is ${fly.name}?`,
+      answer: `${fly.name} is grouped under ${category.name.toLowerCase()} in the Blue Wing Labs knowledge hub so anglers can compare it with related patterns and broader category guidance.`,
+    },
+    {
+      question: `When should anglers use ${fly.name}?`,
+      answer: fly.whenToUse,
+    },
+    {
+      question: `Is ${fly.name} a beginner-friendly pattern?`,
+      answer:
+        fly.difficulty === "Beginner"
+          ? `Yes. ${fly.name} is marked as beginner-friendly in the public library, which means it is one of the clearer patterns to learn, organize, and return to later.`
+          : `${fly.name} is listed as ${fly.difficulty.toLowerCase()} in the public library, so it may ask for a little more experience than the simplest entry-point patterns, but it still fits into an organized learning path.`,
+    },
+    {
+      question: `Why does ${fly.name} still deserve space in a fly box?`,
+      answer: fly.whyItMatters,
+    },
+  ];
+}
+
 export function getPageMetadata(page) {
   if (!page) {
     return {
@@ -569,6 +594,7 @@ export function getPageSchemas(page) {
         { name: page.fly.name, path: page.path },
       ]),
       buildArticleSchema(page.fly.name, page.description, page.path, [page.category.name, ...page.fly.tags]),
+      buildFaqSchema(page.faq),
     ].filter(Boolean);
   }
 

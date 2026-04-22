@@ -178,6 +178,10 @@ function FlyCard({ fly, showCategory = true }) {
         <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Why it matters</p>
         <p className="mt-2 text-sm leading-6 text-stone-700">{fly.whyItMatters}</p>
       </div>
+      <div className="mt-3 rounded-[1.2rem] border border-stone-900/8 bg-white px-4 py-4">
+        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">When it fits</p>
+        <p className="mt-2 text-sm leading-6 text-stone-700">{fly.whenToUse}</p>
+      </div>
     </li>
   );
 }
@@ -489,6 +493,27 @@ function GuidePage({ page }) {
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
             <SectionHeading eyebrow="How to use this guide" title="Use the list to simplify the box, not expand it forever." body="The goal is not to carry everything. The goal is to identify the patterns that cover the clearest jobs, then keep them easy to find, easy to compare, and easy to tie again later." />
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  title: "Clear box role",
+                  body: "Each fly made the list because it solves a recognizable job instead of only adding another name to memorize.",
+                },
+                {
+                  title: "Repeatable use case",
+                  body: "The guide favors patterns anglers can return to across real sessions, not one-off novelties that never become part of the workflow.",
+                },
+                {
+                  title: "Organized next step",
+                  body: "Every recommendation links to a fly page, category page, or related guide so the page works like a reference system instead of a dead-end article.",
+                },
+              ].map((item) => (
+                <article key={item.title} className="rounded-[1.3rem] border border-stone-900/8 bg-white/82 p-4 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
+                  <h3 className="text-base font-semibold text-stone-950">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-stone-700">{item.body}</p>
+                </article>
+              ))}
+            </div>
           </div>
           <div className="rounded-[1.7rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_36px_rgba(35,40,25,0.05)]">
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Linked categories</p>
@@ -547,7 +572,7 @@ function GuidePage({ page }) {
 }
 
 function FlyPage({ page }) {
-  const { fly, category, relatedFlies, relatedGuides } = page;
+  const { fly, category, relatedFlies, relatedGuides, faq } = page;
 
   return (
     <>
@@ -583,35 +608,42 @@ function FlyPage({ page }) {
       </section>
 
       <section className="px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="mx-auto grid max-w-6xl gap-5 lg:grid-cols-3">
-          <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Why it matters</p>
-            <p className="mt-3 text-sm leading-7 text-stone-700">{fly.whyItMatters}</p>
-          </article>
-          <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">When to use it</p>
-            <p className="mt-3 text-sm leading-7 text-stone-700">{fly.whenToUse}</p>
-          </article>
-          <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Category link</p>
-            <a href={`/flies/${category.slug}`} className="mt-3 inline-flex text-lg font-semibold tracking-tight text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700">
-              Browse more {category.name.toLowerCase()}
-            </a>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {fly.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-stone-900/8 bg-stone-50 px-3 py-1.5 text-xs font-medium text-stone-700">
-                  {tag.replace(/-/g, " ")}
-                </span>
-              ))}
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading
+            eyebrow="Overview"
+            title={`${fly.name} in one organized view.`}
+            body="This page is structured as a public reference source first: overview, when to use, available materials, any known steps, related flies, and the guides that connect the pattern back into a broader box-building context."
+          />
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Why it matters</p>
+              <p className="mt-3 text-sm leading-7 text-stone-700">{fly.whyItMatters}</p>
+            </article>
+            <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">When to use it</p>
+              <p className="mt-3 text-sm leading-7 text-stone-700">{fly.whenToUse}</p>
+            </article>
+            <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Category link</p>
+              <a href={`/flies/${category.slug}`} className="mt-3 inline-flex text-lg font-semibold tracking-tight text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700">
+                Browse more {category.name.toLowerCase()}
+              </a>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {fly.tags.map((tag) => (
+                  <span key={tag} className="rounded-full border border-stone-900/8 bg-stone-50 px-3 py-1.5 text-xs font-medium text-stone-700">
+                    {tag.replace(/-/g, " ")}
+                  </span>
+                ))}
+              </div>
+            </article>
             </div>
-          </article>
         </div>
       </section>
 
-      {fly.materials?.length ? (
-        <section className="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
-          <div className="mx-auto max-w-6xl">
-            <SectionHeading eyebrow="Materials" title={`Known materials for ${fly.name}.`} body="When material details are available in the site source, they are surfaced directly on the public fly page. If the data is limited, Blue Wing Labs still links the pattern into related guides and categories." />
+      <section className="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="Materials" title={`Known materials for ${fly.name}.`} body="When material details are available in the site source, they are surfaced directly on the public fly page. If the data is limited, the section still stays in place so the page structure remains consistent." />
+          {fly.materials?.length ? (
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {fly.materials.map(([label, value]) => (
                 <article key={label} className="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
@@ -620,14 +652,20 @@ function FlyPage({ page }) {
                 </article>
               ))}
             </div>
-          </div>
-        </section>
-      ) : null}
+          ) : (
+            <div className="mt-10 rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+              <p className="text-sm leading-7 text-stone-700">
+                A full public materials list is not exposed for this fly in the current site dataset yet. Blue Wing Labs still keeps the pattern connected to its category, related flies, and guide pages so it remains useful as a reference entry.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
 
-      {fly.steps?.length ? (
-        <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
-          <div className="mx-auto max-w-6xl">
-            <SectionHeading eyebrow="Tying flow" title={`Known tying sequence notes for ${fly.name}.`} body="When the public site has real tying-step data available, it is surfaced here in a direct, readable format." />
+      <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="Steps" title={`Known tying sequence notes for ${fly.name}.`} body="When the public site has real tying-step data available, it is surfaced here in a direct, readable format. If not, the page still keeps the section so the structure stays consistent for readers and AI systems." />
+          {fly.steps?.length ? (
             <ol className="mt-10 grid gap-4">
               {fly.steps.map((step, index) => (
                 <li key={step} className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
@@ -636,9 +674,15 @@ function FlyPage({ page }) {
                 </li>
               ))}
             </ol>
-          </div>
-        </section>
-      ) : null}
+          ) : (
+            <div className="mt-10 rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+              <p className="text-sm leading-7 text-stone-700">
+                A full public step list is not exposed for this fly in the current site dataset yet. Blue Wing Labs still links the pattern into related guides so anglers can keep learning the category and neighboring flies without losing context.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
 
       <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
@@ -667,6 +711,15 @@ function FlyPage({ page }) {
             {relatedGuides.map((guide) => (
               <GuideCard key={guide.slug} guide={guide} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="FAQ" title={`${fly.name} questions that help AI and anglers alike.`} body="These short answers make the pattern page easier to extract, easier to summarize, and easier to reuse as a practical reference source." />
+          <div className="mt-10">
+            <FAQBlock items={faq} />
           </div>
         </div>
       </section>

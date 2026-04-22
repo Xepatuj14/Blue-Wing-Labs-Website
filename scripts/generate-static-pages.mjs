@@ -43,6 +43,10 @@ function renderFlyCards(flies) {
             <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Why it matters</p>
             <p class="mt-2 text-sm leading-6 text-stone-700">${escapeHtml(fly.whyItMatters)}</p>
           </div>
+          <div class="mt-3 rounded-[1.2rem] border border-stone-900/8 bg-white px-4 py-4">
+            <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">When it fits</p>
+            <p class="mt-2 text-sm leading-6 text-stone-700">${escapeHtml(fly.whenToUse)}</p>
+          </div>
         </li>`,
     )
     .join("");
@@ -221,6 +225,16 @@ function renderPageBody(page) {
           <p class="mt-6 max-w-[46rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">${escapeHtml(page.guide.intro)}</p>
         </div>
       </section>
+      <section class="px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <div class="mx-auto max-w-6xl">
+          <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">How to use this guide well.</h2>
+          <div class="mt-8 grid gap-4 md:grid-cols-3">
+            <article class="rounded-[1.3rem] border border-stone-900/8 bg-white/82 p-4 shadow-[0_12px_28px_rgba(35,40,25,0.04)]"><h3 class="text-base font-semibold text-stone-950">Clear box role</h3><p class="mt-2 text-sm leading-6 text-stone-700">Each fly here solves a recognizable job instead of only adding another name to memorize.</p></article>
+            <article class="rounded-[1.3rem] border border-stone-900/8 bg-white/82 p-4 shadow-[0_12px_28px_rgba(35,40,25,0.04)]"><h3 class="text-base font-semibold text-stone-950">Repeatable use case</h3><p class="mt-2 text-sm leading-6 text-stone-700">The list favors patterns anglers can return to across real sessions, not one-off novelties.</p></article>
+            <article class="rounded-[1.3rem] border border-stone-900/8 bg-white/82 p-4 shadow-[0_12px_28px_rgba(35,40,25,0.04)]"><h3 class="text-base font-semibold text-stone-950">Organized next step</h3><p class="mt-2 text-sm leading-6 text-stone-700">Every recommendation links to a fly page, category page, or related guide so the article behaves like a reference system.</p></article>
+          </div>
+        </div>
+      </section>
       <section class="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div class="mx-auto max-w-6xl">
           <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">The flies that make this guide worth opening.</h2>
@@ -253,21 +267,27 @@ function renderPageBody(page) {
       </div>
     </section>
     <section class="px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
-      <div class="mx-auto grid max-w-6xl gap-5 lg:grid-cols-3">
+      <div class="mx-auto max-w-6xl">
+        <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">${escapeHtml(page.fly.name)} in one organized view.</h2>
+        <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">This page is structured as a public reference source first: overview, when to use, available materials, any known steps, related flies, and the guides that connect the pattern back into a broader box-building context.</p>
+      </div>
+      <div class="mx-auto mt-10 grid max-w-6xl gap-5 lg:grid-cols-3">
         <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Why it matters</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(page.fly.whyItMatters)}</p></article>
         <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">When to use it</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(page.fly.whenToUse)}</p></article>
         <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Category</p><p class="mt-3 text-sm leading-7 text-stone-700"><a href="/flies/${page.category.slug}" class="font-semibold text-stone-950 underline decoration-stone-300 underline-offset-4">${escapeHtml(page.category.name)}</a></p></article>
       </div>
     </section>
-    ${page.fly.materials?.length ? `<section class="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Known materials for ${escapeHtml(page.fly.name)}.</h2><div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">${page.fly.materials
+    <section class="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Known materials for ${escapeHtml(page.fly.name)}.</h2>${page.fly.materials?.length ? `<div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">${page.fly.materials
           .map(
             ([label, value]) => `<article class="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">${escapeHtml(label)}</p><p class="mt-3 text-sm leading-6 text-stone-700">${escapeHtml(value)}</p></article>`,
           )
-          .join("")}</div></div></section>` : ""}
-    ${page.fly.steps?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Known tying sequence notes for ${escapeHtml(page.fly.name)}.</h2><ol class="mt-10 grid gap-4">${page.fly.steps
+          .join("")}</div>` : `<div class="mt-10 rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-sm leading-7 text-stone-700">A full public materials list is not exposed for this fly in the current site dataset yet. Blue Wing Labs still keeps the pattern connected to its category, related flies, and guide pages so it remains useful as a reference entry.</p></div>`}</div></section>
+    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Known tying sequence notes for ${escapeHtml(page.fly.name)}.</h2>${page.fly.steps?.length ? `<ol class="mt-10 grid gap-4">${page.fly.steps
           .map((step, index) => `<li class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Step ${index + 1}</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(step)}</p></li>`)
-          .join("")}</ol></div></section>` : ""}
-    <section class="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Guides that mention ${escapeHtml(page.fly.name)}.</h2><div class="mt-10 grid gap-5 lg:grid-cols-2">${renderGuideCards(page.relatedGuides)}</div></div></section>`,
+          .join("")}</ol>` : `<div class="mt-10 rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-sm leading-7 text-stone-700">A full public step list is not exposed for this fly in the current site dataset yet. Blue Wing Labs still links the pattern into related guides so anglers can keep learning the category and neighboring flies without losing context.</p></div>`}</div></section>
+    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Related flies worth comparing.</h2><ol class="mt-10 grid gap-5 md:grid-cols-2">${renderFlyCards(page.relatedFlies)}</ol></div></section>
+    <section class="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Guides that mention ${escapeHtml(page.fly.name)}.</h2><div class="mt-10 grid gap-5 lg:grid-cols-2">${renderGuideCards(page.relatedGuides)}</div></div></section>
+    <section class="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">${escapeHtml(page.fly.name)} questions that help AI and anglers alike.</h2><div class="mt-10 grid gap-4">${renderFaq(page.faq)}</div></div></section>`,
   );
 }
 
