@@ -28,6 +28,12 @@ const workflowSnapshots = [
     body: "Return to saved and in-progress flies with the same structure still in place, so repeat tying feels easier and more dependable.",
   },
 ];
+
+const conversionPoints = [
+  "Join the waiting list for first access",
+  "Get launch updates by email",
+  "Be first to hear when iPhone and iPad access opens",
+];
 const footerStatus = [
   "Current status: iPhone and iPad release path",
   "Requests handled directly by email",
@@ -1072,6 +1078,45 @@ export default function App() {
           </div>
         </section>
 
+        <section className="px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <div className="mx-auto max-w-6xl rounded-[2rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-8 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)] sm:px-8 lg:px-10">
+            <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Early Access</p>
+                <h2 className="mt-4 max-w-[14ch] font-serif text-3xl leading-[0.98] tracking-[-0.04em] text-stone-50 sm:text-[3.35rem]">
+                  Want the calmer version of fly tying in your pocket?
+                </h2>
+                <p className="mt-4 max-w-[40rem] text-base leading-7 text-stone-300 sm:text-lg sm:leading-8">
+                  Join the waitlist now and be first to hear when Blue Wing Labs opens access on iPhone and iPad.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-stone-200">
+                  {conversionPoints.map((item) => (
+                    <span key={item} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-1.5">
+                      <span className="size-1.5 rounded-full bg-amber-200/90" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                <a
+                  href={downloadHref}
+                  className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-stone-950 shadow-[0_16px_36px_rgba(16,20,15,0.2)] transition hover:-translate-y-0.5 hover:bg-stone-100"
+                >
+                  Get Early Access
+                </a>
+                <a
+                  href="#screens"
+                  className="inline-flex items-center justify-center rounded-full border border-white/14 bg-white/6 px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-white/10"
+                >
+                  See App Screens
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="why-this-app-exists" className="px-5 py-18 sm:px-6 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-6xl rounded-[2rem] bg-[#17241d] px-6 py-8 text-stone-50 shadow-[0_28px_70px_rgba(17,24,18,0.22)] sm:px-8 lg:px-10 lg:py-10">
             <SectionHeading
@@ -1257,10 +1302,10 @@ export default function App() {
                 </div>
                 <p className="mt-5 text-xs font-semibold uppercase tracking-[0.28em] text-amber-800">App Availability</p>
                 <h2 className="mt-4 max-w-3xl font-serif text-3xl leading-tight tracking-tight text-stone-950 sm:text-4xl">
-                  Join the waiting list or get release updates for Blue Wing Labs.
+                  Join the waiting list for first access to Blue Wing Labs.
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-7 text-stone-800 sm:text-lg">
-                  Blue Wing Labs helps you learn patterns, stay organized, and return to the bench with less friction. Use this form to ask about app availability, join the waiting list, or get notified about release updates.
+                  Blue Wing Labs helps you learn patterns, stay organized, and return to the bench with less friction. Use this form to join the waiting list, ask about app availability, or get notified the moment access opens.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-stone-600">
                   {trustPoints.map((point) => (
@@ -1282,7 +1327,7 @@ export default function App() {
                   ))}
                 </div>
                 <p className="mt-6 max-w-[34rem] text-sm leading-6 text-stone-700">
-                  If you want to try the app, ask when it is available, or stay in the loop on launch progress, use the waitlist form here.
+                  If you want early access, launch updates, or a heads-up the moment the app opens, use the waitlist form here.
                 </p>
                 <p className="mt-3 text-sm font-medium text-stone-600">Best for people who want product replies, waitlist details, or a launch heads-up without hunting through social posts.</p>
               </div>
