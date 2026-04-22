@@ -175,7 +175,7 @@ const faqItems = [
   {
     question: "How do I get access?",
     answer:
-      "App access and release updates are currently handled directly through Blue Wing Labs. Use the access section below, visit the support page, or email clarkiioutdoors@gmail.com to ask about availability, request early access, or stay in the loop on launch updates.",
+      "Waitlist signup and release updates are currently handled directly through Blue Wing Labs. Use the waitlist section below, visit the support page, or email clarkiioutdoors@gmail.com to ask about availability, join the waiting list, or stay in the loop on launch updates.",
   },
   {
     question: "What platforms are planned first?",
@@ -199,7 +199,7 @@ const footerGroups = [
     links: [
       { label: "Why Blue Wing Labs", href: "#why-blue-wing-labs" },
       { label: "Who it's for", href: "#who-its-for" },
-      { label: "Request Access", href: "#access" },
+      { label: "Join the Waiting List", href: "#access" },
       { label: "Contact", href: "#contact" },
     ],
   },
@@ -312,7 +312,7 @@ function AccessRequestForm() {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
-    focus: "Early access to the app",
+    focus: "Join the waiting list",
     note: "",
   });
 
@@ -385,10 +385,10 @@ function AccessRequestForm() {
       setFormState({
         name: "",
         email: "",
-        focus: "Early access to the app",
+        focus: "Join the waiting list",
         note: "",
       });
-      setFeedback("Request received. Blue Wing Labs can now follow up by email about app access or release updates.");
+      setFeedback("Waitlist request received. Blue Wing Labs can now follow up by email about launch timing or release updates.");
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : "Unable to submit the request.");
     } finally {
@@ -401,10 +401,10 @@ function AccessRequestForm() {
       onSubmit={handleSubmit}
       className="rounded-[1.7rem] border border-stone-900/8 bg-white/82 p-6 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"
     >
-      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">App access</p>
-      <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Request app access or updates.</h3>
+      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Waiting list</p>
+      <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Join the waiting list or get updates.</h3>
       <p className="mt-3 text-sm leading-6 text-stone-700">
-        This form sends your note directly to Blue Wing Labs for early access, release updates, or availability questions.
+        This form sends your note directly to Blue Wing Labs for waitlist signup, release updates, or availability questions.
       </p>
       <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-900/10 bg-emerald-50 px-3 py-1.5 text-[0.72rem] font-medium text-emerald-950">
         <span className="inline-flex size-5 items-center justify-center rounded-full bg-emerald-900 text-[0.65rem] font-semibold text-emerald-50">
@@ -453,7 +453,7 @@ function AccessRequestForm() {
             onChange={handleChange}
             className="rounded-[1rem] border border-stone-900/10 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-900/30 focus:bg-white"
           >
-            <option>Early access to the app</option>
+            <option>Join the waiting list</option>
             <option>Release and launch updates</option>
             <option>Question about availability</option>
           </select>
@@ -487,7 +487,7 @@ function AccessRequestForm() {
           className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-stone-800"
           style={primaryCtaStyle}
         >
-          {isSubmitting ? "Sending Request..." : "Request App Access"}
+          {isSubmitting ? "Joining Waitlist..." : "Join the Waiting List"}
         </button>
         <a
           href={supportHref}
@@ -498,7 +498,7 @@ function AccessRequestForm() {
       </div>
 
       <p className="mt-4 text-xs leading-5 text-stone-500">
-        Blue Wing Labs follows up by email about app access and release timing. No account is created on this website.
+        Blue Wing Labs follows up by email about waitlist status and release timing. No account is created on this website.
       </p>
       {feedback ? (
         <p className="mt-3 rounded-[1rem] border border-emerald-900/10 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900" aria-live="polite">
@@ -858,7 +858,7 @@ export default function App() {
               className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800"
               style={primaryCtaStyle}
             >
-              Request Access
+              Join the Waiting List
             </a>
           </div>
         </div>
@@ -888,7 +888,7 @@ export default function App() {
                   className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold shadow-[0_16px_36px_rgba(16,20,15,0.2)] transition hover:-translate-y-0.5 hover:bg-stone-800"
                   style={primaryCtaStyle}
                 >
-                  Request App Access
+                  Join the Waiting List
                 </a>
                 <a
                   href="#how-it-works"
@@ -1212,10 +1212,10 @@ export default function App() {
                 </div>
                 <p className="mt-5 text-xs font-semibold uppercase tracking-[0.28em] text-amber-800">App Availability</p>
                 <h2 className="mt-4 max-w-3xl font-serif text-3xl leading-tight tracking-tight text-stone-950 sm:text-4xl">
-                  Request early access or get release updates for Blue Wing Labs.
+                  Join the waiting list or get release updates for Blue Wing Labs.
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-7 text-stone-800 sm:text-lg">
-                  Blue Wing Labs helps you learn patterns, stay organized, and return to the bench with less friction. Use this form to ask about app availability, request early access, or get notified about release updates.
+                  Blue Wing Labs helps you learn patterns, stay organized, and return to the bench with less friction. Use this form to ask about app availability, join the waiting list, or get notified about release updates.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-stone-600">
                   {trustPoints.map((point) => (
@@ -1237,9 +1237,9 @@ export default function App() {
                   ))}
                 </div>
                 <p className="mt-6 max-w-[34rem] text-sm leading-6 text-stone-700">
-                  If you want to try the app, ask when it is available, or stay in the loop on launch progress, use the request form here.
+                  If you want to try the app, ask when it is available, or stay in the loop on launch progress, use the waitlist form here.
                 </p>
-                <p className="mt-3 text-sm font-medium text-stone-600">Best for people who want product replies, early access details, or a launch heads-up without hunting through social posts.</p>
+                <p className="mt-3 text-sm font-medium text-stone-600">Best for people who want product replies, waitlist details, or a launch heads-up without hunting through social posts.</p>
               </div>
 
               <div id="contact">
