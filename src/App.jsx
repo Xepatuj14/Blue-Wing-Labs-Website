@@ -1,4 +1,5 @@
 import { useState } from "react";
+import KnowledgeRouter from "./KnowledgePages";
 
 const downloadHref = "#access";
 const supportHref = "mailto:clarkiioutdoors@gmail.com";
@@ -845,6 +846,12 @@ function HeroVisual() {
 }
 
 export default function App() {
+  const path = typeof window !== "undefined" ? window.location.pathname : "/";
+
+  if (path !== "/" && path !== "/index.html") {
+    return <KnowledgeRouter path={path} />;
+  }
+
   return (
     <div className="min-h-screen bg-[#f5f1e8] text-stone-900">
       <a
