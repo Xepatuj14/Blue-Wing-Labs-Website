@@ -163,19 +163,19 @@ const launchNotes = [
 
 const whyItExistsCards = [
   {
-    eyebrow: "The problem",
-    title: "Most fly-tying guidance breaks down once your hands are busy.",
+    eyebrow: "Built by an angler",
+    title: "This started on a real bench, not in a marketing brainstorm.",
+    body: "Blue Wing Labs was built by someone who actually ties flies and got tired of messy benches, scattered materials, and piecing patterns back together from too many different places.",
+  },
+  {
+    eyebrow: "The frustration",
+    title: "Most fly-tying guidance falls apart once tying actually starts.",
     body: "A pattern might make sense while you are browsing, but the moment the vise is loaded you are suddenly juggling videos, screenshots, notes, and half-remembered steps.",
   },
   {
-    eyebrow: "The insight",
-    title: "The issue was never a lack of information.",
-    body: "The issue was that the information lived in too many places, so even a good pattern became frustrating to follow in the moment you actually needed it.",
-  },
-  {
-    eyebrow: "The goal",
-    title: "Blue Wing Labs is built to keep tying sessions calm and repeatable.",
-    body: "The app puts the fly image, recipe context, materials, and steps together so you can stay with the fly in front of you instead of rebuilding the process every time.",
+    eyebrow: "The response",
+    title: "So the app was designed to make tying feel calmer and more repeatable.",
+    body: "Blue Wing Labs puts the fly image, recipe context, materials, and steps together so you can stay with the fly in front of you instead of rebuilding the process every time.",
   },
 ];
 
@@ -1121,10 +1121,17 @@ export default function App() {
           <div className="mx-auto max-w-6xl rounded-[2rem] bg-[#17241d] px-6 py-8 text-stone-50 shadow-[0_28px_70px_rgba(17,24,18,0.22)] sm:px-8 lg:px-10 lg:py-10">
             <SectionHeading
               eyebrow="Why This App Exists"
-              title="Blue Wing Labs started because the hard part was never finding a fly, it was following it at the bench."
-              body="The idea came from a real tying problem: even good fly patterns become frustrating when the recipe, steps, materials, and reference images all live in different places."
+              title="Built by an angler who was tired of messy benches, scattered materials, and fly patterns that fell apart mid-session."
+              body="Blue Wing Labs exists because the problem was real: the hard part was never finding a fly, it was trusting the process once the vise was loaded and your hands were busy."
               dark
             />
+
+            <div className="mt-8 rounded-[1.6rem] border border-white/10 bg-white/6 px-5 py-5">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-200/90">Founder Story</p>
+              <p className="mt-3 max-w-[58rem] text-lg leading-8 text-stone-200">
+                This app was shaped by someone who actually ties flies and wanted a better way to learn, organize, and repeat patterns without bouncing between paused videos, screenshots, and bench notes.
+              </p>
+            </div>
 
             <div className="mt-10 grid gap-4 lg:grid-cols-3">
               {whyItExistsCards.map((card, index) => (
