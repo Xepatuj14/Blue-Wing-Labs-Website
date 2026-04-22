@@ -1138,11 +1138,32 @@ export default function App() {
 
         <section className="bg-[#eef2e8] px-5 py-18 sm:px-6 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/82 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
-            <SectionHeading
-              eyebrow="Trust"
-              title="Built to feel dependable when tying time is limited."
-              body="This is not a generic fishing content site. Blue Wing Labs is a product focused on helping anglers keep pattern information organized and usable during real tying sessions."
-            />
+            <div className="grid gap-6 lg:grid-cols-[0.92fr_0.68fr] lg:items-start">
+              <SectionHeading
+                eyebrow="Trust"
+                title="Built to feel dependable when tying time is limited."
+                body="This is not a generic fishing content site. Blue Wing Labs is a product focused on helping anglers keep pattern information organized and usable during real tying sessions."
+              />
+
+              <aside className="rounded-[1.6rem] border border-emerald-900/10 bg-[#eef5ea] p-5 shadow-[0_14px_30px_rgba(35,40,25,0.05)]">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-900">Why It Lands</p>
+                <p className="mt-3 text-lg font-semibold tracking-tight text-stone-950">
+                  The product promise is simple: useful at the bench, not just nice to look at on a landing page.
+                </p>
+                <div className="mt-5 grid gap-3">
+                  {[
+                    `${libraryTotals.activeFlies} active flies already organized in the library`,
+                    `${libraryTotals.categories} categories that keep patterns easier to browse and revisit`,
+                    "Current screenshots reflect the app instead of placeholder marketing UI",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-3 rounded-[1.1rem] bg-white/75 px-4 py-3">
+                      <span className="mt-1 inline-flex size-2.5 shrink-0 rounded-full bg-emerald-900" />
+                      <p className="text-sm leading-6 text-stone-700">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </aside>
+            </div>
 
             <div className="mt-10 grid gap-5 lg:grid-cols-3">
               {launchNotes.map((note, index) => (
