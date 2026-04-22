@@ -6,6 +6,7 @@ import {
   getAllKnowledgeRoutes,
   getPageMetadata,
   getPageSchemas,
+  publicFlyRollout,
   siteOrigin,
   siteName,
   supportEmail,
@@ -73,6 +74,35 @@ function renderFaq(items = []) {
           <summary class="cursor-pointer list-none text-lg font-semibold tracking-tight text-stone-950">${escapeHtml(item.question)}</summary>
           <p class="mt-4 text-sm leading-7 text-stone-700">${escapeHtml(item.answer)}</p>
         </details>`,
+    )
+    .join("");
+}
+
+function renderTextPanels(items = [], tone = "white") {
+  const toneClass =
+    tone === "tint"
+      ? "border border-emerald-900/10 bg-[#eef5ea]"
+      : "border border-stone-900/8 bg-white/82 shadow-[0_14px_36px_rgba(35,40,25,0.05)]";
+
+  return items
+    .map(
+      (item) => `
+        <article class="rounded-[1.45rem] p-5 ${toneClass}">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">${escapeHtml(item.eyebrow)}</p>
+          <h3 class="mt-3 text-xl font-semibold tracking-tight text-stone-950">${escapeHtml(item.title)}</h3>
+          <p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(item.body)}</p>
+        </article>`,
+    )
+    .join("");
+}
+
+function renderBulletList(items = []) {
+  return items
+    .map(
+      (item) => `
+        <li class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+          <p class="text-sm leading-7 text-stone-700">${escapeHtml(item)}</p>
+        </li>`,
     )
     .join("");
 }
@@ -147,7 +177,7 @@ function renderPageBody(page) {
           <p class="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Blue Wing Labs Learn</p>
           <h1 class="mt-5 max-w-[12ch] font-serif text-[3.1rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">Fly tying guides built to be read, searched, and reused.</h1>
           <p class="mt-6 max-w-[42rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">${escapeHtml(page.intro)}</p>
-          <div class="mt-6 flex flex-wrap gap-3">${renderPills([`${appLibraryTotals.activeFlies} flies in the app`, `${page.featuredCategories.length} public categories`, `${page.featuredGuides.length}+ featured guides`])}</div>
+          <div class="mt-6 flex flex-wrap gap-3">${renderPills([`${appLibraryTotals.activeFlies} flies in the app`, `${page.featuredCategories.length} public categories`, `${page.featuredGuides.length}+ featured guides`, `${publicFlyRollout.publishedCount} source-backed fly pages live now`])}</div>
         </div>
       </section>
       <section class="px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -264,12 +294,13 @@ function renderPageBody(page) {
         <p class="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly pattern</p>
         <h1 class="mt-5 max-w-[12ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">${escapeHtml(page.fly.name)}</h1>
         <p class="mt-6 max-w-[40rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">${escapeHtml(page.fly.summary)}</p>
+        <div class="mt-6 flex flex-wrap gap-3">${renderPills([page.category.name, page.fly.difficulty, page.fly.sizeRange].filter(Boolean))}</div>
       </div>
     </section>
     <section class="px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
       <div class="mx-auto max-w-6xl">
         <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">${escapeHtml(page.fly.name)} in one organized view.</h2>
-        <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">This page is structured as a public reference source first: overview, when to use, available materials, any known steps, related flies, and the guides that connect the pattern back into a broader box-building context.</p>
+        <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">This page is structured to stay useful as a real reference source: what the fly is, where it fits, what materials or steps are publicly available, why anglers keep it around, and where to go next in the Blue Wing Labs knowledge graph.</p>
       </div>
       <div class="mx-auto mt-10 grid max-w-6xl gap-5 lg:grid-cols-3">
         <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Why it matters</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(page.fly.whyItMatters)}</p></article>
@@ -277,16 +308,53 @@ function renderPageBody(page) {
         <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Category</p><p class="mt-3 text-sm leading-7 text-stone-700"><a href="/flies/${page.category.slug}" class="font-semibold text-stone-950 underline decoration-stone-300 underline-offset-4">${escapeHtml(page.category.name)}</a></p></article>
       </div>
     </section>
-    <section class="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Known materials for ${escapeHtml(page.fly.name)}.</h2>${page.fly.materials?.length ? `<div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">${page.fly.materials
+    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
+      <div class="mx-auto max-w-6xl">
+        <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">About ${escapeHtml(page.fly.name)}</h2>
+        <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">This section keeps the explanation practical and source-backed, using the structured library data plus broad category context without inventing unsupported technical detail.</p>
+        <div class="mt-10 grid gap-5 lg:grid-cols-2">${renderTextPanels(
+          page.aboutParagraphs.map((body, index) => ({
+            eyebrow: index === 0 ? "Overview" : "Context",
+            title: index === 0 ? `${page.fly.name} at a glance` : index === 1 ? "Box role" : "Pattern context",
+            body,
+          })),
+        )}</div>
+      </div>
+    </section>
+    <section class="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
+      <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-2 lg:items-start">
+        <div>
+          <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">When to use ${escapeHtml(page.fly.name)}</h2>
+          <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">The public site only states broad usage windows, but those windows still help anglers keep the fly in the right part of the mental and physical box.</p>
+          <ol class="mt-10 grid gap-4">${renderBulletList(page.whenToUsePoints)}</ol>
+        </div>
+        <div>
+          <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Why ${escapeHtml(page.fly.name)} works</h2>
+          <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These points focus on the fly's role, visibility, versatility, and category logic rather than overly specific claims the public dataset does not support.</p>
+          <ol class="mt-10 grid gap-4">${renderBulletList(page.whyItWorksPoints)}</ol>
+        </div>
+      </div>
+    </section>
+    ${page.fly.materials?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Materials for ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These material notes come directly from the structured site dataset and are surfaced here so the public fly page stays useful as a quick-reference entry.</p><div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">${page.fly.materials
           .map(
             ([label, value]) => `<article class="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">${escapeHtml(label)}</p><p class="mt-3 text-sm leading-6 text-stone-700">${escapeHtml(value)}</p></article>`,
           )
-          .join("")}</div>` : `<div class="mt-10 rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-sm leading-7 text-stone-700">A full public materials list is not exposed for this fly in the current site dataset yet. Blue Wing Labs still keeps the pattern connected to its category, related flies, and guide pages so it remains useful as a reference entry.</p></div>`}</div></section>
-    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Known tying sequence notes for ${escapeHtml(page.fly.name)}.</h2>${page.fly.steps?.length ? `<ol class="mt-10 grid gap-4">${page.fly.steps
+          .join("")}</div></div></section>` : ""}
+    ${page.fly.steps?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">How to tie ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">Only real step data from the public source is shown here, which keeps the page reliable even when the step list is intentionally brief.</p><ol class="mt-10 grid gap-4">${page.fly.steps
           .map((step, index) => `<li class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Step ${index + 1}</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(step)}</p></li>`)
-          .join("")}</ol>` : `<div class="mt-10 rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-sm leading-7 text-stone-700">A full public step list is not exposed for this fly in the current site dataset yet. Blue Wing Labs still links the pattern into related guides so anglers can keep learning the category and neighboring flies without losing context.</p></div>`}</div></section>
-    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Related flies worth comparing.</h2><ol class="mt-10 grid gap-5 md:grid-cols-2">${renderFlyCards(page.relatedFlies)}</ol></div></section>
-    <section class="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Guides that mention ${escapeHtml(page.fly.name)}.</h2><div class="mt-10 grid gap-5 lg:grid-cols-2">${renderGuideCards(page.relatedGuides)}</div></div></section>
+          .join("")}</ol></div></section>` : ""}
+    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
+      <div class="mx-auto max-w-6xl">
+        <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Variations and similar patterns for ${escapeHtml(page.fly.name)}</h2>
+        <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">The public fly library does not invent named variations where the source data is thin. Instead, it connects this pattern to nearby flies so anglers can see the surrounding shape of the category.</p>
+        <div class="mt-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+          ${renderTextPanels([{ eyebrow: "Comparison note", title: "How to read this section", body: page.similarPatternsIntro }], "tint")}
+          <ol class="grid gap-5 md:grid-cols-2">${renderFlyCards(page.relatedFlies)}</ol>
+        </div>
+      </div>
+    </section>
+    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><aside class="rounded-[1.8rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-6 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)]"><p class="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Blue Wing Labs</p><h3 class="mt-4 max-w-[18ch] font-serif text-3xl leading-[0.98] tracking-[-0.04em]">Learn and organize this pattern in Blue Wing Labs.</h3><p class="mt-4 max-w-[38rem] text-base leading-7 text-stone-300">Use Blue Wing Labs to keep ${escapeHtml(page.fly.name)} connected to category pages, related guides, materials planning, and the calmer bench workflow the app is built around.</p><div class="mt-5 flex flex-col gap-3 sm:flex-row"><a href="/#access" class="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:-translate-y-0.5 hover:bg-stone-100">Join the Waiting List</a><a href="/support.html" class="inline-flex items-center justify-center rounded-full border border-white/16 bg-white/6 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-white/10">Support</a></div></aside></div></section>
+    <section class="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Related guides for ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These guides connect the pattern back into broader beginner, trout, seasonal, and category-level decisions.</p><div class="mt-10 grid gap-5 lg:grid-cols-2">${renderGuideCards(page.relatedGuides)}</div></div></section>
     <section class="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">${escapeHtml(page.fly.name)} questions that help AI and anglers alike.</h2><div class="mt-10 grid gap-4">${renderFaq(page.faq)}</div></div></section>`,
   );
 }

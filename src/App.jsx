@@ -42,11 +42,45 @@ const footerStatus = [
 ];
 
 const navLinks = [
+  { label: "Learn", href: "/learn" },
   { label: "What You Get", href: "#features" },
   { label: "How it works", href: "#how-it-works" },
   { label: "Why It Exists", href: "#why-this-app-exists" },
   { label: "Screens", href: "#screens" },
   { label: "FAQ", href: "#faq" },
+];
+
+const knowledgeEntryCards = [
+  {
+    eyebrow: "Knowledge hub",
+    title: "Browse the public Blue Wing Labs learning hub",
+    body: "Start with structured fly-tying guides, category pages, and fly references built to be easy for anglers to read and easy to revisit later.",
+    href: "/learn",
+    cta: "Open Learn",
+  },
+  {
+    eyebrow: "Categories",
+    title: "Explore organized fly categories",
+    body: "Jump into dry flies, nymphs, streamers, emergers, terrestrials, wet flies, and euro nymphs without digging around the site.",
+    href: "/flies/dry-flies",
+    cta: "Browse Categories",
+  },
+  {
+    eyebrow: "Guides",
+    title: "Read practical fly pattern guides",
+    body: "Open pages like Best Trout Flies, Best Dry Flies for Trout, and Best Beginner Fly Patterns to compare patterns faster.",
+    href: "/guides/best-trout-flies",
+    cta: "Read Guides",
+  },
+];
+
+const knowledgeQuickLinks = [
+  { label: "Best Trout Flies", href: "/guides/best-trout-flies" },
+  { label: "Best Beginner Fly Patterns", href: "/guides/best-beginner-fly-patterns" },
+  { label: "Dry Flies", href: "/flies/dry-flies" },
+  { label: "Nymphs", href: "/flies/nymphs" },
+  { label: "Parachute Adams", href: "/flies/parachute-adams" },
+  { label: "Zebra Midge", href: "/flies/zebra-midge" },
 ];
 
 const trustPoints = [`${libraryTotals.activeFlies} active flies`, "Guided tying steps", `${libraryTotals.categories} fly categories`];
@@ -217,10 +251,20 @@ const footerGroups = [
   {
     title: "Product",
     links: [
+      { label: "Learn Hub", href: "/learn" },
       { label: "What You Get", href: "#features" },
       { label: "How it works", href: "#how-it-works" },
       { label: "Screens", href: "#screens" },
       { label: "FAQ", href: "#faq" },
+    ],
+  },
+  {
+    title: "Fly Library",
+    links: [
+      { label: "Dry Flies", href: "/flies/dry-flies" },
+      { label: "Nymphs", href: "/flies/nymphs" },
+      { label: "Streamers", href: "/flies/streamers" },
+      { label: "Best Trout Flies", href: "/guides/best-trout-flies" },
     ],
   },
   {
@@ -930,10 +974,10 @@ export default function App() {
                   Join the Waiting List
                 </a>
                 <a
-                  href="#how-it-works"
+                  href="/learn"
                   className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white/80 px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-white"
                 >
-                  See How It Works
+                  Explore Fly Guides
                 </a>
               </div>
 
@@ -987,6 +1031,69 @@ export default function App() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="px-5 pb-18 sm:px-6 lg:px-8 lg:pb-24">
+          <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 p-6 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:p-8 lg:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+              <SectionHeading
+                eyebrow="Learn"
+                title="The fly pages are live. Now they are visible too."
+                body="Blue Wing Labs includes a public learning hub with guides, category pages, and individual fly references. If you want to browse the fly content directly from the website, start here."
+              />
+
+              <div className="grid gap-5 lg:grid-cols-3">
+                {knowledgeEntryCards.map((card, index) => (
+                  <article
+                    key={card.title}
+                    className={`rounded-[1.6rem] border p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)] ${
+                      index === 0 ? "border-emerald-900/10 bg-[#eef5ea]" : "border-stone-900/8 bg-[#f7f3ea]"
+                    }`}
+                  >
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">{card.eyebrow}</p>
+                    <h3 className="mt-3 text-xl font-semibold tracking-tight text-stone-950">{card.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-stone-700">{card.body}</p>
+                    <a
+                      href={card.href}
+                      className="mt-5 inline-flex text-sm font-semibold text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700"
+                    >
+                      {card.cta}
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 rounded-[1.5rem] border border-stone-900/8 bg-[#fbf8f2] p-5">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Quick links</p>
+                  <p className="mt-2 max-w-[42rem] text-sm leading-6 text-stone-700">
+                    Use these direct links to jump straight into the new public fly content instead of hunting for the routes manually.
+                  </p>
+                </div>
+                <a
+                  href="/learn"
+                  className="inline-flex items-center justify-center rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold shadow-[0_12px_28px_rgba(18,21,17,0.14)] transition hover:-translate-y-0.5 hover:bg-stone-800"
+                  style={primaryCtaStyle}
+                >
+                  Open the Learn Hub
+                </a>
+              </div>
+
+              <div className="mt-5 flex flex-wrap gap-3">
+                {knowledgeQuickLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="rounded-full border border-stone-900/8 bg-white px-4 py-2.5 text-sm font-medium text-stone-800 transition hover:border-stone-900/16 hover:bg-stone-50 hover:text-stone-950"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1109,7 +1216,7 @@ export default function App() {
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                 <a
                   href={downloadHref}
-                  className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-stone-950 shadow-[0_16px_36px_rgba(16,20,15,0.2)] transition hover:-translate-y-0.5 hover:bg-stone-100"
+                  className="inline-flex items-center justify-center rounded-full border border-red-200/55 bg-red-500 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_16px_36px_rgba(16,20,15,0.24)] transition hover:-translate-y-0.5 hover:bg-red-400"
                 >
                   Get Early Access
                 </a>
@@ -1355,7 +1462,7 @@ export default function App() {
       </main>
 
       <footer className="border-t border-stone-900/8 bg-[linear-gradient(180deg,#f1ede3_0%,#ebe4d4_100%)] px-5 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-6xl gap-8 text-sm text-stone-600 lg:grid-cols-[1.15fr_0.8fr_0.8fr_0.7fr_1fr]">
+        <div className="mx-auto grid max-w-6xl gap-8 text-sm text-stone-600 lg:grid-cols-[1.15fr_0.78fr_0.78fr_0.78fr_0.78fr_1fr]">
           <div>
             <p className="font-semibold text-stone-950">Blue Wing Labs</p>
             <p className="mt-2 max-w-[24rem] leading-6">A fly tying companion app for patterns, steps, and materials.</p>

@@ -13,6 +13,112 @@ export const appLibraryTotals = {
   categories: 9,
 };
 
+export const publicFlyRolloutTarget = 100;
+
+const preferredPublicFlyOrder = [
+  "parachute-adams",
+  "blue-winged-olive",
+  "elk-hair-caddis",
+  "griffiths-gnat",
+  "stimulator",
+  "x-caddis",
+  "zebra-midge",
+  "pheasant-tail-nymph",
+  "hares-ear-nymph",
+  "prince-nymph",
+  "copper-john",
+  "rs2",
+  "wd-40",
+  "barrs-emerger",
+  "sparkle-dun",
+  "soft-hackle-pheasant-tail",
+  "woolly-bugger",
+  "clouser-minnow",
+  "muddler-minnow",
+  "zonker",
+  "sculpzilla",
+  "chubby-chernobyl",
+  "foam-ant",
+  "beetle",
+  "daves-hopper",
+  "partridge-and-orange",
+  "soft-hackle-hares-ear",
+  "leadwing-coachman",
+  "march-brown-wet",
+  "perdigon",
+  "frenchie",
+  "walts-worm",
+  "rainbow-warrior",
+  "adams",
+  "royal-wulff",
+  "purple-haze",
+  "rusty-spinner",
+  "comparadun",
+  "light-cahill",
+  "tan-caddis",
+  "missing-link",
+  "hippie-stomper",
+  "flashback-pheasant-tail",
+  "gold-ribbed-hares-ear",
+  "mercury-midge",
+  "black-beauty",
+  "brassie",
+  "scud",
+  "san-juan-worm",
+  "pats-rubber-legs",
+  "higas-sos",
+  "ray-charles",
+  "pink-squirrel",
+  "sexy-walts-worm",
+  "blowtorch",
+  "jig-pheasant-tail",
+  "jig-hares-ear",
+  "black-perdigon",
+  "orange-tag-perdigon",
+  "klinkhamer-special",
+  "iris-caddis",
+  "lafontaine-sparkle-pupa",
+  "pheasant-tail-emerger",
+  "hares-ear-soft-hackle",
+  "march-brown-soft-hackle",
+  "pheasant-tail-soft-hackle",
+  "peacock-soft-hackle",
+  "partridge-and-yellow",
+  "partridge-and-black",
+  "snipe-and-purple",
+  "waterhen-bloa",
+  "alexandra",
+  "peter-ross",
+  "conehead-woolly-bugger",
+  "slumpbuster",
+  "circus-peanut",
+  "game-changer",
+  "peanut-envy",
+  "dolly-llama",
+  "barely-legal",
+  "drunk-and-disorderly",
+  "sex-dungeon",
+  "thin-mint",
+  "autumn-splendor",
+  "fat-albert",
+  "chernobyl-ant",
+  "black-ant",
+  "amys-ant",
+  "hopper",
+  "mini-chubby",
+  "morrish-hopper",
+  "cicada",
+  "best-beginner-fly-patterns-anchor",
+  "best-trout-flies-anchor",
+  "best-dry-flies-anchor",
+  "best-nymphs-anchor",
+  "best-streamers-anchor",
+  "best-emergers-anchor",
+  "best-terrestrials-anchor",
+  "best-soft-hackles-anchor",
+  "best-euro-anchor",
+];
+
 export const knowledgeCategories = [
   {
     slug: "dry-flies",
@@ -171,9 +277,46 @@ export const knowledgeCategories = [
 ];
 
 const categoryMap = new Map(knowledgeCategories.map((category) => [category.slug, category]));
-const flyMap = new Map(flyLibrary.map((fly) => [fly.slug, fly]));
 const guideMap = new Map(guideConfigs.map((guide) => [guide.slug, guide]));
-const flyPriority = new Map(flyLibrary.map((fly, index) => [fly.slug, flyLibrary.length - index]));
+
+const preferredFlyOrderIndex = new Map(preferredPublicFlyOrder.map((slug, index) => [slug, index]));
+
+function getFlyPriorityScore(fly, sourceIndex) {
+  let score = 1000 - sourceIndex;
+
+  if (preferredFlyOrderIndex.has(fly.slug)) {
+    score += 2000 - preferredFlyOrderIndex.get(fly.slug) * 10;
+  }
+
+  if (fly.tags.includes("box-essential")) score += 220;
+  if (fly.tags.includes("classic")) score += 170;
+  if (fly.tags.includes("versatile")) score += 150;
+  if (fly.tags.includes("beginner")) score += 140;
+  if (fly.tags.includes("trout")) score += 120;
+  if (fly.tags.includes("year-round")) score += 90;
+  if (fly.tags.includes("western")) score += 60;
+
+  return score;
+}
+
+const publicFlyLibrary = [...flyLibrary]
+  .map((fly, index) => ({
+    ...fly,
+    publicPriorityScore: getFlyPriorityScore(fly, index),
+  }))
+  .sort((left, right) => right.publicPriorityScore - left.publicPriorityScore)
+  .slice(0, publicFlyRolloutTarget);
+
+const flyMap = new Map(publicFlyLibrary.map((fly) => [fly.slug, fly]));
+const flyPriority = new Map(publicFlyLibrary.map((fly, index) => [fly.slug, publicFlyLibrary.length - index]));
+
+export const publicFlyRollout = {
+  targetCount: publicFlyRolloutTarget,
+  publishedCount: publicFlyLibrary.length,
+  sourceCount: flyLibrary.length,
+  remainingCount: Math.max(publicFlyRolloutTarget - publicFlyLibrary.length, 0),
+  hasFullTopHundred: publicFlyLibrary.length >= publicFlyRolloutTarget,
+};
 
 function normalizePath(pathname) {
   if (!pathname || pathname === "/") {
@@ -273,7 +416,7 @@ export function getGuideBySlug(slug) {
 }
 
 export function getFliesByCategory(categorySlug) {
-  return flyLibrary.filter((fly) => fly.categorySlug === categorySlug);
+  return publicFlyLibrary.filter((fly) => fly.categorySlug === categorySlug);
 }
 
 export function getGuideEntries(guide) {
@@ -281,7 +424,7 @@ export function getGuideEntries(guide) {
     return [];
   }
 
-  const matches = flyLibrary.filter((fly) => matchesSelection(fly, guide.selection));
+  const matches = publicFlyLibrary.filter((fly) => matchesSelection(fly, guide.selection));
   const ordered = sortByFeatured(uniqueBySlug(matches), guide.featuredSlugs);
   return ordered.slice(0, guide.selection?.limit || ordered.length);
 }
@@ -305,11 +448,110 @@ export function getRelatedFlies(fly, limit = 4) {
     return [];
   }
 
-  const related = flyLibrary
+  const related = publicFlyLibrary
     .filter((candidate) => candidate.slug !== fly.slug)
     .filter((candidate) => candidate.categorySlug === fly.categorySlug || candidate.tags.filter((tag) => fly.tags.includes(tag)).length >= 2);
 
   return sortByFeatured(uniqueBySlug(related), []).slice(0, limit);
+}
+
+function formatCategoryRole(category) {
+  if (!category) {
+    return "general trout coverage";
+  }
+
+  return {
+    "dry-flies": "surface feeding and visible dry-fly decisions",
+    nymphs: "everyday subsurface trout coverage",
+    streamers: "movement, profile, and stronger searching passes",
+    emergers: "film-level feeding and transition-stage insects",
+    terrestrials: "bank-oriented summer fishing and visible confidence dries",
+    "wet-flies": "movement-driven subsurface presentations and traditional trout coverage",
+    "euro-nymphs": "tactical direct-contact nymphing and slim anchor-style selection",
+  }[category.slug] || "practical fly-box organization";
+}
+
+function buildFlyAbout(fly, category) {
+  const paragraphs = [
+    `${fly.name} sits in the ${category.name.toLowerCase()} section of the Blue Wing Labs public library, where it helps anglers compare related patterns without losing track of the bigger category. ${fly.summary}`,
+    `${fly.whyItMatters} In practical terms, it supports ${formatCategoryRole(category)} while staying easy to place inside a more organized fly box.`,
+  ];
+
+  if (fly.tags.includes("classic")) {
+    paragraphs.push(
+      `Because ${fly.name} is also treated as a classic pattern in the library, it works as both a fishing fly and a reference point for understanding how this category is supposed to look and behave.`,
+    );
+  } else if (fly.tags.includes("box-essential")) {
+    paragraphs.push(
+      `${fly.name} also shows up as a box-essential pattern, which makes it a strong fly to learn early if the goal is to keep a smaller lineup that still covers real fishing decisions.`,
+    );
+  }
+
+  return paragraphs;
+}
+
+function buildFlyWhenToUse(fly, category) {
+  const points = [fly.whenToUse];
+
+  if (category?.whenItShines) {
+    points.push(`At the category level, ${category.whenItShines.charAt(0).toLowerCase() + category.whenItShines.slice(1)}`);
+  }
+
+  if (fly.tags.includes("technical-water")) {
+    points.push(`It is especially worth considering when trout are feeding selectively and smaller presentation details start to matter more.`);
+  } else if (fly.tags.includes("small-stream")) {
+    points.push(`It also fits well in tighter water where fast decisions and a readable fly profile help keep the session simple.`);
+  } else if (fly.tags.includes("year-round")) {
+    points.push(`Blue Wing Labs tags it as a year-round pattern, which makes it a useful anchor when you want fewer flies that stay relevant longer.`);
+  }
+
+  return points;
+}
+
+function buildFlyWhyItWorks(fly, category) {
+  const points = [];
+
+  if (fly.tags.includes("beginner")) {
+    points.push(`It has a clear box role and stays approachable enough for newer anglers or tiers to return to without much friction.`);
+  }
+
+  if (fly.tags.includes("versatile")) {
+    points.push(`It earns repeat use because it covers more than one decision point instead of only one narrow moment.`);
+  }
+
+  if (fly.tags.includes("attractor")) {
+    points.push(`It brings enough presence and visual separation to help when a more assertive pattern makes the choice easier.`);
+  }
+
+  if (fly.categorySlug === "streamers") {
+    points.push(`It adds profile and movement to a trout box, which is part of why streamer rows feel more complete with a pattern like this in them.`);
+  } else if (fly.categorySlug === "euro-nymphs") {
+    points.push(`It fits a cleaner tactical system, which helps anglers keep their euro row disciplined instead of overcrowded.`);
+  } else if (fly.categorySlug === "emergers") {
+    points.push(`It covers the in-between feeding window where trout are not fully on nymphs or fully on high-floating adults.`);
+  } else if (fly.categorySlug === "terrestrials") {
+    points.push(`It is easy to recognize and easy to fish with confidence, which is a major reason terrestrials simplify summer decisions.`);
+  }
+
+  points.push(fly.whyItMatters);
+
+  return [...new Set(points)];
+}
+
+function buildFlySimilarPatternsIntro(fly, relatedFlies, category) {
+  if (!relatedFlies.length) {
+    return "";
+  }
+
+  const names = relatedFlies.slice(0, 3).map((item) => item.name);
+  const joinedNames =
+    names.length === 1
+      ? names[0]
+      : names.length === 2
+        ? `${names[0]} and ${names[1]}`
+        : `${names[0]}, ${names[1]}, and ${names[2]}`;
+
+  return `The current public dataset does not expose named variation recipes for ${fly.name}, but it does connect the pattern to nearby flies like ${joinedNames}. Those comparisons help anglers understand how the fly sits inside ${category.name.toLowerCase()} without inventing unsupported detail.`;
 }
 
 export function getHubPageData() {
@@ -327,7 +569,7 @@ export function getHubPageData() {
       flyCount: getFliesByCategory(category.slug).length,
     })),
     featuredGuides: guideConfigs.slice(0, 8).map((guide) => ({ ...guide, entries: getGuideEntries(guide) })),
-    featuredFlies: flyLibrary.slice(0, 8),
+    featuredFlies: publicFlyLibrary.slice(0, 8),
     faq: [
       {
         question: "What is the Blue Wing Labs learning hub?",
@@ -394,6 +636,7 @@ export function getFlyPageData(flySlug) {
   }
 
   const category = getCategoryBySlug(fly.categorySlug);
+  const relatedFlies = getRelatedFlies(fly, 6);
 
   return {
     type: "fly",
@@ -401,11 +644,15 @@ export function getFlyPageData(flySlug) {
     fly,
     category,
     relatedGuides: getRelatedGuidesForFly(flySlug, 6),
-    relatedFlies: getRelatedFlies(fly, 6),
+    relatedFlies,
+    aboutParagraphs: buildFlyAbout(fly, category),
+    whenToUsePoints: buildFlyWhenToUse(fly, category),
+    whyItWorksPoints: buildFlyWhyItWorks(fly, category),
+    similarPatternsIntro: buildFlySimilarPatternsIntro(fly, relatedFlies, category),
     faq: buildFlyFaq(fly, category),
     title: `${fly.name} Fly Pattern`,
     intro: fly.summary,
-    description: `Learn when to use the ${fly.name} fly pattern, see its category, and explore related Blue Wing Labs guides and fly pages.`,
+    description: `Learn what the ${fly.name} fly pattern is, when anglers use it, why it works, and how Blue Wing Labs links it to related ${category.name.toLowerCase()} and guide pages.`,
   };
 }
 
@@ -414,7 +661,7 @@ export function getAllKnowledgeRoutes() {
     getHubPageData(),
     ...knowledgeCategories.map((category) => getCategoryPageData(category.slug)),
     ...guideConfigs.map((guide) => getGuidePageData(guide.slug)),
-    ...flyLibrary.map((fly) => getFlyPageData(fly.slug)),
+    ...publicFlyLibrary.map((fly) => getFlyPageData(fly.slug)),
   ].filter(Boolean);
 }
 
