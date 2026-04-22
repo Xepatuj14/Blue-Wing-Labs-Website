@@ -35,9 +35,9 @@ const footerStatus = [
 ];
 
 const navLinks = [
-  { label: "Features", href: "#features" },
+  { label: "What You Get", href: "#features" },
   { label: "How it works", href: "#how-it-works" },
-  { label: "Why Blue Wing Labs", href: "#why-blue-wing-labs" },
+  { label: "Why It Exists", href: "#why-this-app-exists" },
   { label: "Screens", href: "#screens" },
   { label: "FAQ", href: "#faq" },
 ];
@@ -46,27 +46,31 @@ const trustPoints = [`${libraryTotals.activeFlies} active flies`, "Guided tying 
 const trustPointLabels = ["Library", "Steps", "Categories"];
 
 const heroProof = [
-  `${libraryTotals.activeFlies} active flies`,
-  `${libraryTotals.categories} organized categories`,
-  "Built for bench use",
+  `${libraryTotals.activeFlies} active fly patterns`,
+  "Step-by-step tying guides",
+  "Materials tracking built in",
 ];
 
 const featureCards = [
   {
-    title: "Pattern pages that stay usable",
-    body: "Each fly keeps its name, recipe, notes, and tying flow together so you can come back later without piecing the pattern together again.",
+    eyebrow: `${libraryTotals.activeFlies} active fly patterns`,
+    title: "A real library you can actually work from",
+    body: "Browse dry flies, nymphs, streamers, emergers, and more in a format that stays organized when you come back later.",
   },
   {
-    title: "Step-by-step instruction",
-    body: "Follow a sequence that is easy to scan at the bench, with steps written for the tying process instead of buried in a long video.",
+    eyebrow: "Step-by-step tying guides",
+    title: "Clear instructions written for bench use",
+    body: "Follow a sequence that is easy to scan mid-tie, without scrubbing back through a video to recover your place.",
   },
   {
-    title: "Materials you can prep fast",
-    body: "Review hook, thread, tail, body, hackle, and other recipe details before you start so the session feels smoother.",
+    eyebrow: "Materials tracking",
+    title: "Know what is on hand before you start",
+    body: "Review hooks, thread, dubbing, hackle, and other recipe details alongside your materials workflow so prep feels easier.",
   },
   {
-    title: "A cleaner tying workflow",
-    body: "Use the app while you learn a fly, repeat a favorite pattern, or rebuild a recipe you have not tied in a while.",
+    eyebrow: "Bench workflow optimization",
+    title: "Spend more time tying and less time reconstructing",
+    body: "Blue Wing Labs reduces the tab-switching, screenshot-hunting, and note-matching that usually slows down a tying session.",
   },
 ];
 
@@ -151,6 +155,24 @@ const launchNotes = [
   },
 ];
 
+const whyItExistsCards = [
+  {
+    eyebrow: "The problem",
+    title: "Most fly-tying guidance breaks down once your hands are busy.",
+    body: "A pattern might make sense while you are browsing, but the moment the vise is loaded you are suddenly juggling videos, screenshots, notes, and half-remembered steps.",
+  },
+  {
+    eyebrow: "The insight",
+    title: "The issue was never a lack of information.",
+    body: "The issue was that the information lived in too many places, so even a good pattern became frustrating to follow in the moment you actually needed it.",
+  },
+  {
+    eyebrow: "The goal",
+    title: "Blue Wing Labs is built to keep tying sessions calm and repeatable.",
+    body: "The app puts the fly image, recipe context, materials, and steps together so you can stay with the fly in front of you instead of rebuilding the process every time.",
+  },
+];
+
 const faqItems = [
   {
     question: "What makes Blue Wing Labs different from YouTube or saved notes?",
@@ -188,7 +210,7 @@ const footerGroups = [
   {
     title: "Product",
     links: [
-      { label: "Features", href: "#features" },
+      { label: "What You Get", href: "#features" },
       { label: "How it works", href: "#how-it-works" },
       { label: "Screens", href: "#screens" },
       { label: "FAQ", href: "#faq" },
@@ -197,7 +219,7 @@ const footerGroups = [
   {
     title: "Blue Wing Labs",
     links: [
-      { label: "Why Blue Wing Labs", href: "#why-blue-wing-labs" },
+      { label: "Why It Exists", href: "#why-this-app-exists" },
       { label: "Who it's for", href: "#who-its-for" },
       { label: "Join the Waiting List", href: "#access" },
       { label: "Contact", href: "#contact" },
@@ -875,15 +897,14 @@ export default function App() {
           <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
             <div className="max-w-[35rem]">
               <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">
-                A BETTER WAY TO LEARN AND TIE FLIES
+                STOP REBUILDING FLIES FROM VIDEOS AND SCRAPS OF NOTES
               </p>
               <h1 className="mt-5 max-w-[10ch] font-serif text-[3.3rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4.35rem] lg:text-[4.9rem]">
-                All your fly patterns, steps, and materials in one place.
+                Tie with more confidence when everything you need lives in one place.
               </h1>
               <p className="mt-6 max-w-[28rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">
-                Blue Wing Labs helps anglers learn flies with cleaner structure, calmer guidance, and faster access than
-                scrubbing through videos alone. Learn patterns, follow tying steps, review materials, and return to the
-                same fly later without starting over.
+                Blue Wing Labs helps you spend less time pausing videos, checking screenshots, and reconstructing recipes,
+                and more time actually tying the fly in front of you with a calmer, more dependable bench workflow.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -921,7 +942,7 @@ export default function App() {
                   ))}
                 </div>
                 <p className="mt-3 text-sm leading-6 text-stone-700">
-                  Looking for app access or launch updates? Reach out at{" "}
+                  Want first access when Blue Wing Labs launches? Reach out at{" "}
                   <a href={supportHref} className="font-semibold text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700">
                     {supportLabel}
                   </a>
@@ -1028,9 +1049,9 @@ export default function App() {
         <section id="features" className="bg-[#eff2e7] px-5 py-18 sm:px-6 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-6xl">
             <SectionHeading
-              eyebrow="Core features"
-              title="Designed around the actual tying workflow, not a generic content feed."
-              body="The product stays focused on the details fly tiers need most: pattern context, clear steps, and materials you can prep before the first wrap."
+              eyebrow="What You Get"
+              title="Everything you need to go from saved idea to finished fly."
+              body="Blue Wing Labs brings together the parts of fly tying that usually get scattered across videos, screenshots, browser tabs, and bench notes."
             />
 
             <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -1041,9 +1062,7 @@ export default function App() {
                     index === 0 || index === 3 ? "border-stone-900/8 bg-white/84" : "border-emerald-900/10 bg-[#f4f7ef]"
                   }`}
                 >
-                  <div className="inline-flex rounded-full bg-emerald-950 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-50">
-                    Feature
-                  </div>
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">{feature.eyebrow}</p>
                   <h3 className="mt-5 text-xl font-semibold tracking-tight text-stone-950">{feature.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-stone-700">{feature.body}</p>
                 </article>
@@ -1052,37 +1071,37 @@ export default function App() {
           </div>
         </section>
 
-        <section id="why-blue-wing-labs" className="px-5 py-18 sm:px-6 lg:px-8 lg:py-24">
+        <section id="why-this-app-exists" className="px-5 py-18 sm:px-6 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-6xl rounded-[2rem] bg-[#17241d] px-6 py-8 text-stone-50 shadow-[0_28px_70px_rgba(17,24,18,0.22)] sm:px-8 lg:px-10 lg:py-10">
             <SectionHeading
-              eyebrow="Why Blue Wing Labs is better"
-              title="Fly tying is easier when everything lives in one place."
-              body="The usual workflow is messy: paused videos, screenshots in the camera roll, recipe notes in different apps, and materials you forget the next time you sit down. Blue Wing Labs gives that process a cleaner center."
+              eyebrow="Why This App Exists"
+              title="Blue Wing Labs started because the hard part was never finding a fly, it was following it at the bench."
+              body="The idea came from a real tying problem: even good fly patterns become frustrating when the recipe, steps, materials, and reference images all live in different places."
               dark
             />
 
-            <div className="mt-10 grid gap-4">
-              {comparisonRows.map((row) => (
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+              {whyItExistsCards.map((card, index) => (
                 <article
-                  key={row.title}
-                  className="grid gap-4 rounded-[1.5rem] border border-white/10 bg-white/5 p-5 lg:grid-cols-[0.78fr_1.22fr]"
+                  key={card.title}
+                  className={`rounded-[1.5rem] border p-5 ${
+                    index === 1 ? "border-amber-200/14 bg-[#f4ead5] text-stone-900" : "border-white/10 bg-white/5"
+                  }`}
                 >
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-200/90">Benefit</p>
-                    <h3 className="mt-2 text-xl font-semibold text-stone-50">{row.title}</h3>
-                  </div>
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <div className="rounded-[1.15rem] border border-white/8 bg-[#111814] p-4">
-                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Usual workflow</p>
-                      <p className="mt-2 text-sm leading-6 text-stone-300">{row.oldWay}</p>
-                    </div>
-                    <div className="rounded-[1.15rem] border border-amber-200/15 bg-[#f4ead5] p-4 text-stone-900">
-                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-900/70">With Blue Wing Labs</p>
-                      <p className="mt-2 text-sm leading-6 text-stone-800">{row.newWay}</p>
-                    </div>
-                  </div>
+                  <p className={`text-[0.68rem] font-semibold uppercase tracking-[0.22em] ${index === 1 ? "text-amber-900/70" : "text-amber-200/90"}`}>
+                    {card.eyebrow}
+                  </p>
+                  <h3 className={`mt-3 text-xl font-semibold ${index === 1 ? "text-stone-950" : "text-stone-50"}`}>{card.title}</h3>
+                  <p className={`mt-3 text-sm leading-7 ${index === 1 ? "text-stone-800" : "text-stone-300"}`}>{card.body}</p>
                 </article>
               ))}
+            </div>
+
+            <div className="mt-8 rounded-[1.5rem] border border-amber-200/15 bg-[#f4ead5] px-5 py-5 text-stone-900">
+              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-900/70">The Promise</p>
+              <p className="mt-3 max-w-[56rem] text-lg leading-8">
+                Blue Wing Labs exists to make fly tying feel more focused, more repeatable, and less chaotic once tying actually starts.
+              </p>
             </div>
           </div>
         </section>
