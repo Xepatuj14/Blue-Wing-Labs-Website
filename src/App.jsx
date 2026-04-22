@@ -831,8 +831,12 @@ export default function App() {
       <header className="sticky top-0 z-30 border-b border-stone-900/8 bg-[#f5f1e8]/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
           <a href="#top" className="flex items-center gap-3">
-            <div className="flex size-11 items-center justify-center rounded-2xl bg-stone-950 text-sm font-semibold tracking-[0.2em] text-stone-50">
-              BW
+            <div className="flex size-12 items-center justify-center overflow-hidden rounded-2xl border border-stone-900/8 bg-white p-1 shadow-[0_8px_20px_rgba(18,21,17,0.08)]">
+              <img
+                src="/brand/blue-winged-olive-icon.png"
+                alt="Blue Wing Labs icon"
+                className="h-full w-full object-contain"
+              />
             </div>
             <div>
               <p className="font-serif text-xl tracking-tight text-stone-950">Blue Wing Labs</p>
