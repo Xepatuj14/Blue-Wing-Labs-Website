@@ -1,3 +1,39 @@
+const flyImagePaths = {
+  "blue-winged-olive": "/fly-images/blue-winged-olive.jpg",
+  "parachute-adams": "/fly-images/parachute-adams.jpg",
+  "elk-hair-caddis": "/fly-images/elk-hair-caddis.jpg",
+  "griffiths-gnat": "/fly-images/griffiths-gnat.jpg",
+  "x-caddis": "/fly-images/x-caddis.jpg",
+  stimulator: "/fly-images/stimulator.jpg",
+  "zebra-midge": "/fly-images/zebra-midge.png",
+  "pheasant-tail-nymph": "/fly-images/pheasant-tail-nymph.jpg",
+  "hares-ear-nymph": "/fly-images/hares-ear-nymph.jpg",
+  "prince-nymph": "/fly-images/prince-nymph.jpg",
+  "copper-john": "/fly-images/copper-john.jpg",
+  "woolly-bugger": "/fly-images/woolly-bugger.jpg",
+  "clouser-minnow": "/fly-images/clouser-minnow.jpg",
+  "muddler-minnow": "/fly-images/muddler-minnow.jpg",
+  zonker: "/fly-images/zonker.jpg",
+  sculpzilla: "/fly-images/sculpzilla.jpg",
+  rs2: "/fly-images/rs2.jpg",
+  "sparkle-dun": "/fly-images/sparkle-dun.png",
+  "wd-40": "/fly-images/wd-40.png",
+  "soft-hackle-pheasant-tail": "/fly-images/soft-hackle-pheasant-tail.png",
+  "barrs-emerger": "/fly-images/barrs-emerger.png",
+  "chubby-chernobyl": "/fly-images/chubby-chernobyl.png",
+  "foam-ant": "/fly-images/foam-ant.png",
+  beetle: "/fly-images/beetle.png",
+  "daves-hopper": "/fly-images/daves-hopper.png",
+  "partridge-and-orange": "/fly-images/partridge-and-orange.png",
+  "soft-hackle-hares-ear": "/fly-images/soft-hackle-hares-ear.png",
+  "leadwing-coachman": "/fly-images/leadwing-coachman.png",
+  "march-brown-wet": "/fly-images/march-brown-wet.png",
+  perdigon: "/fly-images/perdigon.jpg",
+  frenchie: "/fly-images/frenchie.jpg",
+  "walts-worm": "/fly-images/walts-worm.png",
+  "rainbow-warrior": "/fly-images/rainbow-warrior.png",
+};
+
 export const flyLibrary = [
   {
     slug: "blue-winged-olive",
@@ -382,4 +418,7 @@ export const flyLibrary = [
     whenToUse: "Use it when you want a euro fly with more visual separation from neutral patterns.",
     tags: ["euro", "nymph", "trout", "attractor", "midge", "year-round"],
   },
-];
+].map((fly) => ({
+  ...fly,
+  image: flyImagePaths[fly.slug] || fly.image,
+}));

@@ -97,8 +97,15 @@ function Pill({ children, muted = false }) {
 }
 
 function CategoryCard({ category }) {
+  const leadFly = category.flies.find((fly) => fly.image);
+
   return (
     <article className="rounded-[1.55rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+      {leadFly ? (
+        <a href={`/flies/${leadFly.slug}`} className="mb-5 block overflow-hidden rounded-[1.2rem] border border-stone-900/8 bg-[#f5f1e8]">
+          <img src={leadFly.image} alt={`${leadFly.name} fly pattern`} className="h-36 w-full object-cover transition duration-300 hover:scale-[1.03]" loading="lazy" />
+        </a>
+      ) : null}
       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">{category.flyCount} featured flies</p>
       <h3 className="mt-3 text-xl font-semibold tracking-tight text-stone-950">
         <a href={`/flies/${category.slug}`} className="transition hover:text-emerald-950">
@@ -121,8 +128,15 @@ function CategoryCard({ category }) {
 }
 
 function GuideCard({ guide }) {
+  const leadFly = guide.entries?.find((fly) => fly.image);
+
   return (
     <article className="rounded-[1.55rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+      {leadFly ? (
+        <a href={`/flies/${leadFly.slug}`} className="mb-5 block overflow-hidden rounded-[1.2rem] border border-stone-900/8 bg-[#f5f1e8]">
+          <img src={leadFly.image} alt={`${leadFly.name} fly pattern`} className="h-36 w-full object-cover transition duration-300 hover:scale-[1.03]" loading="lazy" />
+        </a>
+      ) : null}
       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Guide</p>
       <h3 className="mt-3 text-xl font-semibold tracking-tight text-stone-950">
         <a href={`/guides/${guide.slug}`} className="transition hover:text-emerald-950">
@@ -147,6 +161,11 @@ function GuideCard({ guide }) {
 function FlyCard({ fly, showCategory = true }) {
   return (
     <li className="rounded-[1.65rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+      {fly.image ? (
+        <a href={`/flies/${fly.slug}`} className="mb-5 block overflow-hidden rounded-[1.2rem] border border-stone-900/8 bg-[#f5f1e8]">
+          <img src={fly.image} alt={`${fly.name} fly pattern`} className="h-40 w-full object-cover transition duration-300 hover:scale-[1.03]" loading="lazy" />
+        </a>
+      ) : null}
       <div className="flex items-start justify-between gap-4">
         <div>
           {showCategory ? (

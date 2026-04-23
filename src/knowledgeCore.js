@@ -782,12 +782,14 @@ export function getPageMetadata(page) {
     };
   }
 
+  const pageImage = page.type === "fly" ? page.fly.image : page.type === "guide" ? page.entries?.find((entry) => entry.image)?.image : page.type === "category" ? page.flies?.find((fly) => fly.image)?.image : null;
+
   return {
     title: `${page.title} | Blue Wing Labs`,
     description: page.description,
     canonical: `${siteOrigin}${page.path}`,
     type: page.type === "guide" ? "article" : "website",
-    ogImage: `${siteOrigin}/brand/blue-winged-olive-icon.png`,
+    ogImage: pageImage ? `${siteOrigin}${pageImage}` : `${siteOrigin}/brand/blue-winged-olive-icon.png`,
   };
 }
 

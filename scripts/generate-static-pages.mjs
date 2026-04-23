@@ -32,11 +32,23 @@ function renderPills(items) {
     .join("");
 }
 
+function renderFlyImage(fly, className = "h-40") {
+  if (!fly?.image) {
+    return "";
+  }
+
+  return `
+    <a href="/flies/${fly.slug}" class="mb-5 block overflow-hidden rounded-[1.2rem] border border-stone-900/8 bg-[#f5f1e8]">
+      <img src="${escapeHtml(fly.image)}" alt="${escapeHtml(`${fly.name} fly pattern`)}" class="${className} w-full object-cover" loading="lazy" />
+    </a>`;
+}
+
 function renderFlyCards(flies) {
   return flies
     .map(
       (fly) => `
         <li class="rounded-[1.65rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+          ${renderFlyImage(fly)}
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">${escapeHtml(fly.categorySlug.replace(/-/g, " "))}</p>
           <h3 class="mt-3 text-xl font-semibold tracking-tight text-stone-950"><a href="/flies/${fly.slug}" class="transition hover:text-emerald-950">${escapeHtml(fly.name)}</a></h3>
           <p class="mt-4 text-sm leading-7 text-stone-700">${escapeHtml(fly.summary)}</p>
@@ -55,14 +67,17 @@ function renderFlyCards(flies) {
 
 function renderGuideCards(guides) {
   return guides
-    .map(
-      (guide) => `
+    .map((guide) => {
+      const leadFly = guide.entries?.find((fly) => fly.image);
+
+      return `
         <article class="rounded-[1.55rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+          ${renderFlyImage(leadFly, "h-36")}
           <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Guide</p>
           <h3 class="mt-3 text-xl font-semibold tracking-tight text-stone-950"><a href="/guides/${guide.slug}" class="transition hover:text-emerald-950">${escapeHtml(guide.title)}</a></h3>
           <p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(guide.description)}</p>
-        </article>`,
-    )
+        </article>`;
+    })
     .join("");
 }
 
@@ -185,14 +200,17 @@ function renderPageBody(page) {
           <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Browse the public fly categories first.</h2>
           <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             ${page.featuredCategories
-              .map(
-                (category) => `
+              .map((category) => {
+                const leadFly = category.flies.find((fly) => fly.image);
+
+                return `
                 <article class="rounded-[1.55rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+                  ${renderFlyImage(leadFly, "h-36")}
                   <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">${category.flyCount} featured flies</p>
                   <h3 class="mt-3 text-xl font-semibold tracking-tight text-stone-950"><a href="/flies/${category.slug}">${escapeHtml(category.name)}</a></h3>
                   <p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(category.shortDescription)}</p>
-                </article>`,
-              )
+                </article>`;
+              })
               .join("")}
           </div>
         </div>
@@ -295,6 +313,7 @@ function renderPageBody(page) {
         <h1 class="mt-5 max-w-[12ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">${escapeHtml(page.fly.name)}</h1>
         <p class="mt-6 max-w-[40rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">${escapeHtml(page.fly.summary)}</p>
         <div class="mt-6 flex flex-wrap gap-3">${renderPills([page.category.name, page.fly.difficulty, page.fly.sizeRange].filter(Boolean))}</div>
+        ${page.fly.image ? `<img src="${escapeHtml(page.fly.image)}" alt="${escapeHtml(`${page.fly.name} fly pattern`)}" class="mt-8 h-72 w-full rounded-[1.4rem] border border-stone-900/8 object-cover" loading="eager" />` : ""}
       </div>
     </section>
     <section class="px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
