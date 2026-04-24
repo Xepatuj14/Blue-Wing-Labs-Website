@@ -1,12 +1,22 @@
 import { flyLibrary } from "./flyLibrary.js";
 import { guideConfigs } from "./guideConfigs.js";
+import {
+  appWaitlistHref,
+  blueWingFlyLibraryHref,
+  blueWingHomeHref,
+  blueWingLabsName,
+  blueWingSupportPageHref,
+  homeHref,
+  normalizePath,
+  siteOrigin,
+  supportEmail,
+} from "./siteRoutes.js";
 
-export const siteOrigin = "https://www.clarkiioutdoors.com";
-export const siteName = "Blue Wing Labs";
-export const supportEmail = "clarkiioutdoors@gmail.com";
-export const supportPageHref = "/support.html";
-export const appWaitlistHref = "/#access";
-export const homeHref = "/";
+export { appWaitlistHref, homeHref, siteOrigin, supportEmail };
+export { blueWingFlyLibraryHref, blueWingHomeHref };
+
+export const siteName = blueWingLabsName;
+export const supportPageHref = blueWingSupportPageHref;
 
 export const appLibraryTotals = {
   activeFlies: 334,
@@ -318,16 +328,6 @@ export const publicFlyRollout = {
   hasFullTopHundred: publicFlyLibrary.length >= publicFlyRolloutTarget,
 };
 
-function normalizePath(pathname) {
-  if (!pathname || pathname === "/") {
-    return "/";
-  }
-
-  const withoutIndex = pathname.replace(/\/index\.html$/, "");
-  const collapsed = withoutIndex.replace(/\/+$/, "");
-  return collapsed || "/";
-}
-
 function uniqueBySlug(items) {
   const seen = new Set();
   return items.filter((item) => {
@@ -377,6 +377,10 @@ function includesAll(tags, wanted = []) {
   }
 
   return wanted.every((tag) => tags.includes(tag));
+}
+
+function uniqueText(items = []) {
+  return [...new Set(items.filter(Boolean))];
 }
 
 function matchesSelection(fly, selection = {}) {
@@ -472,10 +476,17 @@ function formatCategoryRole(category) {
 }
 
 function buildFlyAbout(fly, category) {
-  const paragraphs = [
+  const appDetail = fly.appDetail;
+  const paragraphs = uniqueText([
+    appDetail?.description,
     `${fly.name} sits in the ${category.name.toLowerCase()} section of the Blue Wing Labs public library, where it helps anglers compare related patterns without losing track of the bigger category. ${fly.summary}`,
-    `${fly.whyItMatters} In practical terms, it supports ${formatCategoryRole(category)} while staying easy to place inside a more organized fly box.`,
-  ];
+    appDetail?.supportLabel
+      ? `${appDetail.supportLabel}. In practical terms, it supports ${formatCategoryRole(category)} while staying easy to place inside a more organized fly box.`
+      : `${fly.whyItMatters} In practical terms, it supports ${formatCategoryRole(category)} while staying easy to place inside a more organized fly box.`,
+    appDetail?.learnBullets?.length
+      ? `Blue Wing Labs frames this pattern around a few repeatable checkpoints: ${appDetail.learnBullets.join("; ")}.`
+      : null,
+  ]);
 
   if (fly.tags.includes("classic")) {
     paragraphs.push(
@@ -491,7 +502,8 @@ function buildFlyAbout(fly, category) {
 }
 
 function buildFlyWhenToUse(fly, category) {
-  const points = [fly.whenToUse];
+  const appWhy = fly.appDetail?.whyItWorks;
+  const points = uniqueText([fly.whenToUse, appWhy?.whenToUse, appWhy?.whereItExcels]);
 
   if (category?.whenItShines) {
     points.push(`At the category level, ${category.whenItShines.charAt(0).toLowerCase() + category.whenItShines.slice(1)}`);
@@ -509,7 +521,8 @@ function buildFlyWhenToUse(fly, category) {
 }
 
 function buildFlyWhyItWorks(fly, category) {
-  const points = [];
+  const appWhy = fly.appDetail?.whyItWorks;
+  const points = uniqueText([appWhy?.imitates, fly.whyItMatters]);
 
   if (fly.tags.includes("beginner")) {
     points.push(`It has a clear box role and stays approachable enough for newer anglers or tiers to return to without much friction.`);
@@ -533,7 +546,9 @@ function buildFlyWhyItWorks(fly, category) {
     points.push(`It is easy to recognize and easy to fish with confidence, which is a major reason terrestrials simplify summer decisions.`);
   }
 
-  points.push(fly.whyItMatters);
+  if (appWhy?.commonMistakes) {
+    points.push(`A common mistake is ${appWhy.commonMistakes.charAt(0).toLowerCase() + appWhy.commonMistakes.slice(1)}`);
+  }
 
   return [...new Set(points)];
 }
@@ -551,7 +566,28 @@ function buildFlySimilarPatternsIntro(fly, relatedFlies, category) {
         ? `${names[0]} and ${names[1]}`
         : `${names[0]}, ${names[1]}, and ${names[2]}`;
 
-  return `The current public dataset does not expose named variation recipes for ${fly.name}, but it does connect the pattern to nearby flies like ${joinedNames}. Those comparisons help anglers understand how the fly sits inside ${category.name.toLowerCase()} without inventing unsupported detail.`;
+  const variantNote = fly.appDetail?.recipe?.variantNotes?.[0]?.title;
+
+  return `${variantNote ? `${fly.name} also carries app recipe notes around ${variantNote.toLowerCase()}, ` : "The page keeps variation context grounded, "}and it connects the pattern to nearby flies like ${joinedNames}. Those comparisons help anglers understand how the fly sits inside ${category.name.toLowerCase()} without inventing unsupported detail.`;
+}
+
+function getFlyDisplayMaterials(fly) {
+  if (fly.appDetail?.materials?.length) {
+    return fly.appDetail.materials;
+  }
+
+  return (fly.materials || []).map(([name, note]) => ({
+    name,
+    note,
+  }));
+}
+
+function getFlyDisplaySteps(fly) {
+  if (fly.appDetail?.steps?.length) {
+    return fly.appDetail.steps;
+  }
+
+  return fly.steps || [];
 }
 
 export function getHubPageData() {
@@ -643,6 +679,16 @@ export function getFlyPageData(flySlug) {
     path: `/flies/${fly.slug}`,
     fly,
     category,
+    appDetail: fly.appDetail || null,
+    displayMaterials: getFlyDisplayMaterials(fly),
+    displaySteps: getFlyDisplaySteps(fly),
+    learnBullets: fly.appDetail?.learnBullets || [],
+    supportLabel: fly.appDetail?.supportLabel || "",
+    imitationTags: fly.appDetail?.imitationTags || [],
+    recipe: fly.appDetail?.recipe || null,
+    videoUrl: fly.appDetail?.videoUrl || "",
+    videoThumbnail: fly.appDetail?.videoThumbnail || "",
+    appWhyItWorks: fly.appDetail?.whyItWorks || null,
     relatedGuides: getRelatedGuidesForFly(flySlug, 6),
     relatedFlies,
     aboutParagraphs: buildFlyAbout(fly, category),
@@ -651,8 +697,8 @@ export function getFlyPageData(flySlug) {
     similarPatternsIntro: buildFlySimilarPatternsIntro(fly, relatedFlies, category),
     faq: buildFlyFaq(fly, category),
     title: `${fly.name} Fly Pattern`,
-    intro: fly.summary,
-    description: `Learn what the ${fly.name} fly pattern is, when anglers use it, why it works, and how Blue Wing Labs links it to related ${category.name.toLowerCase()} and guide pages.`,
+    intro: fly.appDetail?.description || fly.summary,
+    description: `Learn what the ${fly.name} fly pattern is, when anglers use it, why it works, and how Blue Wing Labs links it to related ${category.name.toLowerCase()} and guide pages.${fly.appDetail?.supportLabel ? ` ${fly.appDetail.supportLabel}.` : ""}`,
   };
 }
 
@@ -668,7 +714,7 @@ export function getAllKnowledgeRoutes() {
 export function resolveKnowledgeRoute(pathname) {
   const path = normalizePath(pathname);
 
-  if (path === "/learn") {
+  if (path === "/learn" || path === blueWingFlyLibraryHref) {
     return getHubPageData();
   }
 
@@ -767,6 +813,14 @@ function buildFlyFaq(fly, category) {
       question: `Why does ${fly.name} still deserve space in a fly box?`,
       answer: fly.whyItMatters,
     },
+    ...(fly.appDetail?.whyItWorks?.commonMistakes
+      ? [
+          {
+            question: `What is a common mistake anglers make with ${fly.name}?`,
+            answer: fly.appDetail.whyItWorks.commonMistakes,
+          },
+        ]
+      : []),
   ];
 }
 
@@ -801,8 +855,9 @@ export function getPageSchemas(page) {
   if (page.type === "hub") {
     return [
       buildBreadcrumbList([
-        { name: "Home", path: "/" },
-        { name: "Learn", path: "/learn" },
+        { name: "Clarkii Outdoors", path: homeHref },
+        { name: "Blue Wing Labs", path: blueWingHomeHref },
+        { name: "Fly Library", path: blueWingFlyLibraryHref },
       ]),
       buildItemListSchema("Blue Wing Labs Knowledge Hub", page.featuredFlies, page.path),
       buildFaqSchema(page.faq),
@@ -812,8 +867,9 @@ export function getPageSchemas(page) {
   if (page.type === "category") {
     return [
       buildBreadcrumbList([
-        { name: "Home", path: "/" },
-        { name: "Learn", path: "/learn" },
+        { name: "Clarkii Outdoors", path: homeHref },
+        { name: "Blue Wing Labs", path: blueWingHomeHref },
+        { name: "Fly Library", path: blueWingFlyLibraryHref },
         { name: page.category.name, path: page.path },
       ]),
       buildItemListSchema(`${page.category.name} Fly Patterns`, page.flies, page.path),
@@ -824,9 +880,10 @@ export function getPageSchemas(page) {
   if (page.type === "guide") {
     return [
       buildBreadcrumbList([
-        { name: "Home", path: "/" },
-        { name: "Learn", path: "/learn" },
-        { name: "Guides", path: "/learn" },
+        { name: "Clarkii Outdoors", path: homeHref },
+        { name: "Blue Wing Labs", path: blueWingHomeHref },
+        { name: "Fly Library", path: blueWingFlyLibraryHref },
+        { name: "Guides", path: blueWingFlyLibraryHref },
         { name: page.guide.title, path: page.path },
       ]),
       buildArticleSchema(page.guide.title, page.guide.description, page.path, page.entries.map((entry) => entry.name)),
@@ -837,12 +894,13 @@ export function getPageSchemas(page) {
   if (page.type === "fly") {
     return [
       buildBreadcrumbList([
-        { name: "Home", path: "/" },
-        { name: "Learn", path: "/learn" },
+        { name: "Clarkii Outdoors", path: homeHref },
+        { name: "Blue Wing Labs", path: blueWingHomeHref },
+        { name: "Fly Library", path: blueWingFlyLibraryHref },
         { name: page.category.name, path: `/flies/${page.category.slug}` },
         { name: page.fly.name, path: page.path },
       ]),
-      buildArticleSchema(page.fly.name, page.description, page.path, [page.category.name, ...page.fly.tags]),
+      buildArticleSchema(page.fly.name, page.description, page.path, [page.category.name, ...page.fly.tags, ...(page.imitationTags || [])]),
       buildFaqSchema(page.faq),
     ].filter(Boolean);
   }

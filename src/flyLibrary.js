@@ -1,3 +1,5 @@
+import { flyAppDetails } from "./flyAppDetails.generated.js";
+
 const flyImagePaths = {
   "blue-winged-olive": "/fly-images/blue-winged-olive.jpg",
   "parachute-adams": "/fly-images/parachute-adams.jpg",
@@ -420,5 +422,6 @@ export const flyLibrary = [
   },
 ].map((fly) => ({
   ...fly,
+  appDetail: flyAppDetails[fly.slug] || null,
   image: flyImagePaths[fly.slug] || fly.image,
 }));

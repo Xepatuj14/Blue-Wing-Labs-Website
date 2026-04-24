@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import {
   appLibraryTotals,
   appWaitlistHref,
+  blueWingFlyLibraryHref,
+  blueWingHomeHref,
   getPageMetadata,
   getPageSchemas,
   homeHref,
@@ -268,25 +270,33 @@ function KnowledgeHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-stone-900/8 bg-[#f5f1e8]/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
-        <a href={homeHref} className="flex items-center gap-3">
-          <div className="flex size-12 items-center justify-center overflow-hidden rounded-2xl border border-stone-900/8 bg-white p-1 shadow-[0_8px_20px_rgba(18,21,17,0.08)]">
-            <img src="/brand/blue-winged-olive-icon.png" alt="Blue Wing Labs icon" className="h-full w-full object-contain" />
-          </div>
-          <div>
-            <p className="font-serif text-xl tracking-tight text-stone-950">{siteName}</p>
-            <p className="text-xs uppercase tracking-[0.22em] text-stone-600">Fly tying knowledge hub</p>
-          </div>
-        </a>
+        <div>
+          <a href={homeHref} className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-stone-600 transition hover:text-stone-950">
+            Back to Clarkii Outdoors
+          </a>
+          <a href={blueWingHomeHref} className="mt-2 flex items-center gap-3">
+            <div className="flex size-12 items-center justify-center overflow-hidden rounded-2xl border border-stone-900/8 bg-white p-1 shadow-[0_8px_20px_rgba(18,21,17,0.08)]">
+              <img src="/brand/blue-winged-olive-icon.png" alt="Blue Wing Labs icon" className="h-full w-full object-contain" />
+            </div>
+            <div>
+              <p className="font-serif text-xl tracking-tight text-stone-950">{siteName}</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-stone-600">Fly tying knowledge hub</p>
+            </div>
+          </a>
+        </div>
 
         <div className="flex items-center gap-3 md:gap-6">
           <nav aria-label="Knowledge" className="hidden items-center gap-7 text-sm text-stone-700 md:flex">
-            <a href="/learn" className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
-              Learn
+            <a href={blueWingHomeHref} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+              Product Home
             </a>
-            <a href="/learn#categories" className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+            <a href={blueWingFlyLibraryHref} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+              Fly Library
+            </a>
+            <a href={`${blueWingFlyLibraryHref}#categories`} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
               Categories
             </a>
-            <a href="/learn#featured-guides" className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+            <a href={`${blueWingFlyLibraryHref}#featured-guides`} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
               Guides
             </a>
             <a href={supportPageHref} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
@@ -323,10 +333,13 @@ function KnowledgeFooter() {
         </div>
 
         <nav aria-label="Knowledge hub">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">Learn</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">Blue Wing Labs</p>
           <div className="mt-3 flex flex-col gap-3">
-            <a href="/learn" className="transition hover:text-stone-950">
-              Hub home
+            <a href={blueWingHomeHref} className="transition hover:text-stone-950">
+              Product home
+            </a>
+            <a href={blueWingFlyLibraryHref} className="transition hover:text-stone-950">
+              Fly library
             </a>
             <a href="/guides/best-trout-flies" className="transition hover:text-stone-950">
               Best trout flies
@@ -353,6 +366,9 @@ function KnowledgeFooter() {
 
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">Contact</p>
+          <a href={homeHref} className="mt-3 block transition hover:text-stone-950">
+            Clarkii Outdoors
+          </a>
           <a href={`mailto:${supportEmail}`} className="mt-3 inline-block font-medium text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700">
             {supportEmail}
           </a>
@@ -371,7 +387,7 @@ function HubPage({ page }) {
     <>
       <section className="px-5 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Learn", href: "/learn" }]} />
+          <Breadcrumbs items={[{ label: "Clarkii Outdoors", href: homeHref }, { label: "Blue Wing Labs", href: blueWingHomeHref }, { label: "Fly Library", href: blueWingFlyLibraryHref }]} />
           <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Blue Wing Labs Learn</p>
           <h1 className="mt-5 max-w-[12ch] font-serif text-[3.1rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">
             Fly tying guides built to be read, searched, and reused.
@@ -437,7 +453,7 @@ function CategoryPage({ page }) {
     <>
       <section className="px-5 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Learn", href: "/learn" }, { label: category.name, href: page.path }]} />
+          <Breadcrumbs items={[{ label: "Clarkii Outdoors", href: homeHref }, { label: "Blue Wing Labs", href: blueWingHomeHref }, { label: "Fly Library", href: blueWingFlyLibraryHref }, { label: category.name, href: page.path }]} />
           <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly category</p>
           <h1 className="mt-5 max-w-[12ch] font-serif text-[3.1rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{category.name}</h1>
           <p className="mt-6 max-w-[44rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{category.intro}</p>
@@ -464,7 +480,7 @@ function CategoryPage({ page }) {
               Organize this category in the app, then use the public guide pages to compare patterns and related fly groups.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <a href="/learn" className="rounded-full bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
+              <a href={blueWingFlyLibraryHref} className="rounded-full bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
                 Explore the hub
               </a>
               <a href={appWaitlistHref} className="rounded-full border border-stone-900/10 bg-white px-4 py-2.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-50">
@@ -526,7 +542,7 @@ function GuidePage({ page }) {
     <>
       <section className="px-5 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Learn", href: "/learn" }, { label: "Guides", href: "/learn#featured-guides" }, { label: guide.title, href: page.path }]} />
+          <Breadcrumbs items={[{ label: "Clarkii Outdoors", href: homeHref }, { label: "Blue Wing Labs", href: blueWingHomeHref }, { label: "Fly Library", href: blueWingFlyLibraryHref }, { label: "Guides", href: `${blueWingFlyLibraryHref}#featured-guides` }, { label: guide.title, href: page.path }]} />
           <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Guide</p>
           <h1 className="mt-5 max-w-[14ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{guide.title}</h1>
           <p className="mt-6 max-w-[46rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{guide.intro}</p>
@@ -620,23 +636,34 @@ function GuidePage({ page }) {
 }
 
 function FlyPage({ page }) {
-  const { fly, category, relatedFlies, relatedGuides, faq, aboutParagraphs, whenToUsePoints, whyItWorksPoints, similarPatternsIntro } = page;
+  const { fly, category, relatedFlies, relatedGuides, faq, aboutParagraphs, whenToUsePoints, whyItWorksPoints, similarPatternsIntro, displayMaterials, displaySteps, learnBullets, supportLabel, imitationTags, recipe, videoUrl, videoThumbnail, appWhyItWorks } = page;
+  const flyTags = [...new Set([...fly.tags, ...imitationTags])];
 
   return (
     <>
       <section className="px-5 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Learn", href: "/learn" }, { label: category.name, href: `/flies/${category.slug}` }, { label: fly.name, href: page.path }]} />
+          <Breadcrumbs items={[{ label: "Clarkii Outdoors", href: homeHref }, { label: "Blue Wing Labs", href: blueWingHomeHref }, { label: "Fly Library", href: blueWingFlyLibraryHref }, { label: category.name, href: `/flies/${category.slug}` }, { label: fly.name, href: page.path }]} />
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div>
               <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly pattern</p>
               <h1 className="mt-5 max-w-[12ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{fly.name}</h1>
-              <p className="mt-6 max-w-[40rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{fly.summary}</p>
+              <p className="mt-6 max-w-[40rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{page.intro}</p>
+              {supportLabel ? <p className="mt-4 max-w-[38rem] text-sm font-medium uppercase tracking-[0.18em] text-emerald-900/78">{supportLabel}</p> : null}
               <div className="mt-6 flex flex-wrap gap-3">
                 <Pill>{category.name}</Pill>
                 <Pill muted>{fly.difficulty}</Pill>
                 {fly.sizeRange ? <Pill muted>{fly.sizeRange}</Pill> : null}
               </div>
+              {learnBullets.length ? (
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {learnBullets.map((bullet) => (
+                    <div key={bullet} className="rounded-[1.1rem] border border-stone-900/8 bg-[#f5f1e8] px-4 py-4 text-sm leading-6 text-stone-700">
+                      {bullet}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
             </div>
 
             <div className="rounded-[1.8rem] border border-stone-900/8 bg-[#f5f1e8] p-5">
@@ -677,7 +704,7 @@ function FlyPage({ page }) {
                 Browse more {category.name.toLowerCase()}
               </a>
               <div className="mt-4 flex flex-wrap gap-2">
-                {fly.tags.map((tag) => (
+                {flyTags.slice(0, 8).map((tag) => (
                   <span key={tag} className="rounded-full border border-stone-900/8 bg-stone-50 px-3 py-1.5 text-xs font-medium text-stone-700">
                     {tag.replace(/-/g, " ")}
                   </span>
@@ -687,6 +714,25 @@ function FlyPage({ page }) {
           </div>
         </div>
       </section>
+
+      {recipe ? (
+        <section className="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
+          <div className="mx-auto max-w-6xl">
+            <SectionHeading eyebrow="Recipe Snapshot" title={`What the app keeps with ${fly.name}`} body="This section brings over the same recipe-shape context the app uses: hook guidance, core material logic, substitutions, and tying-sequence checkpoints." />
+            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+              <TextPanel eyebrow="Hook" title={recipe.hook?.style || "Hook guidance"} body={[recipe.hook?.model, recipe.hook?.sizeRange, recipe.hook?.notes].filter(Boolean).join(" • ")} />
+              <TextPanel eyebrow="Core materials" title="What stays consistent" body={recipe.coreMaterials.join(", ")} />
+              <TextPanel eyebrow="Substitutions" title="Accepted swaps" body={recipe.acceptedSubstitutions?.length ? recipe.acceptedSubstitutions.join(", ") : "This public page does not list extra substitutions for this pattern yet."} />
+            </div>
+            {recipe.tyingSequence?.length || recipe.notes?.length ? (
+              <div className="mt-8 grid gap-5 lg:grid-cols-2">
+                {recipe.tyingSequence?.length ? <TextPanel eyebrow="Sequence" title="Canonical tying flow" body={recipe.tyingSequence.join(", ")} tone="tint" /> : null}
+                {recipe.notes?.length ? <TextPanel eyebrow="Recipe notes" title="Additional notes" body={recipe.notes.join(" ")} tone="tint" /> : null}
+              </div>
+            ) : null}
+          </div>
+        </section>
+      ) : null}
 
       <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
@@ -715,22 +761,51 @@ function FlyPage({ page }) {
 
           <div>
             <SectionHeading eyebrow="Why It Works" title={`Why ${fly.name} works`} body="These points focus on the fly's role, visibility, versatility, and category logic rather than overly specific claims the public dataset does not support." />
-            <div className="mt-10">
-              <BulletList items={whyItWorksPoints} />
-            </div>
+            {appWhyItWorks ? (
+              <div className="mt-10 grid gap-4">
+                {imitationTags.length ? <div className="flex flex-wrap gap-2">{imitationTags.map((tag) => <Pill key={tag} muted>{tag.replace(/-/g, " ")}</Pill>)}</div> : null}
+                <TextPanel eyebrow="Imitates" title="What it represents" body={appWhyItWorks.imitates} />
+                <TextPanel eyebrow="Where it excels" title="Best situations" body={appWhyItWorks.whereItExcels} />
+                <TextPanel eyebrow="Common mistakes" title="What to watch for" body={appWhyItWorks.commonMistakes} />
+              </div>
+            ) : (
+              <div className="mt-10">
+                <BulletList items={whyItWorksPoints} />
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {fly.materials?.length ? (
+      {videoUrl ? (
         <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="mx-auto max-w-6xl">
-            <SectionHeading eyebrow="Materials" title={`Materials for ${fly.name}`} body="These material notes come directly from the structured site dataset and are surfaced here so the public fly page stays useful as a quick-reference entry." />
+            <SectionHeading eyebrow="Video Lesson" title={`Watch ${fly.name} in motion`} body="When the app includes a lesson video, the public page links to it directly so anglers can move from reference reading into step-by-step watching." />
+            <article className="mt-10 overflow-hidden rounded-[1.8rem] border border-stone-900/8 bg-white/82 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+              {videoThumbnail ? <img src={videoThumbnail} alt={`${fly.name} video lesson thumbnail`} className="h-64 w-full object-cover" loading="lazy" /> : null}
+              <div className="p-6">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Blue Wing Labs lesson</p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Learn this pattern step by step</h3>
+                <p className="mt-3 max-w-[42rem] text-sm leading-7 text-stone-700">Open the linked lesson to compare the public recipe, the tying sequence, and the app’s guided teaching flow for {fly.name}.</p>
+                <a href={videoUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center justify-center rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800">
+                  Watch the video lesson
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+      ) : null}
+
+      {displayMaterials?.length ? (
+        <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
+          <div className="mx-auto max-w-6xl">
+            <SectionHeading eyebrow="Materials" title={`Materials for ${fly.name}`} body="These materials come from the app-backed fly record when available, which lets the public page mirror the practical tying list more closely." />
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {fly.materials.map(([label, value]) => (
-                <article key={label} className="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
-                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">{label}</p>
-                  <p className="mt-3 text-sm leading-6 text-stone-700">{value}</p>
+              {displayMaterials.map((material) => (
+                <article key={`${material.name}-${material.note || "material"}`} className="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Material</p>
+                  <p className="mt-3 text-sm font-semibold leading-6 text-stone-900">{material.name}</p>
+                  {material.note ? <p className="mt-2 text-sm leading-6 text-stone-700">{material.note}</p> : null}
                 </article>
               ))}
             </div>
@@ -738,12 +813,12 @@ function FlyPage({ page }) {
         </section>
       ) : null}
 
-      {fly.steps?.length ? (
+      {displaySteps?.length ? (
         <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="mx-auto max-w-6xl">
-            <SectionHeading eyebrow="How To Tie It" title={`How to tie ${fly.name}`} body="Only real step data from the public source is shown here, which keeps the page reliable even when the step list is intentionally brief." />
+            <SectionHeading eyebrow="How To Tie It" title={`How to tie ${fly.name}`} body="The website now uses the app-backed step list where available so the public page follows a fuller tying sequence instead of only a short summary." />
             <ol className="mt-10 grid gap-4">
-              {fly.steps.map((step, index) => (
+              {displaySteps.map((step, index) => (
                 <li key={step} className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Step {index + 1}</p>
                   <p className="mt-3 text-sm leading-7 text-stone-700">{step}</p>
@@ -758,12 +833,32 @@ function FlyPage({ page }) {
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Variations And Similar Patterns" title={`Variations and similar patterns for ${fly.name}`} body="The public fly library does not invent named variations where the source data is thin. Instead, it connects this pattern to nearby flies so anglers can see the surrounding shape of the category." />
           <div className="mt-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-            <TextPanel eyebrow="Comparison note" title="How to read this section" body={similarPatternsIntro} tone="tint" />
-            <ol className="grid gap-5 md:grid-cols-2">
-              {relatedFlies.map((relatedFly) => (
-                <FlyCard key={relatedFly.slug} fly={relatedFly} />
-              ))}
-            </ol>
+            <div className="grid gap-5">
+              <TextPanel eyebrow="Comparison note" title="How to read this section" body={similarPatternsIntro} tone="tint" />
+              {recipe?.variantNotes?.length
+                ? recipe.variantNotes.map((note) => <TextPanel key={note.title} eyebrow="Variant note" title={note.title} body={note.bullets.join(" ")} tone="tint" />)
+                : null}
+            </div>
+            <div className="grid gap-5">
+              <ol className="grid gap-5 md:grid-cols-2">
+                {relatedFlies.map((relatedFly) => (
+                  <FlyCard key={relatedFly.slug} fly={relatedFly} />
+                ))}
+              </ol>
+              {recipe?.sourceLog?.length ? (
+                <div className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Source notes</p>
+                  <div className="mt-4 grid gap-3">
+                    {recipe.sourceLog.map((source) => (
+                      <a key={`${source.label}-${source.url}`} href={source.url} target="_blank" rel="noreferrer" className="rounded-[1rem] border border-stone-900/8 bg-stone-50 px-4 py-4 text-sm leading-6 text-stone-700 transition hover:bg-white">
+                        <span className="font-semibold text-stone-950">{source.label}</span>
+                        {source.notes ? <span>{` - ${source.notes}`}</span> : null}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </section>
@@ -810,8 +905,8 @@ function NotFoundPage() {
           Return to the Blue Wing Labs learning hub to browse available categories, guides, and public fly detail pages.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <a href="/learn" className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
-            Go to Learn
+          <a href={blueWingFlyLibraryHref} className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
+            Open Fly Library
           </a>
           <a href="/" className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-50">
             Return Home

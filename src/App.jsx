@@ -1,10 +1,23 @@
 import { useState } from "react";
+import ClarkiiHome from "./ClarkiiHome";
 import KnowledgeRouter from "./KnowledgePages";
+import {
+  blueWingFeaturesHref,
+  blueWingFlyLibraryHref,
+  blueWingHomeHref,
+  blueWingPrivacyPageHref,
+  blueWingSupportPageHref,
+  blueWingTermsPageHref,
+  homeHref,
+  normalizePath,
+  supportEmail,
+} from "./siteRoutes";
+import { useRouteHead, useSectionJump } from "./routeHead";
 
 const downloadHref = "#access";
-const supportHref = "mailto:clarkiioutdoors@gmail.com";
-const supportLabel = "clarkiioutdoors@gmail.com";
-const supportPageHref = "/support.html";
+const supportHref = `mailto:${supportEmail}`;
+const supportLabel = supportEmail;
+const supportPageHref = blueWingSupportPageHref;
 const primaryCtaStyle = { color: "#ffffff", WebkitTextFillColor: "#ffffff" };
 const libraryTotals = {
   activeFlies: 334,
@@ -42,12 +55,12 @@ const footerStatus = [
 ];
 
 const navLinks = [
-  { label: "Learn", href: "/learn" },
-  { label: "What You Get", href: "#features" },
+  { label: "Home", href: blueWingHomeHref },
+  { label: "Fly Library", href: blueWingFlyLibraryHref },
+  { label: "What You Get", href: blueWingFeaturesHref },
   { label: "How it works", href: "#how-it-works" },
   { label: "Why It Exists", href: "#why-this-app-exists" },
-  { label: "Screens", href: "#screens" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Support", href: supportPageHref },
 ];
 
 const knowledgeEntryCards = [
@@ -55,8 +68,8 @@ const knowledgeEntryCards = [
     eyebrow: "Knowledge hub",
     title: "Browse the public Blue Wing Labs learning hub",
     body: "Start with structured fly-tying guides, category pages, and fly references built to be easy for anglers to read and easy to revisit later.",
-    href: "/learn",
-    cta: "Open Learn",
+    href: blueWingFlyLibraryHref,
+    cta: "Open Fly Library",
   },
   {
     eyebrow: "Categories",
@@ -251,11 +264,11 @@ const footerGroups = [
   {
     title: "Product",
     links: [
-      { label: "Learn Hub", href: "/learn" },
-      { label: "What You Get", href: "#features" },
+      { label: "Blue Wing Labs Home", href: blueWingHomeHref },
+      { label: "Fly Library", href: blueWingFlyLibraryHref },
+      { label: "What You Get", href: blueWingFeaturesHref },
       { label: "How it works", href: "#how-it-works" },
-      { label: "Screens", href: "#screens" },
-      { label: "FAQ", href: "#faq" },
+      { label: "Support", href: supportPageHref },
     ],
   },
   {
@@ -279,9 +292,9 @@ const footerGroups = [
   {
     title: "Legal",
     links: [
-      { label: "Support", href: "/support.html" },
-      { label: "Privacy", href: "/privacy.html" },
-      { label: "Terms", href: "/terms.html" },
+      { label: "Support", href: supportPageHref },
+      { label: "Privacy", href: blueWingPrivacyPageHref },
+      { label: "Terms", href: blueWingTermsPageHref },
     ],
   },
 ];
@@ -889,12 +902,9 @@ function HeroVisual() {
   );
 }
 
-export default function App() {
-  const path = typeof window !== "undefined" ? window.location.pathname : "/";
-
-  if (path !== "/" && path !== "/index.html") {
-    return <KnowledgeRouter path={path} />;
-  }
+function BlueWingLabsHome({ focusSection = false }) {
+  useRouteHead(focusSection ? blueWingFeaturesHref : blueWingHomeHref);
+  useSectionJump(focusSection ? "features" : "");
 
   return (
     <div className="min-h-screen bg-[#f5f1e8] text-stone-900">
@@ -909,19 +919,24 @@ export default function App() {
 
       <header className="sticky top-0 z-30 border-b border-stone-900/8 bg-[#f5f1e8]/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
-          <a href="#top" className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center overflow-hidden rounded-2xl border border-stone-900/8 bg-white p-1 shadow-[0_8px_20px_rgba(18,21,17,0.08)]">
-              <img
-                src="/brand/blue-winged-olive-icon.png"
-                alt="Blue Wing Labs icon"
-                className="h-full w-full object-contain"
-              />
-            </div>
-            <div>
-              <p className="font-serif text-xl tracking-tight text-stone-950">Blue Wing Labs</p>
-              <p className="text-xs uppercase tracking-[0.22em] text-stone-600">Fly tying companion</p>
-            </div>
-          </a>
+          <div>
+            <a href={homeHref} className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-stone-600 transition hover:text-stone-950">
+              Back to Clarkii Outdoors
+            </a>
+            <a href={blueWingHomeHref} className="mt-2 flex items-center gap-3">
+              <div className="flex size-12 items-center justify-center overflow-hidden rounded-2xl border border-stone-900/8 bg-white p-1 shadow-[0_8px_20px_rgba(18,21,17,0.08)]">
+                <img
+                  src="/brand/blue-winged-olive-icon.png"
+                  alt="Blue Wing Labs icon"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <div>
+                <p className="font-serif text-xl tracking-tight text-stone-950">Blue Wing Labs</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-stone-600">Fly tying companion</p>
+              </div>
+            </a>
+          </div>
 
           <div className="flex items-center gap-3 md:gap-6">
             <nav aria-label="Primary" className="hidden items-center gap-7 text-sm text-stone-700 md:flex">
@@ -974,7 +989,7 @@ export default function App() {
                   Join the Waiting List
                 </a>
                 <a
-                  href="/learn"
+                  href={blueWingFlyLibraryHref}
                   className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white/80 px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-white"
                 >
                   Explore Fly Guides
@@ -1074,11 +1089,11 @@ export default function App() {
                   </p>
                 </div>
                 <a
-                  href="/learn"
+                  href={blueWingFlyLibraryHref}
                   className="inline-flex items-center justify-center rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold shadow-[0_12px_28px_rgba(18,21,17,0.14)] transition hover:-translate-y-0.5 hover:bg-stone-800"
                   style={primaryCtaStyle}
                 >
-                  Open the Learn Hub
+                  Open the Fly Library
                 </a>
               </div>
 
@@ -1494,6 +1509,9 @@ export default function App() {
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">Contact</p>
+            <a href={homeHref} className="mt-3 block transition hover:text-stone-950">
+              Clarkii Outdoors
+            </a>
             <a
               href={supportHref}
               className="mt-3 inline-block font-medium text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700"
@@ -1514,4 +1532,22 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+export default function App() {
+  const path = typeof window !== "undefined" ? normalizePath(window.location.pathname) : homeHref;
+
+  if (path === blueWingHomeHref || path === blueWingFeaturesHref) {
+    return <BlueWingLabsHome focusSection={path === blueWingFeaturesHref} />;
+  }
+
+  if (path === blueWingFlyLibraryHref) {
+    return <KnowledgeRouter path="/learn" />;
+  }
+
+  if (path !== homeHref && path !== "/index.html") {
+    return <KnowledgeRouter path={path} />;
+  }
+
+  return <ClarkiiHome />;
 }

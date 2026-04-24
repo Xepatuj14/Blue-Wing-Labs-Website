@@ -11,6 +11,7 @@ import {
   siteName,
   supportEmail,
 } from "../src/knowledgeCore.js";
+import { getAppShellRoutes } from "../src/siteRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -118,6 +119,31 @@ function renderBulletList(items = []) {
         <li class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
           <p class="text-sm leading-7 text-stone-700">${escapeHtml(item)}</p>
         </li>`,
+    )
+    .join("");
+}
+
+function renderMaterialCards(materials = []) {
+  return materials
+    .map(
+      (material) => `
+        <article class="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Material</p>
+          <p class="mt-3 text-sm font-semibold leading-6 text-stone-900">${escapeHtml(material.name)}</p>
+          ${material.note ? `<p class="mt-2 text-sm leading-6 text-stone-700">${escapeHtml(material.note)}</p>` : ""}
+        </article>`,
+    )
+    .join("");
+}
+
+function renderSourceLog(sourceLog = []) {
+  return sourceLog
+    .map(
+      (source) => `
+        <a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer" class="rounded-[1rem] border border-stone-900/8 bg-stone-50 px-4 py-4 text-sm leading-6 text-stone-700 transition hover:bg-white">
+          <span class="font-semibold text-stone-950">${escapeHtml(source.label)}</span>
+          ${source.notes ? `<span> - ${escapeHtml(source.notes)}</span>` : ""}
+        </a>`,
     )
     .join("");
 }
@@ -309,11 +335,23 @@ function renderPageBody(page) {
     `
     <section class="px-5 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14">
       <div class="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
-        <p class="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly pattern</p>
-        <h1 class="mt-5 max-w-[12ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">${escapeHtml(page.fly.name)}</h1>
-        <p class="mt-6 max-w-[40rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">${escapeHtml(page.fly.summary)}</p>
-        <div class="mt-6 flex flex-wrap gap-3">${renderPills([page.category.name, page.fly.difficulty, page.fly.sizeRange].filter(Boolean))}</div>
-        ${page.fly.image ? `<img src="${escapeHtml(page.fly.image)}" alt="${escapeHtml(`${page.fly.name} fly pattern`)}" class="mt-8 h-72 w-full rounded-[1.4rem] border border-stone-900/8 object-cover" loading="eager" />` : ""}
+        <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <p class="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly pattern</p>
+            <h1 class="mt-5 max-w-[12ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">${escapeHtml(page.fly.name)}</h1>
+            <p class="mt-6 max-w-[40rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">${escapeHtml(page.intro)}</p>
+            ${page.supportLabel ? `<p class="mt-4 max-w-[38rem] text-sm font-medium uppercase tracking-[0.18em] text-emerald-900/78">${escapeHtml(page.supportLabel)}</p>` : ""}
+            <div class="mt-6 flex flex-wrap gap-3">${renderPills([page.category.name, page.fly.difficulty, page.fly.sizeRange].filter(Boolean))}</div>
+            ${page.learnBullets?.length ? `<div class="mt-6 grid gap-3 sm:grid-cols-2">${page.learnBullets
+              .map(
+                (bullet) => `<div class="rounded-[1.1rem] border border-stone-900/8 bg-[#f5f1e8] px-4 py-4 text-sm leading-6 text-stone-700">${escapeHtml(bullet)}</div>`,
+              )
+              .join("")}</div>` : ""}
+          </div>
+          <div class="rounded-[1.8rem] border border-stone-900/8 bg-[#f5f1e8] p-5">
+            ${page.fly.image ? `<img src="${escapeHtml(page.fly.image)}" alt="${escapeHtml(`${page.fly.name} fly pattern`)}" class="h-56 w-full rounded-[1.4rem] object-cover" loading="eager" />` : ""}
+          </div>
+        </div>
       </div>
     </section>
     <section class="px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -324,9 +362,33 @@ function renderPageBody(page) {
       <div class="mx-auto mt-10 grid max-w-6xl gap-5 lg:grid-cols-3">
         <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Why it matters</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(page.fly.whyItMatters)}</p></article>
         <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">When to use it</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(page.fly.whenToUse)}</p></article>
-        <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Category</p><p class="mt-3 text-sm leading-7 text-stone-700"><a href="/flies/${page.category.slug}" class="font-semibold text-stone-950 underline decoration-stone-300 underline-offset-4">${escapeHtml(page.category.name)}</a></p></article>
+        <article class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Category</p><p class="mt-3 text-sm leading-7 text-stone-700"><a href="/flies/${page.category.slug}" class="font-semibold text-stone-950 underline decoration-stone-300 underline-offset-4">${escapeHtml(page.category.name)}</a></p><div class="mt-4 flex flex-wrap gap-2">${[...page.fly.tags, ...(page.imitationTags || [])]
+          .slice(0, 8)
+          .map(
+            (tag) => `<span class="rounded-full border border-stone-900/8 bg-stone-50 px-3 py-1.5 text-xs font-medium text-stone-700">${escapeHtml(tag.replace(/-/g, " "))}</span>`,
+          )
+          .join("")}</div></article>
       </div>
     </section>
+    ${page.recipe ? `<section class="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">What the app keeps with ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">This section brings over the same recipe-shape context the app uses: hook guidance, core material logic, substitutions, and tying-sequence checkpoints.</p><div class="mt-10 grid gap-5 lg:grid-cols-3">${renderTextPanels(
+          [
+            {
+              eyebrow: "Hook",
+              title: page.recipe.hook?.style || "Hook guidance",
+              body: [page.recipe.hook?.model, page.recipe.hook?.sizeRange, page.recipe.hook?.notes].filter(Boolean).join(" • "),
+            },
+            {
+              eyebrow: "Core materials",
+              title: "What stays consistent",
+              body: (page.recipe.coreMaterials || []).join(", "),
+            },
+            {
+              eyebrow: "Substitutions",
+              title: "Accepted swaps",
+              body: page.recipe.acceptedSubstitutions?.length ? page.recipe.acceptedSubstitutions.join(", ") : "This public page does not list extra substitutions for this pattern yet.",
+            },
+          ],
+        )}</div>${page.recipe.tyingSequence?.length || page.recipe.notes?.length ? `<div class="mt-8 grid gap-5 lg:grid-cols-2">${page.recipe.tyingSequence?.length ? renderTextPanels([{ eyebrow: "Sequence", title: "Canonical tying flow", body: page.recipe.tyingSequence.join(", ") }], "tint") : ""}${page.recipe.notes?.length ? renderTextPanels([{ eyebrow: "Recipe notes", title: "Additional notes", body: page.recipe.notes.join(" ") }], "tint") : ""}</div>` : ""}</div></section>` : ""}
     <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
       <div class="mx-auto max-w-6xl">
         <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">About ${escapeHtml(page.fly.name)}</h2>
@@ -350,16 +412,21 @@ function renderPageBody(page) {
         <div>
           <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Why ${escapeHtml(page.fly.name)} works</h2>
           <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These points focus on the fly's role, visibility, versatility, and category logic rather than overly specific claims the public dataset does not support.</p>
-          <ol class="mt-10 grid gap-4">${renderBulletList(page.whyItWorksPoints)}</ol>
+          ${page.appWhyItWorks ? `<div class="mt-10 grid gap-4">${page.imitationTags?.length ? `<div class="flex flex-wrap gap-2">${page.imitationTags
+            .map(
+              (tag) => `<span class="rounded-full border border-stone-900/8 bg-white/70 px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-stone-700">${escapeHtml(tag.replace(/-/g, " "))}</span>`,
+            )
+            .join("")}</div>` : ""}${renderTextPanels([
+            { eyebrow: "Imitates", title: "What it represents", body: page.appWhyItWorks.imitates },
+            { eyebrow: "Where it excels", title: "Best situations", body: page.appWhyItWorks.whereItExcels },
+            { eyebrow: "Common mistakes", title: "What to watch for", body: page.appWhyItWorks.commonMistakes },
+          ])}</div>` : `<ol class="mt-10 grid gap-4">${renderBulletList(page.whyItWorksPoints)}</ol>`}
         </div>
       </div>
     </section>
-    ${page.fly.materials?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Materials for ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These material notes come directly from the structured site dataset and are surfaced here so the public fly page stays useful as a quick-reference entry.</p><div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">${page.fly.materials
-          .map(
-            ([label, value]) => `<article class="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">${escapeHtml(label)}</p><p class="mt-3 text-sm leading-6 text-stone-700">${escapeHtml(value)}</p></article>`,
-          )
-          .join("")}</div></div></section>` : ""}
-    ${page.fly.steps?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">How to tie ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">Only real step data from the public source is shown here, which keeps the page reliable even when the step list is intentionally brief.</p><ol class="mt-10 grid gap-4">${page.fly.steps
+    ${page.videoUrl ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Watch ${escapeHtml(page.fly.name)} in motion</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">When the app includes a lesson video, the public page links to it directly so anglers can move from reference reading into step-by-step watching.</p><article class="mt-10 overflow-hidden rounded-[1.8rem] border border-stone-900/8 bg-white/82 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">${page.videoThumbnail ? `<img src="${escapeHtml(page.videoThumbnail)}" alt="${escapeHtml(`${page.fly.name} video lesson thumbnail`)}" class="h-64 w-full object-cover" loading="lazy" />` : ""}<div class="p-6"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Blue Wing Labs lesson</p><h3 class="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Learn this pattern step by step</h3><p class="mt-3 max-w-[42rem] text-sm leading-7 text-stone-700">Open the linked lesson to compare the public recipe, the tying sequence, and the app's guided teaching flow for ${escapeHtml(page.fly.name)}.</p><a href="${escapeHtml(page.videoUrl)}" target="_blank" rel="noreferrer" class="mt-5 inline-flex items-center justify-center rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800">Watch the video lesson</a></div></article></div></section>` : ""}
+    ${page.displayMaterials?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Materials for ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These materials come from the app-backed fly record when available, which lets the public page mirror the practical tying list more closely.</p><div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">${renderMaterialCards(page.displayMaterials)}</div></div></section>` : ""}
+    ${page.displaySteps?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">How to tie ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">The website now uses the app-backed step list where available so the public page follows a fuller tying sequence instead of only a short summary.</p><ol class="mt-10 grid gap-4">${page.displaySteps
           .map((step, index) => `<li class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Step ${index + 1}</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(step)}</p></li>`)
           .join("")}</ol></div></section>` : ""}
     <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
@@ -367,8 +434,16 @@ function renderPageBody(page) {
         <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Variations and similar patterns for ${escapeHtml(page.fly.name)}</h2>
         <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">The public fly library does not invent named variations where the source data is thin. Instead, it connects this pattern to nearby flies so anglers can see the surrounding shape of the category.</p>
         <div class="mt-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-          ${renderTextPanels([{ eyebrow: "Comparison note", title: "How to read this section", body: page.similarPatternsIntro }], "tint")}
-          <ol class="grid gap-5 md:grid-cols-2">${renderFlyCards(page.relatedFlies)}</ol>
+          <div class="grid gap-5">
+            ${renderTextPanels([{ eyebrow: "Comparison note", title: "How to read this section", body: page.similarPatternsIntro }], "tint")}
+            ${page.recipe?.variantNotes?.length ? page.recipe.variantNotes
+              .map((note) => renderTextPanels([{ eyebrow: "Variant note", title: note.title, body: note.bullets.join(" ") }], "tint"))
+              .join("") : ""}
+          </div>
+          <div class="grid gap-5">
+            <ol class="grid gap-5 md:grid-cols-2">${renderFlyCards(page.relatedFlies)}</ol>
+            ${page.recipe?.sourceLog?.length ? `<div class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Source notes</p><div class="mt-4 grid gap-3">${renderSourceLog(page.recipe.sourceLog)}</div></div>` : ""}
+          </div>
         </div>
       </div>
     </section>
@@ -412,11 +487,41 @@ function buildHtml(page, styles, scripts) {
 </html>`;
 }
 
+function buildAppShellHtml(route, styles, scripts) {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(route.title)}</title>
+    <meta name="description" content="${escapeHtml(route.description)}" />
+    <meta name="theme-color" content="#13261c" />
+    <meta property="og:title" content="${escapeHtml(route.title)}" />
+    <meta property="og:description" content="${escapeHtml(route.description)}" />
+    <meta property="og:type" content="${escapeHtml(route.type)}" />
+    <meta property="og:url" content="${escapeHtml(route.canonical)}" />
+    <meta property="og:image" content="${escapeHtml(route.ogImage)}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${escapeHtml(route.title)}" />
+    <meta name="twitter:description" content="${escapeHtml(route.description)}" />
+    <link rel="canonical" href="${escapeHtml(route.canonical)}" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    ${styles}
+  </head>
+  <body>
+    <div id="root"></div>
+    ${scripts}
+  </body>
+</html>`;
+}
+
 async function main() {
   const indexHtml = await readFile(path.join(distDirectory, "index.html"), "utf8");
   const styles = [...indexHtml.matchAll(/<link[^>]+href="([^"]+\.css)"[^>]*>/g)].map((match) => `<link rel="stylesheet" crossorigin href="${match[1]}" />`).join("\n");
   const scripts = [...indexHtml.matchAll(/<script[^>]+src="([^"]+\.js)"[^>]*><\/script>/g)].map((match) => `<script type="module" crossorigin src="${match[1]}"></script>`).join("\n");
   const routes = getAllKnowledgeRoutes();
+  const appShellRoutes = getAppShellRoutes().filter((route) => route.path !== "/");
+  const staticSectionRoutes = ["/blue-wing-labs/support", "/blue-wing-labs/privacy", "/blue-wing-labs/terms"];
 
   for (const page of routes) {
     if (page.path === "/") {
@@ -428,7 +533,13 @@ async function main() {
     await writeFile(path.join(pageDirectory, "index.html"), buildHtml(page, styles, scripts), "utf8");
   }
 
-  const sitemapEntries = ["/", ...routes.map((page) => page.path)]
+  for (const route of appShellRoutes) {
+    const pageDirectory = path.join(distDirectory, route.path.replace(/^\/+/, ""));
+    await mkdir(pageDirectory, { recursive: true });
+    await writeFile(path.join(pageDirectory, "index.html"), buildAppShellHtml(route, styles, scripts), "utf8");
+  }
+
+  const sitemapEntries = ["/", ...appShellRoutes.filter((route) => route.includeInSitemap).map((route) => route.path), ...staticSectionRoutes, ...routes.map((page) => page.path)]
     .filter((value, index, items) => items.indexOf(value) === index)
     .map((pathname) => `<url><loc>${siteOrigin}${pathname}</loc></url>`)
     .join("");

@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/support.html",
+      "destination": "/blue-wing-labs/support",
+      "permanent": true
+    },
+    {
+      "source": "/privacy.html",
+      "destination": "/blue-wing-labs/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/terms.html",
+      "destination": "/blue-wing-labs/terms",
+      "permanent": true
+    }
+  ]
+}
