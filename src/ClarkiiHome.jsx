@@ -52,9 +52,11 @@ export default function ClarkiiHome() {
       <header className="sticky top-0 z-30 border-b border-stone-900/8 bg-[#f4f1e8]/92 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
           <a href={homeHref} className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-2xl border border-stone-900/8 bg-[#183227] text-xs font-semibold uppercase tracking-[0.22em] text-stone-50 shadow-[0_10px_28px_rgba(24,38,30,0.16)]">
-              CO
-            </div>
+            <img
+              src="/brand/clarkii-outdoors-logo.svg"
+              alt="Clarkii Outdoors logo"
+              className="h-12 w-12 rounded-full object-contain shadow-[0_10px_28px_rgba(24,38,30,0.16)] sm:h-14 sm:w-14"
+            />
             <div>
               <p className="font-serif text-xl tracking-tight text-stone-950">Clarkii Outdoors</p>
               <p className="text-xs uppercase tracking-[0.22em] text-stone-600">Parent brand for field-tested fishing tools</p>
