@@ -6,6 +6,7 @@ import {
 import { useRouteHead } from "./routeHead";
 
 const contactHref = `mailto:${supportEmail}`;
+const instagramHref = "https://www.instagram.com/clarkii_outdoors?igsh=ajZiaG9kbHVvNGdl&utm_source=qr";
 
 function SectionIntro({ eyebrow, title, body }) {
   return (
@@ -235,9 +236,29 @@ export default function ClarkiiHome() {
                 <p className="mt-4 text-sm leading-7 text-stone-700">
                   Use this for Clarkii Outdoors inquiries, Blue Wing Labs product questions, or to stay close to future releases as the product lineup grows.
                 </p>
+                <p className="mt-3 text-sm leading-7 text-stone-700">
+                  You can also follow Clarkii Outdoors on{" "}
+                  <a
+                    href={instagramHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700"
+                  >
+                    Instagram
+                  </a>
+                  .
+                </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <a href={contactHref} className="inline-flex items-center justify-center rounded-full bg-[#183227] px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-[#214031]">
                     Email Clarkii Outdoors
+                  </a>
+                  <a
+                    href={instagramHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-stone-50"
+                  >
+                    Follow on Instagram
                   </a>
                   <a href={blueWingHomeHref} className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-stone-50">
                     Visit Blue Wing Labs
