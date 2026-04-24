@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ClarkiiHome from "./ClarkiiHome";
 import KnowledgeRouter from "./KnowledgePages";
+import { usePageAnimations } from "./lib/animations";
 import {
   blueWingFeaturesHref,
   blueWingFlyLibraryHref,
@@ -343,7 +344,7 @@ const elkHairMaterials = [
 
 function SectionHeading({ eyebrow, title, body, dark = false, center = false }) {
   return (
-    <div className={`max-w-[42rem] ${center ? "mx-auto text-center" : ""}`}>
+    <div data-motion="reveal" className={`max-w-[42rem] ${center ? "mx-auto text-center" : ""}`}>
       <p className={`text-[0.68rem] font-semibold uppercase tracking-[0.32em] ${dark ? "text-amber-200/90" : "text-amber-800"}`}>
         {eyebrow}
       </p>
@@ -364,6 +365,7 @@ function SectionHeading({ eyebrow, title, body, dark = false, center = false }) 
 function AppScreenshot({ src, alt, className = "", priority = false }) {
   return (
     <div
+      data-hover="lift"
       className={`mx-auto w-full max-w-[23rem] rounded-[2.35rem] border border-stone-900/10 bg-white/85 p-2 shadow-[0_28px_80px_rgba(21,27,19,0.16)] ${className}`}
     >
       <div className="overflow-hidden rounded-[2rem] bg-[#f7f3ea]">
@@ -485,6 +487,7 @@ function AccessRequestForm() {
   return (
     <form
       onSubmit={handleSubmit}
+      data-motion="reveal"
       className="rounded-[1.7rem] border border-stone-900/8 bg-white/82 p-6 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"
     >
       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Waiting list</p>
@@ -881,20 +884,20 @@ function MaterialsScreen({ compact = false, className = "" }) {
 
 function HeroVisual() {
   return (
-    <div className="relative mx-auto w-full max-w-[43rem]">
+    <div data-motion="bwl-hero-visual" className="relative mx-auto w-full max-w-[43rem]">
       <div className="absolute left-10 right-10 top-10 h-72 rounded-full bg-[radial-gradient(circle,rgba(121,146,97,0.32),transparent_68%)] blur-3xl" />
       <div className="absolute inset-x-8 top-8 h-[30rem] rounded-[2.6rem] border border-white/40 bg-[linear-gradient(180deg,rgba(255,255,255,0.42),rgba(255,255,255,0.08))] shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]" />
       <div className="relative mx-auto min-h-[35rem] w-full max-w-[41rem] sm:min-h-[39rem] lg:min-h-[42rem]">
-        <div className="relative z-20 mx-auto max-w-[21.75rem] sm:max-w-[24.5rem]">
+        <div data-motion-item className="relative z-20 mx-auto max-w-[21.75rem] sm:max-w-[24.5rem]">
           <DetailAppScreen priority />
         </div>
-        <div className="absolute left-2 top-[4.6rem] z-10 hidden md:block lg:left-0">
+        <div data-motion-item className="absolute left-2 top-[4.6rem] z-10 hidden md:block lg:left-0">
           <MyFliesAppScreen className="max-w-[12.4rem] origin-top-left rotate-[-4deg] opacity-92 shadow-[0_26px_75px_rgba(12,17,13,0.13)]" />
         </div>
-        <div className="absolute right-2 top-[3.5rem] z-10 hidden xl:block lg:right-0">
+        <div data-motion-item className="absolute right-2 top-[3.5rem] z-10 hidden xl:block lg:right-0">
           <MaterialsAppScreen className="max-w-[12.55rem] origin-top-right rotate-[3deg] opacity-90 shadow-[0_26px_75px_rgba(12,17,13,0.13)]" />
         </div>
-        <div className="absolute inset-x-0 bottom-2 z-30 mx-auto hidden max-w-[18rem] rounded-full border border-stone-900/8 bg-white/88 px-4 py-2 text-center text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-600 shadow-[0_14px_30px_rgba(26,31,21,0.08)] backdrop-blur sm:block">
+        <div data-motion-item className="absolute inset-x-0 bottom-2 z-30 mx-auto hidden max-w-[18rem] rounded-full border border-stone-900/8 bg-white/88 px-4 py-2 text-center text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-600 shadow-[0_14px_30px_rgba(26,31,21,0.08)] backdrop-blur sm:block">
           Actual screens from the current Blue Wing Labs app
         </div>
       </div>
@@ -903,11 +906,26 @@ function HeroVisual() {
 }
 
 function BlueWingLabsHome({ focusSection = false }) {
+  const pageRef = useRef(null);
   useRouteHead(focusSection ? blueWingFeaturesHref : blueWingHomeHref);
   useSectionJump(focusSection ? "features" : "");
+  usePageAnimations(
+    pageRef,
+    {
+      heroSequence: [
+        '[data-motion="bwl-eyebrow"]',
+        '[data-motion="bwl-title"]',
+        '[data-motion="bwl-copy"]',
+        '[data-motion="bwl-cta"]',
+        '[data-motion="bwl-proof"]',
+        '[data-motion="bwl-hero-visual"] [data-motion-item]',
+      ],
+    },
+    [],
+  );
 
   return (
-    <div className="min-h-screen bg-[#f5f1e8] text-stone-900">
+    <div ref={pageRef} className="min-h-screen bg-[#f5f1e8] text-stone-900">
       <a
         href="#main-content"
         className="sr-only absolute left-4 top-4 z-50 rounded-full bg-stone-950 px-4 py-2 text-sm font-semibold text-stone-50 focus:not-sr-only"
@@ -944,7 +962,7 @@ function BlueWingLabsHome({ focusSection = false }) {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950"
+                  className="motion-nav-link rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950"
                 >
                   {link.label}
                 </a>
@@ -953,6 +971,7 @@ function BlueWingLabsHome({ focusSection = false }) {
 
             <a
               href={downloadHref}
+              data-hover="lift"
               className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800"
               style={primaryCtaStyle}
             >
@@ -968,21 +987,22 @@ function BlueWingLabsHome({ focusSection = false }) {
         <section className="px-5 pb-12 pt-14 sm:px-6 sm:pt-18 lg:px-8 lg:pb-16">
           <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
             <div className="max-w-[35rem]">
-              <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">
+              <p data-motion="bwl-eyebrow" className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">
                 A CALMER WAY TO LEARN, TIE, AND TRUST YOUR FLIES
               </p>
-              <h1 className="mt-5 max-w-[10ch] font-serif text-[3.3rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4.35rem] lg:text-[4.9rem]">
+              <h1 data-motion="bwl-title" className="mt-5 max-w-[10ch] font-serif text-[3.3rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4.35rem] lg:text-[4.9rem]">
                 Master fly tying. Build better flies. Fish with confidence.
               </h1>
-              <p className="mt-6 max-w-[28rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">
+              <p data-motion="bwl-copy" className="mt-6 max-w-[28rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">
                 Blue Wing Labs helps you move from scattered videos, screenshots, and half-saved notes to a cleaner tying
                 process you can trust, so each session feels easier to follow, easier to repeat, and more likely to
                 produce flies you are proud to fish.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div data-motion="bwl-cta" className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={downloadHref}
+                  data-hover="lift"
                   className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold shadow-[0_16px_36px_rgba(16,20,15,0.2)] transition hover:-translate-y-0.5 hover:bg-stone-800"
                   style={primaryCtaStyle}
                 >
@@ -990,13 +1010,14 @@ function BlueWingLabsHome({ focusSection = false }) {
                 </a>
                 <a
                   href={blueWingFlyLibraryHref}
+                  data-hover="lift"
                   className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white/80 px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-white"
                 >
                   Explore Fly Guides
                 </a>
               </div>
 
-              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-stone-600">
+              <div data-motion="bwl-proof" className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-stone-600">
                 {heroProof.map((item) => (
                   <span key={item} className="inline-flex items-center gap-2">
                     <span className="size-1.5 rounded-full bg-amber-800/70" />
@@ -1005,7 +1026,7 @@ function BlueWingLabsHome({ focusSection = false }) {
                 ))}
               </div>
 
-              <div className="mt-5 max-w-[31rem] rounded-[1.35rem] border border-stone-900/8 bg-white/70 px-4 py-3 shadow-[0_12px_28px_rgba(31,36,24,0.04)]">
+              <div data-motion="bwl-proof" className="mt-5 max-w-[31rem] rounded-[1.35rem] border border-stone-900/8 bg-white/70 px-4 py-3 shadow-[0_12px_28px_rgba(31,36,24,0.04)]">
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-stone-600">
                   {availabilityFacts.map((item) => (
                     <span key={item} className="inline-flex items-center gap-2">
@@ -1032,10 +1053,11 @@ function BlueWingLabsHome({ focusSection = false }) {
         </section>
 
         <section className="px-5 pb-14 sm:px-6 lg:px-8 lg:pb-18">
-          <div className="mx-auto grid max-w-6xl gap-3 rounded-[1.9rem] border border-stone-900/8 bg-white/72 p-4 shadow-[0_18px_40px_rgba(30,36,26,0.05)] sm:grid-cols-3 sm:p-5">
+          <div data-motion-group="trust-points" className="mx-auto grid max-w-6xl gap-3 rounded-[1.9rem] border border-stone-900/8 bg-white/72 p-4 shadow-[0_18px_40px_rgba(30,36,26,0.05)] sm:grid-cols-3 sm:p-5">
             {trustPoints.map((point, index) => (
               <div
                 key={point}
+                data-motion-item
                 className={`flex items-center gap-3 rounded-[1.2rem] border px-4 py-3 ${
                   index === 1 ? "border-emerald-900/10 bg-[#edf4ea]" : "border-stone-900/6 bg-stone-50/90"
                 }`}
@@ -1058,10 +1080,12 @@ function BlueWingLabsHome({ focusSection = false }) {
                 body="Blue Wing Labs includes a public learning hub with guides, category pages, and individual fly references. If you want to browse the fly content directly from the website, start here."
               />
 
-              <div className="grid gap-5 lg:grid-cols-3">
+              <div data-motion-group="learn-cards" className="grid gap-5 lg:grid-cols-3">
                 {knowledgeEntryCards.map((card, index) => (
                   <article
                     key={card.title}
+                    data-motion-item
+                    data-hover="lift"
                     className={`rounded-[1.6rem] border p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)] ${
                       index === 0 ? "border-emerald-900/10 bg-[#eef5ea]" : "border-stone-900/8 bg-[#f7f3ea]"
                     }`}
@@ -1090,6 +1114,7 @@ function BlueWingLabsHome({ focusSection = false }) {
                 </div>
                 <a
                   href={blueWingFlyLibraryHref}
+                  data-hover="lift"
                   className="inline-flex items-center justify-center rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold shadow-[0_12px_28px_rgba(18,21,17,0.14)] transition hover:-translate-y-0.5 hover:bg-stone-800"
                   style={primaryCtaStyle}
                 >
@@ -1097,11 +1122,13 @@ function BlueWingLabsHome({ focusSection = false }) {
                 </a>
               </div>
 
-              <div className="mt-5 flex flex-wrap gap-3">
+              <div data-motion-group="quick-links" className="mt-5 flex flex-wrap gap-3">
                 {knowledgeQuickLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.href}
+                    data-motion-item
+                    data-hover="lift"
                     className="rounded-full border border-stone-900/8 bg-white px-4 py-2.5 text-sm font-medium text-stone-800 transition hover:border-stone-900/16 hover:bg-stone-50 hover:text-stone-950"
                   >
                     {link.label}
@@ -1121,14 +1148,14 @@ function BlueWingLabsHome({ focusSection = false }) {
                 body="It gives anglers a focused way to study and tie a fly without piecing the process together from multiple sources. Pattern details, materials, and tying steps live in a cleaner format that stays useful across repeat sessions."
               />
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div data-motion-group="what-it-is-cards" className="grid gap-4 sm:grid-cols-2">
                 {[
                   ["What it is", `A mobile app for learning fly patterns, checking materials, and following tying steps across ${libraryTotals.activeFlies} active flies.`],
                   ["Who it is for", "Fly tiers who want clearer instruction, cleaner organization, and less friction once the vise is already loaded."],
                   ["What users do", "Choose a fly, review the recipe, work through the sequence, and return to the same pattern later without rebuilding it."],
                   ["Why it matters", "Because a useful tying reference should help in the moment, not just send you back into more tabs and saved screenshots."],
                 ].map(([title, body]) => (
-                  <article key={title} className="rounded-[1.55rem] bg-stone-50 p-5 ring-1 ring-stone-900/6">
+                  <article key={title} data-motion-item data-hover="lift" className="rounded-[1.55rem] bg-stone-50 p-5 ring-1 ring-stone-900/6">
                     <h3 className="text-base font-semibold text-stone-950">{title}</h3>
                     <p className="mt-3 text-sm leading-6 text-stone-700">{body}</p>
                   </article>
@@ -1136,10 +1163,12 @@ function BlueWingLabsHome({ focusSection = false }) {
               </div>
             </div>
 
-            <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            <div data-motion-group="proof-cards" className="mt-8 grid gap-4 lg:grid-cols-3">
               {proofCards.map((card, index) => (
                 <article
                   key={card.title}
+                  data-motion-item
+                  data-hover="lift"
                   className={`rounded-[1.5rem] border p-5 shadow-[0_14px_30px_rgba(35,40,25,0.04)] ${
                     index === 1
                       ? "border-emerald-900/10 bg-[#edf4ea]"
@@ -1165,10 +1194,12 @@ function BlueWingLabsHome({ focusSection = false }) {
               body="Blue Wing Labs keeps the product experience straightforward: choose a pattern, follow the sequence, and tie with fewer interruptions."
             />
 
-            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <div data-motion-group="how-it-works" className="mt-10 grid gap-5 lg:grid-cols-3">
               {howItWorks.map((item) => (
                 <article
                   key={item.step}
+                  data-motion-item
+                  data-hover="lift"
                   className="rounded-[1.8rem] border border-stone-900/8 bg-white/72 p-6 shadow-[0_18px_45px_rgba(32,38,28,0.05)]"
                 >
                   <div className="inline-flex rounded-full border border-amber-700/20 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-800">
@@ -1190,10 +1221,12 @@ function BlueWingLabsHome({ focusSection = false }) {
               body="Blue Wing Labs brings together the parts of fly tying that usually get scattered across videos, screenshots, browser tabs, and bench notes."
             />
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            <div data-motion-group="feature-cards" className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
               {featureCards.map((feature, index) => (
                 <article
                   key={feature.title}
+                  data-motion-item
+                  data-hover="lift"
                   className={`rounded-[1.75rem] border p-6 shadow-[0_18px_42px_rgba(32,38,28,0.06)] ${
                     index === 0 || index === 3 ? "border-stone-900/8 bg-white/84" : "border-emerald-900/10 bg-[#f4f7ef]"
                   }`}
@@ -1208,7 +1241,7 @@ function BlueWingLabsHome({ focusSection = false }) {
         </section>
 
         <section className="px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="mx-auto max-w-6xl rounded-[2rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-8 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)] sm:px-8 lg:px-10">
+          <div data-motion="reveal" className="mx-auto max-w-6xl rounded-[2rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-8 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)] sm:px-8 lg:px-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Early Access</p>
@@ -1231,12 +1264,14 @@ function BlueWingLabsHome({ focusSection = false }) {
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                 <a
                   href={downloadHref}
+                  data-hover="lift"
                   className="inline-flex items-center justify-center rounded-full border border-red-200/55 bg-red-500 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_16px_36px_rgba(16,20,15,0.24)] transition hover:-translate-y-0.5 hover:bg-red-400"
                 >
                   Get Early Access
                 </a>
                 <a
                   href="#screens"
+                  data-hover="lift"
                   className="inline-flex items-center justify-center rounded-full border border-white/14 bg-white/6 px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-white/10"
                 >
                   See App Screens
@@ -1255,17 +1290,19 @@ function BlueWingLabsHome({ focusSection = false }) {
               dark
             />
 
-            <div className="mt-8 rounded-[1.6rem] border border-white/10 bg-white/6 px-5 py-5">
+            <div data-motion="reveal" className="mt-8 rounded-[1.6rem] border border-white/10 bg-white/6 px-5 py-5">
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-200/90">Founder Story</p>
               <p className="mt-3 max-w-[58rem] text-lg leading-8 text-stone-200">
                 This app was shaped by someone who actually ties flies and wanted a better way to learn, organize, and repeat patterns without bouncing between paused videos, screenshots, and bench notes.
               </p>
             </div>
 
-            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+            <div data-motion-group="why-cards" className="mt-10 grid gap-4 lg:grid-cols-3">
               {whyItExistsCards.map((card, index) => (
                 <article
                   key={card.title}
+                  data-motion-item
+                  data-hover="lift"
                   className={`rounded-[1.5rem] border p-5 ${
                     index === 1 ? "border-amber-200/14 bg-[#f4ead5] text-stone-900" : "border-white/10 bg-white/5"
                   }`}
@@ -1279,7 +1316,7 @@ function BlueWingLabsHome({ focusSection = false }) {
               ))}
             </div>
 
-            <div className="mt-8 rounded-[1.5rem] border border-amber-200/15 bg-[#f4ead5] px-5 py-5 text-stone-900">
+            <div data-motion="reveal" className="mt-8 rounded-[1.5rem] border border-amber-200/15 bg-[#f4ead5] px-5 py-5 text-stone-900">
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-900/70">The Promise</p>
               <p className="mt-3 max-w-[56rem] text-lg leading-8">
                 Blue Wing Labs exists to make fly tying feel more focused, more repeatable, and less chaotic once tying actually starts.
@@ -1296,9 +1333,9 @@ function BlueWingLabsHome({ focusSection = false }) {
               body="These are actual screens from the current Blue Wing Labs app, shown here so the website reflects the product more honestly."
             />
 
-            <div className="mt-10 grid gap-8 lg:grid-cols-3">
+            <div data-motion-group="screen-cards" className="mt-10 grid gap-8 lg:grid-cols-3">
               {screenshotCards.map((card) => (
-                <article key={card.title} className="space-y-5">
+                <article key={card.title} data-motion-item className="space-y-5">
                   {card.variant === "detail" ? <DetailAppScreen /> : null}
                   {card.variant === "my-flies" ? <MyFliesAppScreen /> : null}
                   {card.variant === "materials" ? <MaterialsAppScreen /> : null}
@@ -1321,10 +1358,12 @@ function BlueWingLabsHome({ focusSection = false }) {
               body="Blue Wing Labs fits people who enjoy tying but want the reference side of the hobby to feel more organized, more repeatable, and easier to trust."
             />
 
-            <div className="grid gap-4">
+            <div data-motion-group="audience-cards" className="grid gap-4">
               {audience.map((item) => (
                 <div
                   key={item}
+                  data-motion-item
+                  data-hover="lift"
                   className="flex items-start gap-4 rounded-[1.4rem] border border-stone-900/8 bg-white/75 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"
                 >
                   <span className="mt-1 inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-emerald-900 text-sm font-semibold text-emerald-50">
@@ -1346,18 +1385,18 @@ function BlueWingLabsHome({ focusSection = false }) {
                 body="This is not a generic fishing content site. Blue Wing Labs is a product focused on helping anglers keep pattern information organized and usable during real tying sessions."
               />
 
-              <aside className="rounded-[1.6rem] border border-emerald-900/10 bg-[#eef5ea] p-5 shadow-[0_14px_30px_rgba(35,40,25,0.05)]">
+              <aside data-motion="reveal" data-hover="lift" className="rounded-[1.6rem] border border-emerald-900/10 bg-[#eef5ea] p-5 shadow-[0_14px_30px_rgba(35,40,25,0.05)]">
                 <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-900">Why It Lands</p>
                 <p className="mt-3 text-lg font-semibold tracking-tight text-stone-950">
                   The product promise is simple: useful at the bench, not just nice to look at on a landing page.
                 </p>
-                <div className="mt-5 grid gap-3">
+                <div data-motion-group="trust-points-detail" className="mt-5 grid gap-3">
                   {[
                     `${libraryTotals.activeFlies} active flies already organized in the library`,
                     `${libraryTotals.categories} categories that keep patterns easier to browse and revisit`,
                     "Current screenshots reflect the app instead of placeholder marketing UI",
                   ].map((item) => (
-                    <div key={item} className="flex items-start gap-3 rounded-[1.1rem] bg-white/75 px-4 py-3">
+                    <div key={item} data-motion-item className="flex items-start gap-3 rounded-[1.1rem] bg-white/75 px-4 py-3">
                       <span className="mt-1 inline-flex size-2.5 shrink-0 rounded-full bg-emerald-900" />
                       <p className="text-sm leading-6 text-stone-700">{item}</p>
                     </div>
@@ -1366,10 +1405,12 @@ function BlueWingLabsHome({ focusSection = false }) {
               </aside>
             </div>
 
-            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <div data-motion-group="launch-notes" className="mt-10 grid gap-5 lg:grid-cols-3">
               {launchNotes.map((note, index) => (
                 <article
                   key={note.title}
+                  data-motion-item
+                  data-hover="lift"
                   className={`rounded-[1.55rem] border p-6 shadow-[0_14px_30px_rgba(35,40,25,0.04)] ${
                     index === 0
                       ? "border-emerald-950/12 bg-[#18261f] text-stone-50 lg:col-span-2"
@@ -1385,9 +1426,9 @@ function BlueWingLabsHome({ focusSection = false }) {
               ))}
             </div>
 
-            <div className="mt-10 grid gap-4 border-t border-stone-900/8 pt-8 lg:grid-cols-3">
+            <div data-motion-group="workflow-snapshots" className="mt-10 grid gap-4 border-t border-stone-900/8 pt-8 lg:grid-cols-3">
               {workflowSnapshots.map((item, index) => (
-                <article key={item.title} className="rounded-[1.45rem] border border-stone-900/8 bg-white/78 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
+                <article key={item.title} data-motion-item data-hover="lift" className="rounded-[1.45rem] border border-stone-900/8 bg-white/78 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
                   <div className="flex items-center gap-3">
                     <span className="inline-flex size-9 items-center justify-center rounded-full bg-emerald-900 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-emerald-50">
                       0{index + 1}
@@ -1410,10 +1451,11 @@ function BlueWingLabsHome({ focusSection = false }) {
               body="These are the practical questions most people ask when they compare Blue Wing Labs with videos, saved notes, or a scattered bench setup."
             />
 
-            <div className="mt-10 grid gap-4">
+            <div data-motion-group="faq-items" data-motion-stagger="70" className="mt-10 grid gap-4">
               {faqItems.map((item) => (
                 <details
                   key={item.question}
+                  data-motion-item
                   className="group rounded-[1.5rem] border border-stone-900/8 bg-white/78 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]"
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold tracking-tight text-stone-950">
@@ -1432,7 +1474,7 @@ function BlueWingLabsHome({ focusSection = false }) {
         <section id="access" className="px-5 pb-20 pt-6 sm:px-6 lg:px-8 lg:pb-24">
           <div className="mx-auto max-w-6xl rounded-[2.2rem] border border-stone-900/8 bg-[linear-gradient(135deg,#f7f3ea_0%,#ece3d0_100%)] px-6 py-8 shadow-[0_28px_70px_rgba(35,40,25,0.1)] sm:px-8 lg:px-10 lg:py-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-start">
-              <div>
+              <div data-motion="reveal">
                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-900/10 bg-white/74 px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-emerald-950 shadow-[0_10px_24px_rgba(35,40,25,0.04)]">
                   Limited release
                 </div>
@@ -1443,17 +1485,19 @@ function BlueWingLabsHome({ focusSection = false }) {
                 <p className="mt-4 max-w-2xl text-base leading-7 text-stone-800 sm:text-lg">
                   Blue Wing Labs helps you learn patterns, stay organized, and return to the bench with less friction. Use this form to join the waiting list, ask about app availability, or get notified the moment access opens.
                 </p>
-                <div className="mt-5 flex flex-wrap gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-stone-600">
+                <div data-motion-group="access-trust-points" className="mt-5 flex flex-wrap gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-stone-600">
                   {trustPoints.map((point) => (
-                    <span key={point} className="rounded-full border border-stone-900/8 bg-white/75 px-3 py-1.5">
+                    <span key={point} data-motion-item className="rounded-full border border-stone-900/8 bg-white/75 px-3 py-1.5">
                       {point}
                     </span>
                   ))}
                 </div>
-                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <div data-motion-group="availability-cards" className="mt-6 grid gap-3 sm:grid-cols-3">
                   {availabilityFacts.map((item, index) => (
                     <div
                       key={item}
+                      data-motion-item
+                      data-hover="lift"
                       className={`rounded-[1.15rem] border px-4 py-3 text-sm font-medium shadow-[0_10px_24px_rgba(35,40,25,0.04)] ${
                         index === 0 ? "border-emerald-900/12 bg-[#eef5ea] text-stone-900" : "border-stone-900/8 bg-white/72 text-stone-800"
                       }`}
@@ -1499,7 +1543,7 @@ function BlueWingLabsHome({ focusSection = false }) {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{group.title}</p>
               <div className="mt-3 flex flex-col gap-3">
                 {group.links.map((link) => (
-                  <a key={link.href} href={link.href} className="transition hover:text-stone-950">
+                  <a key={link.href} href={link.href} className="motion-nav-link transition hover:text-stone-950">
                     {link.label}
                   </a>
                 ))}

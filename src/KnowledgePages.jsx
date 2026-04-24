@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePageAnimations } from "./lib/animations";
 import {
   appLibraryTotals,
   appWaitlistHref,
@@ -67,7 +68,7 @@ function usePageHead(page) {
 
 function SectionHeading({ eyebrow, title, body, center = false }) {
   return (
-    <div className={`max-w-[48rem] ${center ? "mx-auto text-center" : ""}`}>
+    <div data-motion="reveal" className={`max-w-[48rem] ${center ? "mx-auto text-center" : ""}`}>
       <p className="text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-amber-800">{eyebrow}</p>
       <h2 className="mt-4 font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">{title}</h2>
       <p className="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">{body}</p>
@@ -77,7 +78,7 @@ function SectionHeading({ eyebrow, title, body, center = false }) {
 
 function Breadcrumbs({ items }) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-stone-600">
+    <nav data-motion="reveal" aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-stone-600">
       {items.map((item, index) => (
         <span key={item.href} className="inline-flex items-center gap-2">
           <a href={item.href} className="transition hover:text-stone-950">
@@ -102,7 +103,7 @@ function CategoryCard({ category }) {
   const leadFly = category.flies.find((fly) => fly.image);
 
   return (
-    <article className="rounded-[1.55rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+    <article data-motion-item data-hover="lift" className="rounded-[1.55rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
       {leadFly ? (
         <a href={`/flies/${leadFly.slug}`} className="mb-5 block overflow-hidden rounded-[1.2rem] border border-stone-900/8 bg-[#f5f1e8]">
           <img src={leadFly.image} alt={`${leadFly.name} fly pattern`} className="h-36 w-full object-cover transition duration-300 hover:scale-[1.03]" loading="lazy" />
@@ -133,7 +134,7 @@ function GuideCard({ guide }) {
   const leadFly = guide.entries?.find((fly) => fly.image);
 
   return (
-    <article className="rounded-[1.55rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+    <article data-motion-item data-hover="lift" className="rounded-[1.55rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
       {leadFly ? (
         <a href={`/flies/${leadFly.slug}`} className="mb-5 block overflow-hidden rounded-[1.2rem] border border-stone-900/8 bg-[#f5f1e8]">
           <img src={leadFly.image} alt={`${leadFly.name} fly pattern`} className="h-36 w-full object-cover transition duration-300 hover:scale-[1.03]" loading="lazy" />
@@ -162,7 +163,7 @@ function GuideCard({ guide }) {
 
 function FlyCard({ fly, showCategory = true }) {
   return (
-    <li className="rounded-[1.65rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+    <li data-motion-item data-hover="lift" className="rounded-[1.65rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
       {fly.image ? (
         <a href={`/flies/${fly.slug}`} className="mb-5 block overflow-hidden rounded-[1.2rem] border border-stone-900/8 bg-[#f5f1e8]">
           <img src={fly.image} alt={`${fly.name} fly pattern`} className="h-40 w-full object-cover transition duration-300 hover:scale-[1.03]" loading="lazy" />
@@ -210,9 +211,9 @@ function FlyCard({ fly, showCategory = true }) {
 
 function FAQBlock({ items }) {
   return (
-    <div className="grid gap-4">
+    <div data-motion-group="faq-items" data-motion-stagger="70" className="grid gap-4">
       {items.map((item) => (
-        <details key={item.question} className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+        <details key={item.question} data-motion-item className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
           <summary className="cursor-pointer list-none text-lg font-semibold tracking-tight text-stone-950">{item.question}</summary>
           <p className="mt-4 text-sm leading-7 text-stone-700">{item.answer}</p>
         </details>
@@ -228,7 +229,7 @@ function TextPanel({ eyebrow, title, body, tone = "white" }) {
       : "border border-stone-900/8 bg-white/82 shadow-[0_14px_36px_rgba(35,40,25,0.05)]";
 
   return (
-    <article className={`rounded-[1.45rem] p-5 ${toneClass}`}>
+    <article data-motion="reveal" data-hover="lift" className={`rounded-[1.45rem] p-5 ${toneClass}`}>
       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">{eyebrow}</p>
       <h3 className="mt-3 text-xl font-semibold tracking-tight text-stone-950">{title}</h3>
       <p className="mt-3 text-sm leading-7 text-stone-700">{body}</p>
@@ -238,9 +239,9 @@ function TextPanel({ eyebrow, title, body, tone = "white" }) {
 
 function BulletList({ items }) {
   return (
-    <ul className="grid gap-4">
+    <ul data-motion-group="bullet-list" className="grid gap-4">
       {items.map((item) => (
-        <li key={item} className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+        <li key={item} data-motion-item className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
           <p className="text-sm leading-7 text-stone-700">{item}</p>
         </li>
       ))}
@@ -250,15 +251,15 @@ function BulletList({ items }) {
 
 function AppCallout({ title, body, primaryLabel = "Join the Waiting List", secondaryLabel = "Support", secondaryHref = supportPageHref }) {
   return (
-    <aside className="rounded-[1.8rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-6 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)]">
+    <aside data-motion="reveal" data-hover="lift" className="rounded-[1.8rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-6 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)]">
       <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Blue Wing Labs</p>
       <h3 className="mt-4 max-w-[18ch] font-serif text-3xl leading-[0.98] tracking-[-0.04em]">{title}</h3>
       <p className="mt-4 max-w-[38rem] text-base leading-7 text-stone-300">{body}</p>
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-        <a href={appWaitlistHref} className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:-translate-y-0.5 hover:bg-stone-100">
+        <a href={appWaitlistHref} data-hover="lift" className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:-translate-y-0.5 hover:bg-stone-100">
           {primaryLabel}
         </a>
-        <a href={secondaryHref} className="inline-flex items-center justify-center rounded-full border border-white/16 bg-white/6 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-white/10">
+        <a href={secondaryHref} data-hover="lift" className="inline-flex items-center justify-center rounded-full border border-white/16 bg-white/6 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-white/10">
           {secondaryLabel}
         </a>
       </div>
@@ -287,24 +288,24 @@ function KnowledgeHeader() {
 
         <div className="flex items-center gap-3 md:gap-6">
           <nav aria-label="Knowledge" className="hidden items-center gap-7 text-sm text-stone-700 md:flex">
-            <a href={blueWingHomeHref} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+            <a href={blueWingHomeHref} className="motion-nav-link rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
               Product Home
             </a>
-            <a href={blueWingFlyLibraryHref} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+            <a href={blueWingFlyLibraryHref} className="motion-nav-link rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
               Fly Library
             </a>
-            <a href={`${blueWingFlyLibraryHref}#categories`} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+            <a href={`${blueWingFlyLibraryHref}#categories`} className="motion-nav-link rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
               Categories
             </a>
-            <a href={`${blueWingFlyLibraryHref}#featured-guides`} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+            <a href={`${blueWingFlyLibraryHref}#featured-guides`} className="motion-nav-link rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
               Guides
             </a>
-            <a href={supportPageHref} className="rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
+            <a href={supportPageHref} className="motion-nav-link rounded-full px-2 py-1 transition hover:bg-white/75 hover:text-stone-950">
               Support
             </a>
           </nav>
 
-          <a href={appWaitlistHref} className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800">
+          <a href={appWaitlistHref} data-hover="lift" className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800">
             Join the Waiting List
           </a>
         </div>
@@ -388,12 +389,12 @@ function HubPage({ page }) {
       <section className="px-5 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
           <Breadcrumbs items={[{ label: "Clarkii Outdoors", href: homeHref }, { label: "Blue Wing Labs", href: blueWingHomeHref }, { label: "Fly Library", href: blueWingFlyLibraryHref }]} />
-          <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Blue Wing Labs Learn</p>
-          <h1 className="mt-5 max-w-[12ch] font-serif text-[3.1rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">
+          <p data-motion="hub-eyebrow" className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Blue Wing Labs Learn</p>
+          <h1 data-motion="hub-title" className="mt-5 max-w-[12ch] font-serif text-[3.1rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">
             Fly tying guides built to be read, searched, and reused.
           </h1>
-          <p className="mt-6 max-w-[42rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{page.intro}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <p data-motion="hub-copy" className="mt-6 max-w-[42rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{page.intro}</p>
+          <div data-motion="hub-proof" className="mt-6 flex flex-wrap gap-3">
             <Pill>{appLibraryTotals.activeFlies} flies in the app</Pill>
             <Pill muted>{page.featuredCategories.length} public categories</Pill>
             <Pill muted>{page.featuredGuides.length}+ featured guides</Pill>
@@ -405,7 +406,7 @@ function HubPage({ page }) {
       <section id="categories" className="px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Categories" title="Browse the public fly categories first." body="Each category page explains what the group is for, highlights representative patterns, and links back into related guides and fly detail pages." />
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div data-motion-group="categories" className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {page.featuredCategories.map((category) => (
               <CategoryCard key={category.slug} category={category} />
             ))}
@@ -416,7 +417,7 @@ function HubPage({ page }) {
       <section id="featured-guides" className="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Guides" title="Long-form pages for anglers, tiers, and AI retrieval." body="These guide pages are written to be useful first: clear headings, practical summaries, related patterns, and enough structure to support both search indexing and real decision-making." />
-          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          <div data-motion-group="featured-guides" className="mt-10 grid gap-5 lg:grid-cols-2">
             {page.featuredGuides.map((guide) => (
               <GuideCard key={guide.slug} guide={guide} />
             ))}
@@ -454,10 +455,10 @@ function CategoryPage({ page }) {
       <section className="px-5 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
           <Breadcrumbs items={[{ label: "Clarkii Outdoors", href: homeHref }, { label: "Blue Wing Labs", href: blueWingHomeHref }, { label: "Fly Library", href: blueWingFlyLibraryHref }, { label: category.name, href: page.path }]} />
-          <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly category</p>
-          <h1 className="mt-5 max-w-[12ch] font-serif text-[3.1rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{category.name}</h1>
-          <p className="mt-6 max-w-[44rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{category.intro}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <p data-motion="hub-eyebrow" className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly category</p>
+          <h1 data-motion="hub-title" className="mt-5 max-w-[12ch] font-serif text-[3.1rem] leading-[0.92] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{category.name}</h1>
+          <p data-motion="hub-copy" className="mt-6 max-w-[44rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{category.intro}</p>
+          <div data-motion="hub-proof" className="mt-6 flex flex-wrap gap-3">
             <Pill>{flies.length} featured patterns</Pill>
             <Pill muted>{relatedGuides.length} related guides</Pill>
           </div>
@@ -474,16 +475,16 @@ function CategoryPage({ page }) {
             </div>
           </div>
 
-          <div className="rounded-[1.7rem] border border-emerald-900/10 bg-[#eef5ea] p-5 shadow-[0_16px_36px_rgba(35,40,25,0.05)]">
+          <div data-motion="reveal" data-hover="lift" className="rounded-[1.7rem] border border-emerald-900/10 bg-[#eef5ea] p-5 shadow-[0_16px_36px_rgba(35,40,25,0.05)]">
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-900">Blue Wing Labs angle</p>
             <p className="mt-3 text-lg font-semibold tracking-tight text-stone-950">
               Organize this category in the app, then use the public guide pages to compare patterns and related fly groups.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <a href={blueWingFlyLibraryHref} className="rounded-full bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
+              <a href={blueWingFlyLibraryHref} data-hover="lift" className="rounded-full bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
                 Explore the hub
               </a>
-              <a href={appWaitlistHref} className="rounded-full border border-stone-900/10 bg-white px-4 py-2.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-50">
+              <a href={appWaitlistHref} data-hover="lift" className="rounded-full border border-stone-900/10 bg-white px-4 py-2.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-50">
                 Explore this pattern in Blue Wing Labs
               </a>
             </div>
@@ -494,7 +495,7 @@ function CategoryPage({ page }) {
       <section className="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Pattern list" title={`Featured ${category.name.toLowerCase()} in the public hub.`} body="These fly pages are linked so anglers can move from category overview to individual pattern details without losing context." />
-          <ol className="mt-10 grid gap-5 md:grid-cols-2">
+          <ol data-motion-group="pattern-list" className="mt-10 grid gap-5 md:grid-cols-2">
             {flies.map((fly) => (
               <FlyCard key={fly.slug} fly={fly} showCategory={false} />
             ))}
@@ -515,7 +516,7 @@ function CategoryPage({ page }) {
       <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Related guides" title={`Guides that connect to ${category.name.toLowerCase()}.`} body="These long-form guides link the category back into broader trout-box questions, beginner pathways, and pattern comparisons." />
-          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          <div data-motion-group="related-guides" className="mt-10 grid gap-5 lg:grid-cols-2">
             {relatedGuides.map((guide) => (
               <GuideCard key={guide.slug} guide={guide} />
             ))}
@@ -543,10 +544,10 @@ function GuidePage({ page }) {
       <section className="px-5 pb-10 pt-14 sm:px-6 lg:px-8 lg:pb-14">
         <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/78 px-6 py-8 shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
           <Breadcrumbs items={[{ label: "Clarkii Outdoors", href: homeHref }, { label: "Blue Wing Labs", href: blueWingHomeHref }, { label: "Fly Library", href: blueWingFlyLibraryHref }, { label: "Guides", href: `${blueWingFlyLibraryHref}#featured-guides` }, { label: guide.title, href: page.path }]} />
-          <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Guide</p>
-          <h1 className="mt-5 max-w-[14ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{guide.title}</h1>
-          <p className="mt-6 max-w-[46rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{guide.intro}</p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <p data-motion="hub-eyebrow" className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Guide</p>
+          <h1 data-motion="hub-title" className="mt-5 max-w-[14ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{guide.title}</h1>
+          <p data-motion="hub-copy" className="mt-6 max-w-[46rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{guide.intro}</p>
+          <div data-motion="hub-proof" className="mt-6 flex flex-wrap gap-3">
             <Pill>{entries.length} recommended flies</Pill>
             <Pill muted>{relatedCategories.length} linked categories</Pill>
           </div>
@@ -557,7 +558,7 @@ function GuidePage({ page }) {
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
             <SectionHeading eyebrow="How to use this guide" title="Use the list to simplify the box, not expand it forever." body="The goal is not to carry everything. The goal is to identify the patterns that cover the clearest jobs, then keep them easy to find, easy to compare, and easy to tie again later." />
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div data-motion-group="guide-principles" className="mt-6 grid gap-4 md:grid-cols-3">
               {[
                 {
                   title: "Clear box role",
@@ -572,18 +573,18 @@ function GuidePage({ page }) {
                   body: "Every recommendation links to a fly page, category page, or related guide so the page works like a reference system instead of a dead-end article.",
                 },
               ].map((item) => (
-                <article key={item.title} className="rounded-[1.3rem] border border-stone-900/8 bg-white/82 p-4 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
+                <article key={item.title} data-motion-item data-hover="lift" className="rounded-[1.3rem] border border-stone-900/8 bg-white/82 p-4 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
                   <h3 className="text-base font-semibold text-stone-950">{item.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-stone-700">{item.body}</p>
                 </article>
               ))}
             </div>
           </div>
-          <div className="rounded-[1.7rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_36px_rgba(35,40,25,0.05)]">
+          <div data-motion="reveal" data-hover="lift" className="rounded-[1.7rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_16px_36px_rgba(35,40,25,0.05)]">
             <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Linked categories</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {relatedCategories.map((category) => (
-                <a key={category.slug} href={`/flies/${category.slug}`} className="rounded-full border border-stone-900/8 bg-stone-50 px-3 py-1.5 text-xs font-medium text-stone-700 transition hover:border-stone-900/18 hover:bg-white">
+                <a key={category.slug} href={`/flies/${category.slug}`} data-hover="lift" className="rounded-full border border-stone-900/8 bg-stone-50 px-3 py-1.5 text-xs font-medium text-stone-700 transition hover:border-stone-900/18 hover:bg-white">
                   {category.name}
                 </a>
               ))}
@@ -595,7 +596,7 @@ function GuidePage({ page }) {
       <section className="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Recommended patterns" title="The flies that make this guide worth opening." body="Each pattern below links to its own fly page and category page so the guide never becomes a dead-end content piece." />
-          <ol className="mt-10 grid gap-5 md:grid-cols-2">
+          <ol data-motion-group="recommended-patterns" className="mt-10 grid gap-5 md:grid-cols-2">
             {entries.map((fly) => (
               <FlyCard key={fly.slug} fly={fly} />
             ))}
@@ -615,7 +616,7 @@ function GuidePage({ page }) {
       <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Related guides" title="Keep moving through the knowledge graph." body="These connected guides share flies or category logic so you can continue exploring without losing context." />
-          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          <div data-motion-group="related-guides" className="mt-10 grid gap-5 lg:grid-cols-2">
             {relatedGuides.map((relatedGuide) => (
               <GuideCard key={relatedGuide.slug} guide={relatedGuide} />
             ))}
@@ -646,19 +647,19 @@ function FlyPage({ page }) {
           <Breadcrumbs items={[{ label: "Clarkii Outdoors", href: homeHref }, { label: "Blue Wing Labs", href: blueWingHomeHref }, { label: "Fly Library", href: blueWingFlyLibraryHref }, { label: category.name, href: `/flies/${category.slug}` }, { label: fly.name, href: page.path }]} />
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div>
-              <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly pattern</p>
-              <h1 className="mt-5 max-w-[12ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{fly.name}</h1>
-              <p className="mt-6 max-w-[40rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{page.intro}</p>
-              {supportLabel ? <p className="mt-4 max-w-[38rem] text-sm font-medium uppercase tracking-[0.18em] text-emerald-900/78">{supportLabel}</p> : null}
-              <div className="mt-6 flex flex-wrap gap-3">
+              <p data-motion="hub-eyebrow" className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Fly pattern</p>
+              <h1 data-motion="hub-title" className="mt-5 max-w-[12ch] font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">{fly.name}</h1>
+              <p data-motion="hub-copy" className="mt-6 max-w-[40rem] text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">{page.intro}</p>
+              {supportLabel ? <p data-motion="hub-copy" className="mt-4 max-w-[38rem] text-sm font-medium uppercase tracking-[0.18em] text-emerald-900/78">{supportLabel}</p> : null}
+              <div data-motion="hub-proof" className="mt-6 flex flex-wrap gap-3">
                 <Pill>{category.name}</Pill>
                 <Pill muted>{fly.difficulty}</Pill>
                 {fly.sizeRange ? <Pill muted>{fly.sizeRange}</Pill> : null}
               </div>
               {learnBullets.length ? (
-                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                <div data-motion-group="learn-bullets" className="mt-6 grid gap-3 sm:grid-cols-2">
                   {learnBullets.map((bullet) => (
-                    <div key={bullet} className="rounded-[1.1rem] border border-stone-900/8 bg-[#f5f1e8] px-4 py-4 text-sm leading-6 text-stone-700">
+                    <div key={bullet} data-motion-item className="rounded-[1.1rem] border border-stone-900/8 bg-[#f5f1e8] px-4 py-4 text-sm leading-6 text-stone-700">
                       {bullet}
                     </div>
                   ))}
@@ -666,7 +667,7 @@ function FlyPage({ page }) {
               ) : null}
             </div>
 
-            <div className="rounded-[1.8rem] border border-stone-900/8 bg-[#f5f1e8] p-5">
+            <div data-motion="reveal" data-hover="lift" className="rounded-[1.8rem] border border-stone-900/8 bg-[#f5f1e8] p-5">
               {fly.image ? (
                 <img src={fly.image} alt={`${fly.name} fly pattern`} className="h-56 w-full rounded-[1.4rem] object-cover" />
               ) : (
@@ -689,16 +690,16 @@ function FlyPage({ page }) {
             title={`${fly.name} in one organized view.`}
             body="This page is structured to stay useful as a real reference source: what the fly is, where it fits, what materials or steps are publicly available, why anglers keep it around, and where to go next in the Blue Wing Labs knowledge graph."
           />
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+          <div data-motion-group="fly-overview" className="mt-10 grid gap-5 lg:grid-cols-3">
+            <article data-motion-item data-hover="lift" className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Why it matters</p>
               <p className="mt-3 text-sm leading-7 text-stone-700">{fly.whyItMatters}</p>
             </article>
-            <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+            <article data-motion-item data-hover="lift" className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">When to use it</p>
               <p className="mt-3 text-sm leading-7 text-stone-700">{fly.whenToUse}</p>
             </article>
-            <article className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+            <article data-motion-item data-hover="lift" className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
               <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Category link</p>
               <a href={`/flies/${category.slug}`} className="mt-3 inline-flex text-lg font-semibold tracking-tight text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700">
                 Browse more {category.name.toLowerCase()}
@@ -719,13 +720,13 @@ function FlyPage({ page }) {
         <section className="bg-[#eef2e8] px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="mx-auto max-w-6xl">
             <SectionHeading eyebrow="Recipe Snapshot" title={`What the app keeps with ${fly.name}`} body="This section brings over the same recipe-shape context the app uses: hook guidance, core material logic, substitutions, and tying-sequence checkpoints." />
-            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <div data-motion-group="recipe-panels" className="mt-10 grid gap-5 lg:grid-cols-3">
               <TextPanel eyebrow="Hook" title={recipe.hook?.style || "Hook guidance"} body={[recipe.hook?.model, recipe.hook?.sizeRange, recipe.hook?.notes].filter(Boolean).join(" • ")} />
               <TextPanel eyebrow="Core materials" title="What stays consistent" body={recipe.coreMaterials.join(", ")} />
               <TextPanel eyebrow="Substitutions" title="Accepted swaps" body={recipe.acceptedSubstitutions?.length ? recipe.acceptedSubstitutions.join(", ") : "This public page does not list extra substitutions for this pattern yet."} />
             </div>
             {recipe.tyingSequence?.length || recipe.notes?.length ? (
-              <div className="mt-8 grid gap-5 lg:grid-cols-2">
+              <div data-motion-group="recipe-details" className="mt-8 grid gap-5 lg:grid-cols-2">
                 {recipe.tyingSequence?.length ? <TextPanel eyebrow="Sequence" title="Canonical tying flow" body={recipe.tyingSequence.join(", ")} tone="tint" /> : null}
                 {recipe.notes?.length ? <TextPanel eyebrow="Recipe notes" title="Additional notes" body={recipe.notes.join(" ")} tone="tint" /> : null}
               </div>
@@ -737,7 +738,7 @@ function FlyPage({ page }) {
       <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="About This Fly" title={`About ${fly.name}`} body="This section keeps the explanation practical and source-backed, using the structured library data plus broad category context without inventing unsupported technical detail." />
-          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          <div data-motion-group="about-panels" className="mt-10 grid gap-5 lg:grid-cols-2">
             {aboutParagraphs.map((paragraph, index) => (
               <TextPanel
                 key={paragraph}
@@ -762,7 +763,7 @@ function FlyPage({ page }) {
           <div>
             <SectionHeading eyebrow="Why It Works" title={`Why ${fly.name} works`} body="These points focus on the fly's role, visibility, versatility, and category logic rather than overly specific claims the public dataset does not support." />
             {appWhyItWorks ? (
-              <div className="mt-10 grid gap-4">
+              <div data-motion-group="why-panels" className="mt-10 grid gap-4">
                 {imitationTags.length ? <div className="flex flex-wrap gap-2">{imitationTags.map((tag) => <Pill key={tag} muted>{tag.replace(/-/g, " ")}</Pill>)}</div> : null}
                 <TextPanel eyebrow="Imitates" title="What it represents" body={appWhyItWorks.imitates} />
                 <TextPanel eyebrow="Where it excels" title="Best situations" body={appWhyItWorks.whereItExcels} />
@@ -781,13 +782,13 @@ function FlyPage({ page }) {
         <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="mx-auto max-w-6xl">
             <SectionHeading eyebrow="Video Lesson" title={`Watch ${fly.name} in motion`} body="When the app includes a lesson video, the public page links to it directly so anglers can move from reference reading into step-by-step watching." />
-            <article className="mt-10 overflow-hidden rounded-[1.8rem] border border-stone-900/8 bg-white/82 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
+            <article data-motion="reveal" data-hover="lift" className="mt-10 overflow-hidden rounded-[1.8rem] border border-stone-900/8 bg-white/82 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">
               {videoThumbnail ? <img src={videoThumbnail} alt={`${fly.name} video lesson thumbnail`} className="h-64 w-full object-cover" loading="lazy" /> : null}
               <div className="p-6">
                 <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Blue Wing Labs lesson</p>
                 <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Learn this pattern step by step</h3>
                 <p className="mt-3 max-w-[42rem] text-sm leading-7 text-stone-700">Open the linked lesson to compare the public recipe, the tying sequence, and the app’s guided teaching flow for {fly.name}.</p>
-                <a href={videoUrl} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center justify-center rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800">
+                <a href={videoUrl} target="_blank" rel="noreferrer" data-hover="lift" className="mt-5 inline-flex items-center justify-center rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800">
                   Watch the video lesson
                 </a>
               </div>
@@ -800,9 +801,9 @@ function FlyPage({ page }) {
         <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="mx-auto max-w-6xl">
             <SectionHeading eyebrow="Materials" title={`Materials for ${fly.name}`} body="These materials come from the app-backed fly record when available, which lets the public page mirror the practical tying list more closely." />
-            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div data-motion-group="materials" data-motion-stagger="80" className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {displayMaterials.map((material) => (
-                <article key={`${material.name}-${material.note || "material"}`} className="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
+                <article key={`${material.name}-${material.note || "material"}`} data-motion-item data-hover="lift" className="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Material</p>
                   <p className="mt-3 text-sm font-semibold leading-6 text-stone-900">{material.name}</p>
                   {material.note ? <p className="mt-2 text-sm leading-6 text-stone-700">{material.note}</p> : null}
@@ -817,9 +818,9 @@ function FlyPage({ page }) {
         <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="mx-auto max-w-6xl">
             <SectionHeading eyebrow="How To Tie It" title={`How to tie ${fly.name}`} body="The website now uses the app-backed step list where available so the public page follows a fuller tying sequence instead of only a short summary." />
-            <ol className="mt-10 grid gap-4">
+            <ol data-motion-group="steps" data-motion-stagger="90" className="mt-10 grid gap-4">
               {displaySteps.map((step, index) => (
-                <li key={step} className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+                <li key={step} data-motion-item data-hover="lift" className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Step {index + 1}</p>
                   <p className="mt-3 text-sm leading-7 text-stone-700">{step}</p>
                 </li>
@@ -840,17 +841,17 @@ function FlyPage({ page }) {
                 : null}
             </div>
             <div className="grid gap-5">
-              <ol className="grid gap-5 md:grid-cols-2">
+              <ol data-motion-group="related-flies" className="grid gap-5 md:grid-cols-2">
                 {relatedFlies.map((relatedFly) => (
                   <FlyCard key={relatedFly.slug} fly={relatedFly} />
                 ))}
               </ol>
               {recipe?.sourceLog?.length ? (
-                <div className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
+                <div data-motion="reveal" data-hover="lift" className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 p-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">
                   <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-stone-500">Source notes</p>
-                  <div className="mt-4 grid gap-3">
+                  <div data-motion-group="source-notes" className="mt-4 grid gap-3">
                     {recipe.sourceLog.map((source) => (
-                      <a key={`${source.label}-${source.url}`} href={source.url} target="_blank" rel="noreferrer" className="rounded-[1rem] border border-stone-900/8 bg-stone-50 px-4 py-4 text-sm leading-6 text-stone-700 transition hover:bg-white">
+                      <a key={`${source.label}-${source.url}`} href={source.url} target="_blank" rel="noreferrer" data-motion-item data-hover="lift" className="rounded-[1rem] border border-stone-900/8 bg-stone-50 px-4 py-4 text-sm leading-6 text-stone-700 transition hover:bg-white">
                         <span className="font-semibold text-stone-950">{source.label}</span>
                         {source.notes ? <span>{` - ${source.notes}`}</span> : null}
                       </a>
@@ -875,7 +876,7 @@ function FlyPage({ page }) {
       <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Related Guides" title={`Related guides for ${fly.name}`} body="These guides connect the pattern back into broader beginner, trout, seasonal, and category-level decisions." />
-          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          <div data-motion-group="related-guides" className="mt-10 grid gap-5 lg:grid-cols-2">
             {relatedGuides.map((guide) => (
               <GuideCard key={guide.slug} guide={guide} />
             ))}
@@ -898,17 +899,17 @@ function FlyPage({ page }) {
 function NotFoundPage() {
   return (
     <section className="px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-      <div className="mx-auto max-w-4xl rounded-[2rem] border border-stone-900/8 bg-white/82 px-6 py-8 text-center shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
-        <p className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Not found</p>
-        <h1 className="mt-5 font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">This guide or fly page is not available yet.</h1>
-        <p className="mt-6 text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">
+      <div data-motion="reveal" data-hover="lift" className="mx-auto max-w-4xl rounded-[2rem] border border-stone-900/8 bg-white/82 px-6 py-8 text-center shadow-[0_20px_55px_rgba(32,38,28,0.06)] sm:px-8 lg:px-10">
+        <p data-motion="hub-eyebrow" className="text-[0.74rem] font-semibold uppercase tracking-[0.34em] text-amber-800">Not found</p>
+        <h1 data-motion="hub-title" className="mt-5 font-serif text-[3rem] leading-[0.94] tracking-[-0.05em] text-stone-950 sm:text-[4rem]">This guide or fly page is not available yet.</h1>
+        <p data-motion="hub-copy" className="mt-6 text-[1.02rem] leading-7 text-stone-700 sm:text-[1.1rem] sm:leading-8">
           Return to the Blue Wing Labs learning hub to browse available categories, guides, and public fly detail pages.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <a href={blueWingFlyLibraryHref} className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
+          <a href={blueWingFlyLibraryHref} data-hover="lift" className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
             Open Fly Library
           </a>
-          <a href="/" className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-50">
+          <a href="/" data-hover="lift" className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-50">
             Return Home
           </a>
         </div>
@@ -919,10 +920,23 @@ function NotFoundPage() {
 
 export default function KnowledgeRouter({ path }) {
   const page = resolveKnowledgeRoute(path);
+  const pageRef = useRef(null);
   usePageHead(page);
+  usePageAnimations(
+    pageRef,
+    {
+      heroSequence: [
+        '[data-motion="hub-eyebrow"]',
+        '[data-motion="hub-title"]',
+        '[data-motion="hub-copy"]',
+        '[data-motion="hub-proof"]',
+      ],
+    },
+    [path],
+  );
 
   return (
-    <div className="min-h-screen bg-[#f5f1e8] text-stone-900">
+    <div ref={pageRef} className="min-h-screen bg-[#f5f1e8] text-stone-900">
       <div className="absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(circle_at_top,rgba(112,140,93,0.2),transparent_36%),linear-gradient(180deg,#edf1e6_0%,#f5f1e8_58%)]" />
       <KnowledgeHeader />
       <main id="main-content">
