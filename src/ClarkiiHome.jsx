@@ -53,7 +53,7 @@ export default function ClarkiiHome() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
           <a href={homeHref} className="flex items-center gap-3">
             <img
-              src="/brand/clarkii-outdoors-logo.svg"
+              src="/brand/clarkii-outdoors-logo.png"
               alt="Clarkii Outdoors logo"
               className="h-12 w-12 rounded-full object-contain shadow-[0_10px_28px_rgba(24,38,30,0.16)] sm:h-14 sm:w-14"
             />
