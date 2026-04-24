@@ -11,6 +11,7 @@ import {
   siteName,
   supportEmail,
 } from "../src/knowledgeCore.js";
+import { buildFlyEducationalCallouts } from "../src/data/educationalCallouts.js";
 import { getAppShellRoutes } from "../src/siteRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -146,6 +147,75 @@ function renderSourceLog(sourceLog = []) {
         </a>`,
     )
     .join("");
+}
+
+function renderEducationalCallout(callout) {
+  if (!callout) {
+    return "";
+  }
+
+  const variants = {
+    "Fish Behavior": {
+      shell: "border-emerald-900/12 bg-[linear-gradient(180deg,#f5f8f1_0%,#eef4ea_100%)]",
+      icon: "bg-emerald-900 text-emerald-50",
+      eyebrow: "text-emerald-900",
+      detail: "border-emerald-900/10 bg-white/72 text-stone-700",
+    },
+    "River Reading": {
+      shell: "border-sky-900/10 bg-[linear-gradient(180deg,#f2f6f7_0%,#eaf0f1_100%)]",
+      icon: "bg-slate-700 text-stone-50",
+      eyebrow: "text-slate-700",
+      detail: "border-slate-700/10 bg-white/72 text-stone-700",
+    },
+    "Fly Tying": {
+      shell: "border-amber-900/12 bg-[linear-gradient(180deg,#faf4e8_0%,#f3ebdc_100%)]",
+      icon: "bg-amber-700 text-amber-50",
+      eyebrow: "text-amber-900",
+      detail: "border-amber-900/10 bg-white/76 text-stone-700",
+    },
+    "Gear Insight": {
+      shell: "border-stone-900/10 bg-[linear-gradient(180deg,#f7f4ef_0%,#f0ece3_100%)]",
+      icon: "bg-stone-800 text-stone-50",
+      eyebrow: "text-stone-700",
+      detail: "border-stone-900/8 bg-white/76 text-stone-700",
+    },
+    "App Intelligence": {
+      shell: "border-[#183227]/12 bg-[linear-gradient(180deg,#edf4ef_0%,#e5efe9_100%)]",
+      icon: "bg-[#183227] text-stone-50",
+      eyebrow: "text-[#183227]",
+      detail: "border-[#183227]/10 bg-white/72 text-stone-700",
+    },
+  };
+
+  const icons = {
+    "Fish Behavior": "FB",
+    "River Reading": "RR",
+    "Fly Tying": "FT",
+    "Gear Insight": "GI",
+    "App Intelligence": "AI",
+  };
+
+  const style = variants[callout.variant] || variants["App Intelligence"];
+  const icon = callout.icon || icons[callout.variant] || "AI";
+  const details = (callout.details || []).filter(Boolean).slice(0, 3);
+
+  return `
+    <article class="rounded-[1.7rem] border p-5 shadow-[0_16px_34px_rgba(35,40,25,0.05)] sm:p-6 ${style.shell}">
+      <div class="flex items-start gap-4">
+        <div aria-hidden="true" class="inline-flex size-11 shrink-0 items-center justify-center rounded-2xl text-[0.72rem] font-semibold uppercase tracking-[0.18em] ${style.icon}">${escapeHtml(icon)}</div>
+        <div class="min-w-0">
+          <p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] ${style.eyebrow}">${escapeHtml(callout.eyebrow || callout.variant || "Insight")}</p>
+          <h3 class="mt-3 text-[1.15rem] font-semibold leading-6 tracking-tight text-stone-950 sm:text-xl">${escapeHtml(callout.title)}</h3>
+          <p class="mt-3 text-sm leading-7 text-stone-700 sm:text-[0.98rem]">${escapeHtml(callout.body)}</p>
+        </div>
+      </div>
+      ${details.length ? `<div class="mt-5 flex flex-wrap gap-2">${details
+        .map(
+          (detail) =>
+            `<span class="rounded-full border px-3 py-1.5 text-[0.72rem] font-medium tracking-[0.01em] ${style.detail}">${escapeHtml(detail)}</span>`,
+        )
+        .join("")}</div>` : ""}
+    </article>`;
 }
 
 function pageShell(page, innerHtml) {
@@ -412,6 +482,7 @@ function renderPageBody(page) {
         <div>
           <h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Why ${escapeHtml(page.fly.name)} works</h2>
           <p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These points focus on the fly's role, visibility, versatility, and category logic rather than overly specific claims the public dataset does not support.</p>
+          <div class="mt-8 max-w-[44rem]">${renderEducationalCallout(buildFlyEducationalCallouts(page).condition)}</div>
           ${page.appWhyItWorks ? `<div class="mt-10 grid gap-4">${page.imitationTags?.length ? `<div class="flex flex-wrap gap-2">${page.imitationTags
             .map(
               (tag) => `<span class="rounded-full border border-stone-900/8 bg-white/70 px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-stone-700">${escapeHtml(tag.replace(/-/g, " "))}</span>`,
@@ -425,8 +496,8 @@ function renderPageBody(page) {
       </div>
     </section>
     ${page.videoUrl ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Watch ${escapeHtml(page.fly.name)} in motion</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">When the app includes a lesson video, the public page links to it directly so anglers can move from reference reading into step-by-step watching.</p><article class="mt-10 overflow-hidden rounded-[1.8rem] border border-stone-900/8 bg-white/82 shadow-[0_16px_40px_rgba(35,40,25,0.05)]">${page.videoThumbnail ? `<img src="${escapeHtml(page.videoThumbnail)}" alt="${escapeHtml(`${page.fly.name} video lesson thumbnail`)}" class="h-64 w-full object-cover" loading="lazy" />` : ""}<div class="p-6"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Blue Wing Labs lesson</p><h3 class="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Learn this pattern step by step</h3><p class="mt-3 max-w-[42rem] text-sm leading-7 text-stone-700">Open the linked lesson to compare the public recipe, the tying sequence, and the app's guided teaching flow for ${escapeHtml(page.fly.name)}.</p><a href="${escapeHtml(page.videoUrl)}" target="_blank" rel="noreferrer" class="mt-5 inline-flex items-center justify-center rounded-full bg-stone-950 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800">Watch the video lesson</a></div></article></div></section>` : ""}
-    ${page.displayMaterials?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Materials for ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These materials come from the app-backed fly record when available, which lets the public page mirror the practical tying list more closely.</p><div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">${renderMaterialCards(page.displayMaterials)}</div></div></section>` : ""}
-    ${page.displaySteps?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">How to tie ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">The website now uses the app-backed step list where available so the public page follows a fuller tying sequence instead of only a short summary.</p><ol class="mt-10 grid gap-4">${page.displaySteps
+    ${page.displayMaterials?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Materials for ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These materials come from the app-backed fly record when available, which lets the public page mirror the practical tying list more closely.</p><div class="mt-8 max-w-[44rem]">${renderEducationalCallout(buildFlyEducationalCallouts(page).material)}</div><div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">${renderMaterialCards(page.displayMaterials)}</div></div></section>` : ""}
+    ${page.displaySteps?.length ? `<section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">How to tie ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">The website now uses the app-backed step list where available so the public page follows a fuller tying sequence instead of only a short summary.</p><div class="mt-8 max-w-[44rem]">${renderEducationalCallout(buildFlyEducationalCallouts(page).tying)}</div><ol class="mt-10 grid gap-4">${page.displaySteps
           .map((step, index) => `<li class="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"><p class="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Step ${index + 1}</p><p class="mt-3 text-sm leading-7 text-stone-700">${escapeHtml(step)}</p></li>`)
           .join("")}</ol></div></section>` : ""}
     <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">

@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { usePageAnimations } from "./lib/animations";
+import EducationalCallout from "./components/EducationalCallout";
+import { buildFlyEducationalCallouts } from "./data/educationalCallouts";
 import {
   appLibraryTotals,
   appWaitlistHref,
@@ -639,6 +641,7 @@ function GuidePage({ page }) {
 function FlyPage({ page }) {
   const { fly, category, relatedFlies, relatedGuides, faq, aboutParagraphs, whenToUsePoints, whyItWorksPoints, similarPatternsIntro, displayMaterials, displaySteps, learnBullets, supportLabel, imitationTags, recipe, videoUrl, videoThumbnail, appWhyItWorks } = page;
   const flyTags = [...new Set([...fly.tags, ...imitationTags])];
+  const educationalCallouts = buildFlyEducationalCallouts(page);
 
   return (
     <>
@@ -762,6 +765,9 @@ function FlyPage({ page }) {
 
           <div>
             <SectionHeading eyebrow="Why It Works" title={`Why ${fly.name} works`} body="These points focus on the fly's role, visibility, versatility, and category logic rather than overly specific claims the public dataset does not support." />
+            <div className="mt-8">
+              <EducationalCallout {...educationalCallouts.condition} />
+            </div>
             {appWhyItWorks ? (
               <div data-motion-group="why-panels" className="mt-10 grid gap-4">
                 {imitationTags.length ? <div className="flex flex-wrap gap-2">{imitationTags.map((tag) => <Pill key={tag} muted>{tag.replace(/-/g, " ")}</Pill>)}</div> : null}
@@ -801,6 +807,9 @@ function FlyPage({ page }) {
         <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="mx-auto max-w-6xl">
             <SectionHeading eyebrow="Materials" title={`Materials for ${fly.name}`} body="These materials come from the app-backed fly record when available, which lets the public page mirror the practical tying list more closely." />
+            <div className="mt-8 max-w-[44rem]">
+              <EducationalCallout {...educationalCallouts.material} />
+            </div>
             <div data-motion-group="materials" data-motion-stagger="80" className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {displayMaterials.map((material) => (
                 <article key={`${material.name}-${material.note || "material"}`} data-motion-item data-hover="lift" className="rounded-[1.35rem] border border-stone-900/8 bg-white/84 p-5 shadow-[0_12px_28px_rgba(35,40,25,0.04)]">
@@ -818,6 +827,9 @@ function FlyPage({ page }) {
         <section className="px-5 py-14 sm:px-6 lg:px-8 lg:py-18">
           <div className="mx-auto max-w-6xl">
             <SectionHeading eyebrow="How To Tie It" title={`How to tie ${fly.name}`} body="The website now uses the app-backed step list where available so the public page follows a fuller tying sequence instead of only a short summary." />
+            <div className="mt-8 max-w-[44rem]">
+              <EducationalCallout {...educationalCallouts.tying} />
+            </div>
             <ol data-motion-group="steps" data-motion-stagger="90" className="mt-10 grid gap-4">
               {displaySteps.map((step, index) => (
                 <li key={step} data-motion-item data-hover="lift" className="rounded-[1.45rem] border border-stone-900/8 bg-white/82 px-5 py-5 shadow-[0_14px_36px_rgba(35,40,25,0.05)]">

@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import ClarkiiHome from "./ClarkiiHome";
 import KnowledgeRouter from "./KnowledgePages";
 import { usePageAnimations } from "./lib/animations";
+import EducationalCallout from "./components/EducationalCallout";
+import { blueWingLabsCallouts } from "./data/educationalCallouts";
 import {
   blueWingFeaturesHref,
   blueWingFlyLibraryHref,
@@ -1182,6 +1184,24 @@ function BlueWingLabsHome({ focusSection = false }) {
                   <p className="mt-3 text-sm leading-6 text-stone-700">{card.body}</p>
                 </article>
               ))}
+            </div>
+
+            <div className="mt-8 border-t border-stone-900/8 pt-8">
+              <div data-motion="reveal" className="max-w-[42rem]">
+                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.32em] text-amber-800">Outdoor intelligence</p>
+                <h3 className="mt-4 max-w-[18ch] font-serif text-[2rem] leading-[1.02] tracking-[-0.04em] text-stone-950 sm:text-[2.45rem]">
+                  Short insights that make the app feel more useful before the next cast.
+                </h3>
+                <p className="mt-4 max-w-[38rem] text-sm leading-7 text-stone-700 sm:text-[0.98rem]">
+                  These callouts keep the educational side of Blue Wing Labs close to the product story: cleaner pattern logic, calmer material prep, and better decisions once fish position starts changing.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-5 lg:grid-cols-3">
+                {blueWingLabsCallouts.map((callout) => (
+                  <EducationalCallout key={callout.title} {...callout} />
+                ))}
+              </div>
             </div>
           </div>
         </section>

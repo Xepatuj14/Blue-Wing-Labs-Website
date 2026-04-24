@@ -6,6 +6,8 @@ import {
 } from "./siteRoutes";
 import { useRouteHead } from "./routeHead";
 import { usePageAnimations } from "./lib/animations";
+import EducationalCallout from "./components/EducationalCallout";
+import { clarkiiHomeCallouts } from "./data/educationalCallouts";
 
 const contactHref = `mailto:${supportEmail}`;
 const instagramHref = "https://www.instagram.com/clarkii_outdoors?igsh=ajZiaG9kbHVvNGdl&utm_source=qr";
@@ -164,6 +166,24 @@ export default function ClarkiiHome() {
                 <p className="mt-4 text-sm leading-7 text-stone-700">{body}</p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="px-5 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+          <div className="mx-auto max-w-6xl rounded-[2rem] border border-stone-900/8 bg-white/76 p-6 shadow-[0_22px_50px_rgba(32,38,28,0.06)] sm:p-8 lg:p-10">
+            <div data-motion="reveal">
+              <SectionIntro
+                eyebrow="Outdoor Intelligence"
+                title="Field-tested notes that make better bench and water decisions."
+                body="Clarkii Outdoors turns practical fishing observations into cleaner, more reusable guidance. These short callouts keep the educational side of the brand visible without slowing the page down."
+              />
+            </div>
+
+            <div className="mt-10 grid gap-5 lg:grid-cols-2">
+              {clarkiiHomeCallouts.map((callout) => (
+                <EducationalCallout key={callout.title} {...callout} />
+              ))}
+            </div>
           </div>
         </section>
 
