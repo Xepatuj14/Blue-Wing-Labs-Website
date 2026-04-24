@@ -7,6 +7,8 @@ import { useRouteHead } from "./routeHead";
 
 const contactHref = `mailto:${supportEmail}`;
 const instagramHref = "https://www.instagram.com/clarkii_outdoors?igsh=ajZiaG9kbHVvNGdl&utm_source=qr";
+const darkButtonStyle = { color: "#f5f5f4", WebkitTextFillColor: "#f5f5f4" };
+const lightButtonStyle = { color: "#1c1917", WebkitTextFillColor: "#1c1917" };
 
 function SectionIntro({ eyebrow, title, body }) {
   return (
@@ -74,10 +76,10 @@ export default function ClarkiiHome() {
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href={blueWingHomeHref} className="inline-flex items-center justify-center rounded-full bg-[#183227] px-6 py-3.5 text-sm font-semibold text-stone-50 shadow-[0_18px_40px_rgba(24,38,30,0.22)] transition hover:-translate-y-0.5 hover:bg-[#214031]">
+                <a href={blueWingHomeHref} className="inline-flex items-center justify-center rounded-full bg-[#183227] px-6 py-3.5 text-sm font-semibold text-stone-50 shadow-[0_18px_40px_rgba(24,38,30,0.22)] transition hover:-translate-y-0.5 hover:bg-[#214031]" style={darkButtonStyle}>
                   Explore Blue Wing Labs
                 </a>
-                <a href="#contact" className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white/80 px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-white">
+                <a href="#contact" className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white/80 px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-white" style={lightButtonStyle}>
                   Contact Clarkii
                 </a>
               </div>
@@ -194,7 +196,7 @@ export default function ClarkiiHome() {
                       <span className="rounded-full border border-stone-900/8 bg-stone-50 px-3 py-1.5">Materials tracking</span>
                       <span className="rounded-full border border-stone-900/8 bg-stone-50 px-3 py-1.5">Bench workflow</span>
                     </div>
-                    <a href={blueWingHomeHref} className="mt-6 inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800">
+                    <a href={blueWingHomeHref} className="mt-6 inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800" style={darkButtonStyle}>
                       Explore Blue Wing Labs
                     </a>
                   </div>
@@ -249,7 +251,7 @@ export default function ClarkiiHome() {
                   .
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <a href={contactHref} className="inline-flex items-center justify-center rounded-full bg-[#183227] px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-[#214031]">
+                  <a href={contactHref} className="inline-flex items-center justify-center rounded-full bg-[#183227] px-6 py-3.5 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-[#214031]" style={darkButtonStyle}>
                     Email Clarkii Outdoors
                   </a>
                   <a
@@ -257,10 +259,11 @@ export default function ClarkiiHome() {
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-stone-50"
+                    style={lightButtonStyle}
                   >
                     Follow on Instagram
                   </a>
-                  <a href={blueWingHomeHref} className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-stone-50">
+                  <a href={blueWingHomeHref} className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-white px-6 py-3.5 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-stone-50" style={lightButtonStyle}>
                     Visit Blue Wing Labs
                   </a>
                 </div>
