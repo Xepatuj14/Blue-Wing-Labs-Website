@@ -86,7 +86,14 @@ export default function ClarkiiHome() {
               <div className="absolute left-10 right-10 top-10 h-72 rounded-full bg-[radial-gradient(circle,rgba(83,120,105,0.22),transparent_70%)] blur-3xl" />
               <div className="relative grid gap-4 rounded-[2.4rem] border border-stone-900/8 bg-[linear-gradient(145deg,rgba(24,50,39,0.94),rgba(15,31,24,0.98))] p-5 shadow-[0_28px_75px_rgba(18,28,22,0.24)] lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
                 <div className="grid gap-4">
-                  <img src="/fly-images/parachute-adams.jpg" alt="Parachute Adams fly" className="h-44 w-full rounded-[1.5rem] object-cover shadow-[0_18px_34px_rgba(10,16,12,0.24)]" />
+                  <div className="flex h-44 items-end rounded-[1.5rem] border border-white/10 bg-[linear-gradient(160deg,#314e3f_0%,#22382d_58%,#17271f_100%)] p-5 shadow-[0_18px_34px_rgba(10,16,12,0.24)]">
+                    <div>
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-200/90">Clarkii system</p>
+                      <p className="mt-3 max-w-[14rem] font-serif text-3xl leading-[0.95] tracking-[-0.04em] text-stone-50">
+                        Outdoor tools with cleaner workflows.
+                      </p>
+                    </div>
+                  </div>
                   <div className="rounded-[1.5rem] border border-white/10 bg-white/8 p-4 text-stone-50">
                     <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-200/90">Field-tested</p>
                     <p className="mt-3 text-lg font-semibold tracking-tight">Built for real sessions, not polished mock workflows.</p>
@@ -97,7 +104,28 @@ export default function ClarkiiHome() {
                 </div>
 
                 <div className="rounded-[2rem] border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-4">
-                  <img src="/app-screens/detail-screen.png" alt="Blue Wing Labs app detail screen" className="mx-auto w-full max-w-[22rem] rounded-[1.7rem] border border-white/10 bg-white/90 shadow-[0_24px_55px_rgba(10,16,12,0.24)]" />
+                  <div className="mx-auto grid w-full max-w-[22rem] gap-3 rounded-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,#f5f1e8_0%,#e8e0cf_100%)] p-5 text-stone-900 shadow-[0_24px_55px_rgba(10,16,12,0.24)]">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-stone-500">Clarkii roadmap</p>
+                      <span className="rounded-full bg-[#183227] px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-stone-50">
+                        Parent brand
+                      </span>
+                    </div>
+                    <div className="rounded-[1.25rem] border border-stone-900/8 bg-white/75 p-4">
+                      <p className="text-sm font-semibold text-stone-950">Blue Wing Labs</p>
+                      <p className="mt-2 text-sm leading-6 text-stone-700">Fly tying companion app for organized recipes, materials, and bench workflow.</p>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-[1.15rem] bg-white/75 px-4 py-3">
+                        <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-stone-500">Current focus</p>
+                        <p className="mt-2 text-sm font-medium text-stone-900">Angler utility products</p>
+                      </div>
+                      <div className="rounded-[1.15rem] bg-white/75 px-4 py-3">
+                        <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-stone-500">Next up</p>
+                        <p className="mt-2 text-sm font-medium text-stone-900">More creator and outdoor tools</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -132,7 +160,25 @@ export default function ClarkiiHome() {
               <article className="rounded-[2rem] border border-stone-900/8 bg-white/84 p-6 shadow-[0_22px_50px_rgba(32,38,28,0.08)] sm:p-8">
                 <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
                   <div className="rounded-[1.7rem] border border-stone-900/8 bg-[#f5f1e8] p-4">
-                    <img src="/app-screens/learn-screen.png" alt="Blue Wing Labs Learn screen" className="mx-auto w-full max-w-[22rem] rounded-[1.7rem] border border-stone-900/8 bg-white" />
+                    <div className="mx-auto grid w-full max-w-[22rem] gap-3 rounded-[1.7rem] border border-stone-900/8 bg-white p-5">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-stone-500">Featured product</p>
+                        <span className="rounded-full bg-[#183227] px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-stone-50">
+                          Live now
+                        </span>
+                      </div>
+                      <div className="rounded-[1.2rem] bg-[#eef2e8] px-4 py-4">
+                        <p className="text-sm font-semibold text-stone-950">Blue Wing Labs</p>
+                        <p className="mt-2 text-sm leading-6 text-stone-700">Fly tying companion app</p>
+                      </div>
+                      <div className="grid gap-3">
+                        {["Organized recipes", "Materials tracking", "Smarter bench workflow"].map((item) => (
+                          <div key={item} className="rounded-[1rem] border border-stone-900/8 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-800">
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                   <div>
