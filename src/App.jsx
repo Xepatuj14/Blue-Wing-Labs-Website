@@ -11,13 +11,14 @@ import {
   blueWingPrivacyPageHref,
   blueWingSupportPageHref,
   blueWingTermsPageHref,
+  appStoreHref,
   homeHref,
   normalizePath,
   supportEmail,
 } from "./siteRoutes";
 import { useRouteHead, useSectionJump } from "./routeHead";
 
-const downloadHref = "#access";
+const downloadHref = appStoreHref;
 const supportHref = `mailto:${supportEmail}`;
 const supportLabel = supportEmail;
 const supportPageHref = blueWingSupportPageHref;
@@ -30,7 +31,7 @@ const libraryTotals = {
   categories: 9,
 };
 const appBrandStatement = "Built to feel calm at the bench and useful on the water.";
-const availabilityFacts = ["iPhone and iPad release", "Launch updates by email", "Direct support from Blue Wing Labs"];
+const availabilityFacts = ["iPhone and iPad app", "Release updates by email", "Direct support from Blue Wing Labs"];
 const workflowSnapshots = [
   {
     title: "Browse patterns without the usual clutter",
@@ -47,12 +48,12 @@ const workflowSnapshots = [
 ];
 
 const conversionPoints = [
-  "Join the waiting list for first access",
-  "Get launch updates by email",
-  "Be first to hear when iPhone and iPad access opens",
+  "Download on the App Store",
+  "Built for iPhone and iPad",
+  "Direct support from Blue Wing Labs",
 ];
 const footerStatus = [
-  "Current status: iPhone and iPad release path",
+  "Current status: iPhone and iPad app",
   "Requests handled directly by email",
   "Product screenshots reflect the current app",
 ];
@@ -208,7 +209,7 @@ const launchNotes = [
   },
   {
     title: "iPhone and iPad release path",
-    body: "The current product is being prepared for iPhone and iPad, with access and release updates handled directly through Blue Wing Labs.",
+    body: "Blue Wing Labs is available for iPhone and iPad, with support and product updates handled directly through Blue Wing Labs.",
   },
 ];
 
@@ -254,12 +255,12 @@ const faqItems = [
   {
     question: "How do I get access?",
     answer:
-      "Waitlist signup and release updates are currently handled directly through Blue Wing Labs. Use the waitlist section below, visit the support page, or email clarkiioutdoors@gmail.com to ask about availability, join the waiting list, or stay in the loop on launch updates.",
+      "Blue Wing Labs is available on the App Store. Use the App Store link on this page, visit the support page, or email clarkiioutdoors@gmail.com if you have questions.",
   },
   {
     question: "What platforms are planned first?",
     answer:
-      "Blue Wing Labs is currently being prepared for iPhone and iPad. The website reflects the product direction and current app experience, while availability details are shared directly by Blue Wing Labs.",
+      "Blue Wing Labs is built for iPhone and iPad. The website reflects the product direction and current app experience, while availability details are shared directly by Blue Wing Labs.",
   },
 ];
 
@@ -288,7 +289,7 @@ const footerGroups = [
     links: [
       { label: "Why It Exists", href: "#why-this-app-exists" },
       { label: "Who it's for", href: "#who-its-for" },
-      { label: "Join the Waiting List", href: "#access" },
+      { label: "App Store", href: downloadHref },
       { label: "Contact", href: "#contact" },
     ],
   },
@@ -402,7 +403,7 @@ function AccessRequestForm() {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
-    focus: "Join the waiting list",
+    focus: "Product question or feedback",
     note: "",
   });
 
@@ -475,10 +476,10 @@ function AccessRequestForm() {
       setFormState({
         name: "",
         email: "",
-        focus: "Join the waiting list",
+        focus: "Product question or feedback",
         note: "",
       });
-      setFeedback("Waitlist request received. Blue Wing Labs can now follow up by email about launch timing or release updates.");
+      setFeedback("Request received. Blue Wing Labs can now follow up by email.");
     } catch (submissionError) {
       setError(submissionError instanceof Error ? submissionError.message : "Unable to submit the request.");
     } finally {
@@ -492,10 +493,10 @@ function AccessRequestForm() {
       data-motion="reveal"
       className="rounded-[1.7rem] border border-stone-900/8 bg-white/82 p-6 shadow-[0_14px_36px_rgba(35,40,25,0.05)]"
     >
-      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Waiting list</p>
-      <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Join the waiting list or get updates.</h3>
+      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Contact</p>
+      <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Ask a question or get updates.</h3>
       <p className="mt-3 text-sm leading-6 text-stone-700">
-        This form sends your note directly to Blue Wing Labs for waitlist signup, release updates, or availability questions.
+        This form sends your note directly to Blue Wing Labs for support, product questions, feedback, or update requests.
       </p>
       <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-900/10 bg-emerald-50 px-3 py-1.5 text-[0.72rem] font-medium text-emerald-950">
         <span className="inline-flex size-5 items-center justify-center rounded-full bg-emerald-900 text-[0.65rem] font-semibold text-emerald-50">
@@ -544,9 +545,9 @@ function AccessRequestForm() {
             onChange={handleChange}
             className="rounded-[1rem] border border-stone-900/10 bg-stone-50 px-4 py-3 text-sm text-stone-900 outline-none transition focus:border-stone-900/30 focus:bg-white"
           >
-            <option>Join the waiting list</option>
-            <option>Release and launch updates</option>
-            <option>Question about availability</option>
+            <option>Product question or feedback</option>
+            <option>Release updates</option>
+            <option>Support question</option>
           </select>
           <span className="text-xs text-stone-500">Choose the closest option and Blue Wing Labs can follow up directly.</span>
         </label>
@@ -578,7 +579,7 @@ function AccessRequestForm() {
           className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-stone-800"
           style={primaryCtaStyle}
         >
-          {isSubmitting ? "Joining Waitlist..." : "Join the Waiting List"}
+          {isSubmitting ? "Sending Request..." : "Send Request"}
         </button>
         <a
           href={supportHref}
@@ -589,7 +590,7 @@ function AccessRequestForm() {
       </div>
 
       <p className="mt-4 text-xs leading-5 text-stone-500">
-        Blue Wing Labs follows up by email about waitlist status and release timing. No account is created on this website.
+        Blue Wing Labs follows up by email. No account is created on this website.
       </p>
       {feedback ? (
         <p className="mt-3 rounded-[1rem] border border-emerald-900/10 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900" aria-live="polite">
@@ -973,11 +974,13 @@ function BlueWingLabsHome({ focusSection = false }) {
 
             <a
               href={downloadHref}
+              target="_blank"
+              rel="noreferrer"
               data-hover="lift"
               className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800"
               style={primaryCtaStyle}
             >
-              Join the Waiting List
+              Download on the App Store
             </a>
           </div>
         </div>
@@ -1004,11 +1007,13 @@ function BlueWingLabsHome({ focusSection = false }) {
               <div data-motion="bwl-cta" className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={downloadHref}
+                  target="_blank"
+                  rel="noreferrer"
                   data-hover="lift"
                   className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold shadow-[0_16px_36px_rgba(16,20,15,0.2)] transition hover:-translate-y-0.5 hover:bg-stone-800"
                   style={primaryCtaStyle}
                 >
-                  Join the Waiting List
+                  Download on the App Store
                 </a>
                 <a
                   href={blueWingFlyLibraryHref}
@@ -1038,7 +1043,7 @@ function BlueWingLabsHome({ focusSection = false }) {
                   ))}
                 </div>
                 <p className="mt-3 text-sm leading-6 text-stone-700">
-                  Want first access when Blue Wing Labs launches? Reach out at{" "}
+                  Questions about Blue Wing Labs? Reach out at{" "}
                   <a href={supportHref} className="font-semibold text-stone-950 underline decoration-stone-300 underline-offset-4 transition hover:decoration-stone-700">
                     {supportLabel}
                   </a>
@@ -1264,12 +1269,12 @@ function BlueWingLabsHome({ focusSection = false }) {
           <div data-motion="reveal" className="mx-auto max-w-6xl rounded-[2rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-8 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)] sm:px-8 lg:px-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Early Access</p>
+                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Now on the App Store</p>
                 <h2 className="mt-4 max-w-[14ch] font-serif text-3xl leading-[0.98] tracking-[-0.04em] text-stone-50 sm:text-[3.35rem]">
                   Want the calmer version of fly tying in your pocket?
                 </h2>
                 <p className="mt-4 max-w-[40rem] text-base leading-7 text-stone-300 sm:text-lg sm:leading-8">
-                  Join the waitlist now and be first to hear when Blue Wing Labs opens access on iPhone and iPad.
+                  Download Blue Wing Labs from the App Store and keep the calmer version of fly tying close at the bench.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-stone-200">
                   {conversionPoints.map((item) => (
@@ -1284,10 +1289,12 @@ function BlueWingLabsHome({ focusSection = false }) {
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                 <a
                   href={downloadHref}
+                  target="_blank"
+                  rel="noreferrer"
                   data-hover="lift"
                   className="inline-flex items-center justify-center rounded-full border border-red-200/55 bg-red-500 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_16px_36px_rgba(16,20,15,0.24)] transition hover:-translate-y-0.5 hover:bg-red-400"
                 >
-                  Get Early Access
+                  Download on the App Store
                 </a>
                 <a
                   href="#screens"
@@ -1496,14 +1503,14 @@ function BlueWingLabsHome({ focusSection = false }) {
             <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-start">
               <div data-motion="reveal">
                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-900/10 bg-white/74 px-3 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-emerald-950 shadow-[0_10px_24px_rgba(35,40,25,0.04)]">
-                  Limited release
+                  Support
                 </div>
-                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.28em] text-amber-800">App Availability</p>
+                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.28em] text-amber-800">Questions And Updates</p>
                 <h2 className="mt-4 max-w-3xl font-serif text-3xl leading-tight tracking-tight text-stone-950 sm:text-4xl">
-                  Join the waiting list for first access to Blue Wing Labs.
+                  Need help or want product updates for Blue Wing Labs?
                 </h2>
                 <p className="mt-4 max-w-2xl text-base leading-7 text-stone-800 sm:text-lg">
-                  Blue Wing Labs helps you learn patterns, stay organized, and return to the bench with less friction. Use this form to join the waiting list, ask about app availability, or get notified the moment access opens.
+                  Blue Wing Labs helps you learn patterns, stay organized, and return to the bench with less friction. Use this form for support questions, feedback, or product update requests.
                 </p>
                 <div data-motion-group="access-trust-points" className="mt-5 flex flex-wrap gap-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-stone-600">
                   {trustPoints.map((point) => (
@@ -1527,9 +1534,9 @@ function BlueWingLabsHome({ focusSection = false }) {
                   ))}
                 </div>
                 <p className="mt-6 max-w-[34rem] text-sm leading-6 text-stone-700">
-                  If you want early access, launch updates, or a heads-up the moment the app opens, use the waitlist form here.
+                  For install details, use the App Store button above. For questions, feedback, or product update requests, use this form.
                 </p>
-                <p className="mt-3 text-sm font-medium text-stone-600">Best for people who want product replies, waitlist details, or a launch heads-up without hunting through social posts.</p>
+                <p className="mt-3 text-sm font-medium text-stone-600">Best for people who want a direct product reply from Blue Wing Labs.</p>
               </div>
 
               <div id="contact">
@@ -1563,7 +1570,7 @@ function BlueWingLabsHome({ focusSection = false }) {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">{group.title}</p>
               <div className="mt-3 flex flex-col gap-3">
                 {group.links.map((link) => (
-                  <a key={link.href} href={link.href} className="motion-nav-link transition hover:text-stone-950">
+                  <a key={link.href} href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined} className="motion-nav-link transition hover:text-stone-950">
                     {link.label}
                   </a>
                 ))}

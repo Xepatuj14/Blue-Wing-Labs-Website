@@ -1,7 +1,7 @@
 import { flyLibrary } from "./flyLibrary.js";
 import { guideConfigs } from "./guideConfigs.js";
 import {
-  appWaitlistHref,
+  appStoreHref,
   blueWingFlyLibraryHref,
   blueWingHomeHref,
   blueWingLabsName,
@@ -12,7 +12,7 @@ import {
   supportEmail,
 } from "./siteRoutes.js";
 
-export { appWaitlistHref, homeHref, siteOrigin, supportEmail };
+export { appStoreHref, homeHref, siteOrigin, supportEmail };
 export { blueWingFlyLibraryHref, blueWingHomeHref };
 
 export const siteName = blueWingLabsName;

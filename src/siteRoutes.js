@@ -10,12 +10,11 @@ export const blueWingFlyLibraryHref = "/blue-wing-labs/fly-library";
 export const blueWingSupportPageHref = "/blue-wing-labs/support";
 export const blueWingPrivacyPageHref = "/blue-wing-labs/privacy";
 export const blueWingTermsPageHref = "/blue-wing-labs/terms";
+export const appStoreHref = "https://apps.apple.com/us/app/blue-wing-labs/id6762320337";
 
 export const legacySupportPageHref = "/support.html";
 export const legacyPrivacyPageHref = "/privacy.html";
 export const legacyTermsPageHref = "/terms.html";
-
-export const appWaitlistHref = `${blueWingHomeHref}#access`;
 
 export function normalizePath(pathname) {
   if (!pathname || pathname === "/") {

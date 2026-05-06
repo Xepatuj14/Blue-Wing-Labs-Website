@@ -4,7 +4,7 @@ import EducationalCallout from "./components/EducationalCallout";
 import { buildFlyEducationalCallouts } from "./data/educationalCallouts";
 import {
   appLibraryTotals,
-  appWaitlistHref,
+  appStoreHref,
   blueWingFlyLibraryHref,
   blueWingHomeHref,
   getPageMetadata,
@@ -251,14 +251,14 @@ function BulletList({ items }) {
   );
 }
 
-function AppCallout({ title, body, primaryLabel = "Join the Waiting List", secondaryLabel = "Support", secondaryHref = supportPageHref }) {
+function AppCallout({ title, body, primaryLabel = "Download on the App Store", secondaryLabel = "Support", secondaryHref = supportPageHref }) {
   return (
     <aside data-motion="reveal" data-hover="lift" className="rounded-[1.8rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-6 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)]">
       <p className="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Blue Wing Labs</p>
       <h3 className="mt-4 max-w-[18ch] font-serif text-3xl leading-[0.98] tracking-[-0.04em]">{title}</h3>
       <p className="mt-4 max-w-[38rem] text-base leading-7 text-stone-300">{body}</p>
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-        <a href={appWaitlistHref} data-hover="lift" className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:-translate-y-0.5 hover:bg-stone-100">
+        <a href={appStoreHref} target="_blank" rel="noreferrer" data-hover="lift" className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:-translate-y-0.5 hover:bg-stone-100">
           {primaryLabel}
         </a>
         <a href={secondaryHref} data-hover="lift" className="inline-flex items-center justify-center rounded-full border border-white/16 bg-white/6 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-white/10">
@@ -307,8 +307,8 @@ function KnowledgeHeader() {
             </a>
           </nav>
 
-          <a href={appWaitlistHref} data-hover="lift" className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800">
-            Join the Waiting List
+          <a href={appStoreHref} target="_blank" rel="noreferrer" data-hover="lift" className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800">
+            App Store
           </a>
         </div>
       </div>
@@ -486,8 +486,8 @@ function CategoryPage({ page }) {
               <a href={blueWingFlyLibraryHref} data-hover="lift" className="rounded-full bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 transition hover:bg-stone-800">
                 Explore the hub
               </a>
-              <a href={appWaitlistHref} data-hover="lift" className="rounded-full border border-stone-900/10 bg-white px-4 py-2.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-50">
-                Explore this pattern in Blue Wing Labs
+              <a href={appStoreHref} target="_blank" rel="noreferrer" data-hover="lift" className="rounded-full border border-stone-900/10 bg-white px-4 py-2.5 text-sm font-semibold text-stone-900 transition hover:bg-stone-50">
+                Open Blue Wing Labs on the App Store
               </a>
             </div>
           </div>

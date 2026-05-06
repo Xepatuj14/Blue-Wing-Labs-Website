@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   appLibraryTotals,
+  appStoreHref,
   getAllKnowledgeRoutes,
   getPageMetadata,
   getPageSchemas,
@@ -233,7 +234,7 @@ function pageShell(page, innerHtml) {
               <p class="text-xs uppercase tracking-[0.22em] text-stone-600">Fly tying knowledge hub</p>
             </div>
           </a>
-          <a href="/#access" class="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_10px_28px_rgba(18,21,17,0.16)]">Join the Waiting List</a>
+          <a href="${appStoreHref}" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_10px_28px_rgba(18,21,17,0.16)]">App Store</a>
         </div>
       </header>
       <main id="main-content">${innerHtml}</main>
@@ -518,7 +519,7 @@ function renderPageBody(page) {
         </div>
       </div>
     </section>
-    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><aside class="rounded-[1.8rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-6 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)]"><p class="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Blue Wing Labs</p><h3 class="mt-4 max-w-[18ch] font-serif text-3xl leading-[0.98] tracking-[-0.04em]">Learn and organize this pattern in Blue Wing Labs.</h3><p class="mt-4 max-w-[38rem] text-base leading-7 text-stone-300">Use Blue Wing Labs to keep ${escapeHtml(page.fly.name)} connected to category pages, related guides, materials planning, and the calmer bench workflow the app is built around.</p><div class="mt-5 flex flex-col gap-3 sm:flex-row"><a href="/#access" class="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:-translate-y-0.5 hover:bg-stone-100">Join the Waiting List</a><a href="/support.html" class="inline-flex items-center justify-center rounded-full border border-white/16 bg-white/6 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-white/10">Support</a></div></aside></div></section>
+    <section class="px-5 py-14 sm:px-6 lg:px-8 lg:py-18"><div class="mx-auto max-w-6xl"><aside class="rounded-[1.8rem] border border-emerald-900/10 bg-[linear-gradient(135deg,#173126_0%,#1e3a2c_100%)] px-6 py-6 text-stone-50 shadow-[0_24px_60px_rgba(24,38,30,0.18)]"><p class="text-[0.72rem] font-semibold uppercase tracking-[0.3em] text-amber-200/85">Blue Wing Labs</p><h3 class="mt-4 max-w-[18ch] font-serif text-3xl leading-[0.98] tracking-[-0.04em]">Learn and organize this pattern in Blue Wing Labs.</h3><p class="mt-4 max-w-[38rem] text-base leading-7 text-stone-300">Use Blue Wing Labs to keep ${escapeHtml(page.fly.name)} connected to category pages, related guides, materials planning, and the calmer bench workflow the app is built around.</p><div class="mt-5 flex flex-col gap-3 sm:flex-row"><a href="${appStoreHref}" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:-translate-y-0.5 hover:bg-stone-100">Download on the App Store</a><a href="/support.html" class="inline-flex items-center justify-center rounded-full border border-white/16 bg-white/6 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-white/10">Support</a></div></aside></div></section>
     <section class="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">Related guides for ${escapeHtml(page.fly.name)}</h2><p class="mt-4 max-w-[42rem] text-[1rem] leading-7 text-stone-700 sm:text-[1.05rem] sm:leading-8">These guides connect the pattern back into broader beginner, trout, seasonal, and category-level decisions.</p><div class="mt-10 grid gap-5 lg:grid-cols-2">${renderGuideCards(page.relatedGuides)}</div></div></section>
     <section class="px-5 pb-20 sm:px-6 lg:px-8 lg:pb-24"><div class="mx-auto max-w-6xl"><h2 class="font-serif text-[2.35rem] leading-[0.98] tracking-[-0.04em] text-stone-950 sm:text-[3rem]">${escapeHtml(page.fly.name)} questions that help AI and anglers alike.</h2><div class="mt-10 grid gap-4">${renderFaq(page.faq)}</div></div></section>`,
   );
