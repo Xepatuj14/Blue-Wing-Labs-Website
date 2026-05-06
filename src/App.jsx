@@ -31,7 +31,7 @@ const libraryTotals = {
   categories: 9,
 };
 const appBrandStatement = "Built to feel calm at the bench and useful on the water.";
-const availabilityFacts = ["iPhone and iPad app", "Release updates by email", "Direct support from Blue Wing Labs"];
+const availabilityFacts = ["Available on iPhone and iPad", "Product updates by email", "Direct support from Blue Wing Labs"];
 const workflowSnapshots = [
   {
     title: "Browse patterns without the usual clutter",
@@ -208,7 +208,7 @@ const launchNotes = [
     body: "The product keeps the fly image, recipe context, steps, and materials close together so the app still helps after the vise is loaded and your hands are busy.",
   },
   {
-    title: "iPhone and iPad release path",
+    title: "Available on iPhone and iPad",
     body: "Blue Wing Labs is available for iPhone and iPad, with support and product updates handled directly through Blue Wing Labs.",
   },
 ];
@@ -420,7 +420,7 @@ function AccessRequestForm() {
     setFieldErrors((current) => ({ ...current, [name]: "" }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     setError("");
     setFeedback("");
@@ -450,41 +450,25 @@ function AccessRequestForm() {
       return;
     }
 
-    try {
-      setIsSubmitting(true);
-      setFieldErrors({});
+    setIsSubmitting(true);
+    setFieldErrors({});
 
-      const response = await fetch("/api/access-request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: safeName,
-          email: safeEmail,
-          focus: safeFocus,
-          note: safeNote,
-        }),
-      });
+    const subject = encodeURIComponent(`Blue Wing Labs: ${safeFocus}`);
+    const body = encodeURIComponent(
+      [
+        safeName ? `Name: ${safeName}` : "",
+        `Email: ${safeEmail}`,
+        `Request type: ${safeFocus}`,
+        "",
+        safeNote || "Message:",
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    );
 
-      const payload = await response.json();
-
-      if (!response.ok) {
-        throw new Error(payload.error || "Unable to submit the request.");
-      }
-
-      setFormState({
-        name: "",
-        email: "",
-        focus: "Product question or feedback",
-        note: "",
-      });
-      setFeedback("Request received. Blue Wing Labs can now follow up by email.");
-    } catch (submissionError) {
-      setError(submissionError instanceof Error ? submissionError.message : "Unable to submit the request.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    window.location.href = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
+    setFeedback("Your email app should open with a prepared message to Blue Wing Labs.");
+    setIsSubmitting(false);
   };
 
   return (
@@ -496,7 +480,7 @@ function AccessRequestForm() {
       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-amber-800">Contact</p>
       <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">Ask a question or get updates.</h3>
       <p className="mt-3 text-sm leading-6 text-stone-700">
-        This form sends your note directly to Blue Wing Labs for support, product questions, feedback, or update requests.
+        This form prepares an email to Blue Wing Labs for support, product questions, feedback, or update requests.
       </p>
       <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-900/10 bg-emerald-50 px-3 py-1.5 text-[0.72rem] font-medium text-emerald-950">
         <span className="inline-flex size-5 items-center justify-center rounded-full bg-emerald-900 text-[0.65rem] font-semibold text-emerald-50">
@@ -579,7 +563,7 @@ function AccessRequestForm() {
           className="inline-flex items-center justify-center rounded-full bg-stone-950 px-6 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-stone-800"
           style={primaryCtaStyle}
         >
-          {isSubmitting ? "Sending Request..." : "Send Request"}
+          {isSubmitting ? "Opening Email..." : "Open Email"}
         </button>
         <a
           href={supportHref}
@@ -590,7 +574,7 @@ function AccessRequestForm() {
       </div>
 
       <p className="mt-4 text-xs leading-5 text-stone-500">
-        Blue Wing Labs follows up by email. No account is created on this website.
+        This opens your email app. No account is created on this website.
       </p>
       {feedback ? (
         <p className="mt-3 rounded-[1rem] border border-emerald-900/10 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900" aria-live="polite">
@@ -960,7 +944,7 @@ function BlueWingLabsHome({ focusSection = false }) {
           </div>
 
           <div className="flex items-center gap-3 md:gap-6">
-            <nav aria-label="Primary" className="hidden items-center gap-7 text-sm text-stone-700 md:flex">
+            <nav aria-label="Primary" className="hidden items-center gap-5 text-sm text-stone-700 lg:flex xl:gap-7">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
@@ -977,10 +961,11 @@ function BlueWingLabsHome({ focusSection = false }) {
               target="_blank"
               rel="noreferrer"
               data-hover="lift"
-              className="inline-flex items-center justify-center rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-stone-900/10 bg-stone-950 px-4 py-2.5 text-sm font-semibold shadow-[0_10px_28px_rgba(18,21,17,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800"
               style={primaryCtaStyle}
             >
-              Download on the App Store
+              <span className="hidden sm:inline">Download on the App Store</span>
+              <span className="sm:hidden">App Store</span>
             </a>
           </div>
         </div>
@@ -1050,7 +1035,7 @@ function BlueWingLabsHome({ focusSection = false }) {
                   .
                 </p>
               </div>
-              <p className="mt-4 text-sm font-medium text-stone-600">iPhone and iPad release. Product replies are handled directly by Blue Wing Labs.</p>
+              <p className="mt-4 text-sm font-medium text-stone-600">Available on iPhone and iPad. Product replies are handled directly by Blue Wing Labs.</p>
             </div>
 
             <div className="pt-2 lg:pl-8">
