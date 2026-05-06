@@ -548,7 +548,7 @@ function buildHtml(page, styles, scripts) {
     <meta name="twitter:title" content="${escapeHtml(metadata.title)}" />
     <meta name="twitter:description" content="${escapeHtml(metadata.description)}" />
     <link rel="canonical" href="${escapeHtml(metadata.canonical)}" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
     ${styles}
     ${schemas}
   </head>
@@ -577,7 +577,7 @@ function buildAppShellHtml(route, styles, scripts) {
     <meta name="twitter:title" content="${escapeHtml(route.title)}" />
     <meta name="twitter:description" content="${escapeHtml(route.description)}" />
     <link rel="canonical" href="${escapeHtml(route.canonical)}" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
     ${styles}
   </head>
   <body>
