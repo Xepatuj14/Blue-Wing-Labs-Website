@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": [
+          "7CB6QL7FQ4.com.bluewinglabs.flytying"
+        ],
+        "components": [
+          {
+            "/": "/import",
+            "#": "BWL1_*",
+            "comment": "Open Blue Wing Labs fly-pattern share links in the app."
+          }
+        ]
+      }
+    ]
+  }
+}
